@@ -1,0 +1,10 @@
+9/6/17
++ index.php created
+
++ config.php created
+++ able to connect to localhost and database
+
++ inventory_table.sql created
+
++ generate_dummy_data_for_db.php created
+++ generated 100 entries
