@@ -4,7 +4,19 @@
 + config.php created
 ++ able to connect to localhost and database
 
++ generate_dummy_data_for_db.php created
+++ generate 100 entries
+
 + inventory_table.sql created
 
-+ generate_dummy_data_for_db.php created
-++ generated 100 entries
+9/917
++ update inventory_table.sql
+++ description field added
+
++ update index.php
+++ Display the list of dummy data from db
+
++ update generate_dummy_data_for_db.php
+++ populate db with description added
+
++ create_db.sql created
