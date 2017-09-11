@@ -1,0 +1,15 @@
+#TODO LIST
+
+#Priority phase 1
+- Create a template for the website using html, css, js, etc.
+- Find information on products such as name, image, description, price
+- Make a functional database
+
+#Priority phase 2
+
+#Priority phase 3
+
+#Additional features
+- User system
+- Review/Rating system
+- Search/filter system
