@@ -1,6 +1,7 @@
 create table inventory (
 id TINYINT(5) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
 name VARCHAR(255) NOT NULL,
+description TEXT NOT NULL,
 price INT(5) UNSIGNED NOT NULL,
 quantity TINYINT(3) UNSIGNED NOT NULL,
 heat_rate TINYINT(1) UNSIGNED NOT NULL,
