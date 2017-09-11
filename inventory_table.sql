@@ -1,5 +1,5 @@
 create table inventory (
-id TINYINT(5) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 product_name VARCHAR(255) NOT NULL,
 description TEXT NOT NULL,
 price INT(5) UNSIGNED NOT NULL,
@@ -42,7 +42,8 @@ create table transaction_history (
   quantity INT(300) NULL,
   heat_rate VARCHAR(20) NOT NULL, #reference to heat rating
   category VARCHAR(20) NOT NULL, #reference to category 
-  trans_image VARCHAR(255) NULL
+  trans_image VARCHAR(255) NULL,
+  FOREIGN KEY (id_num) REFERENCES inventory(id)
 );
 
 create table cart (
@@ -55,5 +56,7 @@ create table cart (
   category_cart VARCHAR(20) NOT NULL,
   image_cart VARCHAR(255) NULL,
   sub_total DECIMAL(10,2) NOT NULL DEFAULT 0,
-  total DECIMAL(10,2) NOT NULL DEFAULT 0
+  total DECIMAL(10,2) NOT NULL DEFAULT,
+  FOREIGN KEY (id_num_cart) REFERENCES inventory(id),
+  FOREIGN KEY (acc_id_cart) REFERENCES account(acc_id)
 );
