@@ -4,24 +4,21 @@ create table inventory (
   description TEXT NOT NULL,
   price DECIMAL(10,2) NOT NULL DEFAULT 0,
   quantity INT NOT NULL,
-  heat_rate VARCHAR(20) NOT NULL,
-  cat_id TINYINT(3) UNSIGNED NOT NULL,
+  heat_rate INT NOT NULL,
+  cat_id INT NOT NULL,
   image VARCHAR(255) NULL,
   review LONGTEXT NULL
 );
 
 create table category (
-  pepper VARCHAR(20) NOT NULL,
-  sauces VARCHAR(20) NOT NULL
+  cate_id INT NOT NULL AUTO_INCREMENT,
+  category VARCHAR(20) NOT NULL,
+  FOREIGN KEY (cate_id) REFERENCES inventory(car_id)
 );
 
 create table heat_rating (
-  mild VARCHAR(20) NOT NULL,
-  medium VARCHAR(20) NOT NULL,
-  hot VARCHAR(20) NOT NULL,
-  fire VARCHAR(20) NOT NULL,
-  volcano VARCHAR(20) NOT NULL,
-  diablo VARCHAR(20) NOT NULL
+  heat_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  heat VARCHAR(20) NOT NULL
 );
 
 create table account (
@@ -41,10 +38,10 @@ create table transaction_history (
   price DECIMAL(10,2) NOT NULL DEFAULT 0,
   quantity INT(300) NULL,
   heat_rate VARCHAR(20) NOT NULL, #reference to heat rating
-  category VARCHAR(20) NOT NULL, #reference to category 
+  category_t VARCHAR(20) NOT NULL, #reference to category 
   trans_image VARCHAR(255) NULL,
-  FOREIGN KEY (id_num) REFERENCES inventory(id)
-  
+  FOREIGN KEY (id_num) REFERENCES inventory(id),
+  FOREIGN KEY (category_t) REFERENCES category(category)
 );
 
 create table cart (
