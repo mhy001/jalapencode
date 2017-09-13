@@ -36,7 +36,7 @@ create table account (
 );
 
 create table transaction_history (
-  id_num INT(100) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  id_num INT(100) NOT NULL AUTO_INCREMENT,
   prod_name VARCHAR(255) NOT NULL,
   price DECIMAL(10,2) NOT NULL DEFAULT 0,
   quantity INT(300) NULL,
@@ -44,6 +44,7 @@ create table transaction_history (
   category VARCHAR(20) NOT NULL, #reference to category 
   trans_image VARCHAR(255) NULL,
   FOREIGN KEY (id_num) REFERENCES inventory(id)
+  
 );
 
 create table cart (
