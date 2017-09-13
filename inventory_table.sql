@@ -1,13 +1,13 @@
 create table inventory (
-id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-product_name VARCHAR(255) NOT NULL,
-description TEXT NOT NULL,
-price INT(5) UNSIGNED NOT NULL,
-quantity TINYINT(3) UNSIGNED NOT NULL,
-heat_rate TINYINT(1) UNSIGNED NOT NULL,
-cat_id TINYINT(3) UNSIGNED NOT NULL,
-image VARCHAR(255) NULL,
-review LONGTEXT NULL
+  id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  product_name VARCHAR(255) NOT NULL,
+  description TEXT NOT NULL,
+  price DECIMAL(10,2) NOT NULL DEFAULT 0,
+  quantity INT NOT NULL,
+  heat_rate VARCHAR(20) NOT NULL,
+  cat_id TINYINT(3) UNSIGNED NOT NULL,
+  image VARCHAR(255) NULL,
+  review LONGTEXT NULL
 );
 
 create table category (
