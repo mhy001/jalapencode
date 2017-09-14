@@ -1,3 +1,5 @@
+CREATE DATABASE `jalapeno`;
+
 create table inventory (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   product_name VARCHAR(255) NOT NULL,
