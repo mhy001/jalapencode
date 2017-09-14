@@ -1,4 +1,4 @@
-9/6/17
+9/6/17 - Hympert
 + index.php created
 
 + config.php created
@@ -9,7 +9,7 @@
 
 + inventory_table.sql created
 
-9/917
+9/9/17 - Hympert
 + update inventory_table.sql
 ++ description field added
 
@@ -20,3 +20,9 @@
 ++ populate db with description added
 
 + create_db.sql created
+
+9/14/17 - Hympert
++ inventory_table.sql renamed to database.sql
+
++ create_db.sql removed
+++ combined with database.sql
