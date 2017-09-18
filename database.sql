@@ -31,8 +31,6 @@ create table account (
   password VARCHAR(20) NOT NULL,
   addr_num INT(10) NOT NULL,
   addr_street VARCHAR(20) NOT NULL 
-  #transaction history reference
-  #cart reference
 );
 
 create table transaction_history (
@@ -51,6 +49,7 @@ create table transaction_history (
 );
 
 create table cart (
+  cart_id INT(100) NOT NULL
   id_num_cart INT(100) NOT NULL, #reference product id 
   acc_id_cart INT(100) NOT NULL, #references account
   prod_name_cart VARCHAR(255) NOT NULL,
@@ -67,6 +66,7 @@ create table cart (
   FOREIGN KEY (price_cart) REFERENCES inventory(price),
   FOREIGN KEY (quantity_cart) REFERENCES inventory(quantity),
   FOREIGN KEY (heat_rate_cart) REFERENCES heat_rating(heat_id),
-  FOREGIN KEY (category_cart) REFERENCES category(cate_id),
-  FOREIGN KEY (image_cart) REFERENCES inventory(image)
+  FOREIGN KEY (category_cart) REFERENCES category(cate_id),
+  FOREIGN KEY (image_cart) REFERENCES inventory(image),
+  FOREIGN KEY (cart_id) REFERENCES account(acc_id)
 );
