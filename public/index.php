@@ -9,11 +9,15 @@
       case '/':
         readfile("index.html");
         break;
-      // get products list
+      // get json of products list
       case '/products':
         require '../src/products.php';
         break;
-      // everything else
+      // get page of individual product
+      case '/product':
+        // TODO: make product page template
+        require '../src/product.php';
+        break;
       default:
         // TODO: make 404 page
         break;
