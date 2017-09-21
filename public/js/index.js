@@ -1,9 +1,7 @@
 
 $(document).ready(function() {
 
-$.getJSON("products.php", function(data) {
-  var card = $("<div>", {"class": "card"});
-
+$.getJSON("products", function(data) {
   if (data.items) {
     for (var key in data.items) {
       var item = data.items[key];
@@ -28,9 +26,9 @@ $.getJSON("products.php", function(data) {
   .fail(function(jqXHR, textStatus, error) {
     var message = "<p class='font-weight-bold'>Looks like something went wrong!</p>"
                 + "<p>Try refeshing.</p>";
-    $(".loader").remove();
-    $(".message").append(message);
 
+    $(".message").append(message);
+    $(".loader").remove();
   });
 
 });
