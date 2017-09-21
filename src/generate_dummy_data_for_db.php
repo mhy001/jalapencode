@@ -1,7 +1,6 @@
-<?php 
+<?php
     require_once("config.php");
-    echo "<br />";
-    
+
     // Random string generator
     function RSG($len){
         $characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -9,10 +8,10 @@
         for($i = 0; $i < $len; $i++){
             $randomString .= $characters[rand(0, strlen($characters) - 1)];
         }
-        
+
         return $randomString;
     }
-    
+
     // Random number generator
     function RNG($len){
         $characters = "1234567890";
@@ -20,11 +19,11 @@
         for($i = 0; $i < $len; $i++){
             $randomString .= $characters[rand(1, strlen($characters) - 1)];
         }
-        
+
         return $randomString;
     }
 
-   
+
 
     // Fill database with 100 entries
     for($i = 0; $i < 100; $i++){
@@ -36,14 +35,14 @@
         $cat_id = RNG(rand(1,2));
         $image = RSG(rand(10, 50));
         $review = RSG(rand(100,500));
-    
-    
-    $sql = "INSERT INTO `inventory` (name, description, price, quantity, heat_rate, cat_id, image, review) 
+
+
+    $sql = "INSERT INTO `inventory` (name, description, price, quantity, heat_rate, cat_id, image, review)
                             VALUES ('$name', '$description', $price, $quantity, $heat_rate, $cat_id, '$image', '$review')";
-                            
+
         $conn->query($sql);
 
     }
-    
+
     //echo "DONE";
 ?>
