@@ -7,7 +7,7 @@
     switch ($request_uri[0]) {
       // home page
       case '/':
-        readfile("index.html");
+        require 'index.html';
         break;
       // get json of products list
       case '/products':
