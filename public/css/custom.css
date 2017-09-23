@@ -7,26 +7,44 @@ body {
   text-align: center;
 }
 
-.filler {
-  flex-grow: 1;
-}
-
 .product-grid {
   justify-content: center;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 230px));
 }
 .expand{
-  transition: all .5s ease-in-out;
+  transition: all .2s ease-in-out;
   z-index: 10;
 }
 .expand:hover {
   transform: scale(1.1);
   z-index: 100;
 }
-
 .pointer_hand {
   cursor: hand;
+}
+
+#cart-list {
+  min-width: 250px;
+}
+#cart-subtotal {
+  border: none;
+  outline: none;
+  text-align: right;
+}
+.cartThumbnail {
+  width: 50px;
+  height: 50px;
+}
+.checkoutBtn {
+  width: 100%;
+}
+
+.btn-xs-custom, .btn-group-xs-custom > .btn {
+  padding: 0.35rem 0.35rem;
+  font-size: 0.875rem;
+  line-height: .75;
+  margin: .1rem 0;
 }
 
 .loader,

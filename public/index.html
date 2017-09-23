@@ -4,16 +4,17 @@
 <body>
 <?php include 'template/navbar.html'; ?>
 
-  <div class="container">
+  <div id="main-container" class="container">
     <div class="starter-template">
       <h1>Jalapeñcode</h1>
       <p class="lead">An awesome project!</p>
     </div>
 
-    <div class="message text-center"></div>
+    <div class="message text-center">
+      <noscript>Javascript must be enabled!</noscript>
+    </div>
     <div class="product-grid"></div>
-    <div class="loader">Loading...</div>
-  </div><!-- /.container -->
+  </div>
 
 <?php include 'template/common_js.html'; ?>
   <script src="js/index.js"></script>
