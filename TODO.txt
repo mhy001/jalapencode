@@ -17,7 +17,7 @@
 fill db
 db reset script
 add favicon
-make index.html prettier
+make html prettier
   chili pepper for heat rating
   stars for review rating
   show number of items in cart button
@@ -26,3 +26,4 @@ make index.html prettier
 checkout
 individual product page template
 account login/signup
+create session id
