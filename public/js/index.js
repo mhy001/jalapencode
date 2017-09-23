@@ -1,13 +1,12 @@
 // Global variables....meh
+// TODO: implement checkoutBtn functions
 var products = new Map();
 var cart = new Map();
 
 $(document).ready(function() {
 // navbar.html entry
 if ($("#cart-list").length) {
-  if (cart.size) {
-    // TODO: re-add cart from server/cookie
-  }
+  // TODO: restore cart from server/cookie
   $("#cart-list").on("click", ".cartIncrement", function(e) {
     cartIncrement(this.id.split("_")[1]);
     e.stopPropagation();
@@ -27,7 +26,7 @@ if ($(".product-grid").length) {
 
   getProductList();
   $(".product-grid").on("click", ".cartAddBtn", function() {
-    addToCart(this.parentElement.id);
+    cartIncrement(this.parentElement.id);
   });
 }
 
@@ -60,7 +59,7 @@ function getProductList() {
         item.maxQuantity = item.quantity;
         products.set(String(item.id), item);
         if (item.quantity <= 0) {
-          $("#"+item.id).hide();
+          $("#"+item.id).hide(); // TODO: maybe overlay an out-of-stock instead
         }
       }
     }
@@ -72,16 +71,6 @@ function getProductList() {
     $(".message").append(message);
     $(".loader").remove();
   });
-}
-
-function addToCart(itemID) {
-  var item = products.get(itemID);
-
-  if (cartIncrement(itemID)) {
-    if (item.quantity <= 0) {
-      $("#"+itemID).hide();
-    }
-  }
 }
 
 /*
@@ -116,12 +105,15 @@ function cartDecrement(itemID, quantity=1) {
       _displayCartDefault(true);
     }
   }
+
+  return 1;
 }
 
 function cartIncrement(itemID, quantity=1) {
   var item = products.get(itemID);
   if (item.quantity-quantity < 0) {
     console.log("You're buying too many " + itemID + "!");
+    alert("You're buying too many " + item.name + "!");
     return 0;
   }
   _updateSubtotal(item.price * quantity);

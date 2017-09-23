@@ -13,3 +13,10 @@
 - User system
 - Review/Rating system
 - Search/filter system
+
+fill db
+db reset script
+404 page
+checkout
+individual product page template
+account login/signup
