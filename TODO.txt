@@ -16,6 +16,12 @@
 
 fill db
 db reset script
+add favicon
+make index.html prettier
+  chili pepper for heat rating
+  stars for review rating
+  show number of items in cart button
+  better color scheme
 404 page
 checkout
 individual product page template

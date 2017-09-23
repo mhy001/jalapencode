@@ -1,4 +1,5 @@
 <?php
+/* Purpose: Return list of all products in JSON */
 
 header('Content-type: application/json');
 $data = new StdClass;

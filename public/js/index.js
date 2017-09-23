@@ -79,6 +79,9 @@ function getProductList() {
 /* cart */
 // TODO: add server & cookie calls
 function cartDecrement(itemID, quantity=1) {
+  // Key parts to remember:
+  //  JS objects: product, cart
+  //  DOM: cart dropdown, cart cart, cart subtotal
   var cartCount = cart.get(itemID);
   if (!cartCount || quantity > cartCount) {
     console.log("Removing too many " + itemID);
@@ -110,6 +113,9 @@ function cartDecrement(itemID, quantity=1) {
 }
 
 function cartIncrement(itemID, quantity=1) {
+  // Key parts to remember:
+  //  JS objects: product, cart
+  //  DOM: cart dropdown, cart cart, cart subtotal
   var item = products.get(itemID);
   if (item.quantity-quantity < 0) {
     console.log("You're buying too many " + itemID + "!");

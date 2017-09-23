@@ -1,4 +1,5 @@
 <?php
+/* Purpose: Returns webpage of indiviual product */
 
 header('Content-type: application/json');
 $item = new StdClass;
