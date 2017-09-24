@@ -26,4 +26,3 @@ make html prettier
 checkout
 individual product page template
 account login/signup
-create session id

@@ -1,8 +1,7 @@
 <?php
-/* Purpose: Return list of all products in JSON */
+/* Purpose: Return JSON of all products */
 
 header('Content-type: application/json');
-$data = new StdClass;
 $items = array();
 
 for ($x = 0; $x < 20; $x++) {
@@ -18,7 +17,6 @@ for ($x = 0; $x < 20; $x++) {
   $items[] = $item;
 }
 
-  $data->items = $items;
-  echo json_encode($data);
+echo json_encode($items);
 
 ?>

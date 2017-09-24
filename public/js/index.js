@@ -1,16 +1,14 @@
-// Global variables....meh
 // TODO: implement checkoutBtn functions
+// Global variables....meh
 var products = new Map();
 var cart = new Map();
-var cartSubtotal = 0.00;
 
 $(document).ready(function() {
 /*
- * Event-binding & DOM set-up
+ * Event-binding
  */
-// navbar.html entry
+// navbar.html
 if ($("#cartList").length) {
-  // TODO: restore cart from server/cookie
   $("#cartList").on("click", ".cart-increment", function(e) {
     var itemID = this.id.split("_")[1];
     if (cartIncrement(itemID)) {
@@ -18,6 +16,7 @@ if ($("#cartList").length) {
     }
     e.stopPropagation();
   });
+
   $("#cartList").on("click", ".cart-decrement", function(e) {
     var itemID = this.id.split("_")[1];
     if (cartDecrement(itemID)) {
@@ -30,11 +29,10 @@ if ($("#cartList").length) {
   return;
 }
 
-// index.html entry
+// index.html
 if ($(".product-grid").length) {
-  $("#mainContainer").append("<div class='loader'>Loading...</div>");
+  getProductList(populateProductGridWith);
 
-  getProductList();
   $(".product-grid").on("click", ".btn-cart-add", function() {
     var itemID = this.parentElement.id;
     if (cartIncrement(itemID)) {
@@ -47,8 +45,45 @@ if ($(".product-grid").length) {
 /*
  * non-UI logic
  */
-/* cart */
-// TODO: add server & cookie calls
+setInterval(function() { // send updated cart to server every minute
+  var currentCart = JSON.stringify([...cart]);
+  $.post("updateCart", {"cart": currentCart});
+}, 60 * 1000);
+
+function getProductList(callback) {
+  $.getJSON("products", function(data) {
+    if (data) {
+      for (var key in data) {
+        var item = data[key];
+
+        item.maxQuantity = item.quantity;
+        products.set(String(item.id), item);
+        callback && callback(item);
+      }
+    }
+    $(".loader").remove();
+    restoreCart();
+  })
+  .fail(function(jqXHR, textStatus, error) {
+    var message = "<p class='font-weight-bold'>Looks like something went wrong!</p>"
+                + "<p>Try refeshing.</p>";
+    $(".message").append(message);
+    $(".loader").remove();
+  });
+}
+
+function restoreCart() {
+  $.getJSON("getCart", function(data) {
+    for (var key in data) {
+      var item = data[key];
+      var itemID = String(item.id);
+
+      cartIncrement(itemID, item.quantity, true);
+      updateCartUI(itemID);
+    }
+  });
+}
+
 function cartDecrement(itemID, quantity=1) {
   var cartCount = cart.get(itemID);
   if (!cartCount || quantity > cartCount) {
@@ -69,14 +104,12 @@ function cartDecrement(itemID, quantity=1) {
     cart.delete(itemID);
   }
 
-  cartSubtotal -= item.price * quantity;
-
   return 1;
 }
 
-function cartIncrement(itemID, quantity=1) {
+function cartIncrement(itemID, quantity=1, ignoreLimit=false) {
   var item = products.get(itemID);
-  if (item.quantity-quantity < 0) {
+  if (!ignoreLimit && item.quantity-quantity < 0) {
     console.log("You're buying too many " + itemID + "!");
     alert("You're buying too many " + item.name + "!");
     return 0;
@@ -90,8 +123,6 @@ function cartIncrement(itemID, quantity=1) {
   }
   cart.set(itemID, newQuantity);
 
-  cartSubtotal += item.price * quantity;
-
   return 1;
 }
 
@@ -99,54 +130,35 @@ function cartIncrement(itemID, quantity=1) {
 /*
  * manipulates index.html
  */
- /* product grid */
-function getProductList() {
-  $.getJSON("products", function(data) {
-    if (data.items) {
-      for (var key in data.items) {
-        var item = data.items[key];
-        var card = "<div id='" + item.id + "' class='card rounded expand'>"
-                    + "<a class='pointer-hand' href='product?id=" + item.id + "'>"
-                      + "<img class='card-img-top' src='" + item.imageURL + "' alt='" + item.name + "'>"
-                      + "<h4 class='card-title ml-3'>" + item.name + "</h4>"
-                    + "</a>"
-                    + "<div class='card-body'>"
-                      + "<p class=''>" + item.id + " " + item.description + "</p>"
-                      + "<div>"
-                        + "<span class=''>" + item.heatRating + "</span>"
-                        + "<span class='text-danger float-right'>$" + item.price + "</span>"
-                      + "</div>"
-                    + "</div>"
-                    + "<button class='btn-cart-add btn btn-secondary text-dark'>Add to cart</button>"
-                  + "</div>";
-        $(".product-grid").append(card);
+function populateProductGridWith(item) {
+  var card = "<div id='" + item.id + "' class='card rounded expand'>"
+              + "<a class='pointer-hand' href='product?id=" + item.id + "'>"
+                + "<img class='card-img-top' src='" + item.imageURL + "' alt='" + item.name + "'>"
+                + "<h4 class='card-title ml-3'>" + item.name + "</h4>"
+              + "</a>"
+              + "<div class='card-body'>"
+                + "<p class=''>" + item.id + " " + item.description + "</p>"
+                + "<div>"
+                  + "<span class=''>" + item.heatRating + "</span>"
+                  + "<span class='text-danger float-right'>$" + item.price + "</span>"
+                + "</div>"
+              + "</div>"
+              + "<button class='btn-cart-add btn btn-secondary text-dark'>Add to cart</button>"
+            + "</div>";
+  $(".product-grid").append(card);
 
-        item.maxQuantity = item.quantity;
-        products.set(String(item.id), item);
-        if (item.quantity <= 0) {
-          $("#"+item.id).hide(); // TODO: maybe overlay an out-of-stock instead
-        }
-      }
-    }
-    $(".loader").remove();
-  })
-  .fail(function(jqXHR, textStatus, error) {
-    var message = "<p class='font-weight-bold'>Looks like something went wrong!</p>"
-                + "<p>Try refeshing.</p>";
-    $(".message").append(message);
-    $(".loader").remove();
-  });
+  if (item.quantity <= 0) {
+    $("#"+item.id).hide(); // TODO: maybe overlay an out-of-stock instead
+  }
 }
 
 
 /*
  * manipulates navbar.html
  */
-
 function updateCartUI(itemID) {
   _updateCartDropdown();
   _updateCartCard(itemID);
-  _updateSubtotalUI();
 }
 
 function _updateCartDropdown() {
@@ -172,17 +184,17 @@ function _updateCartCard(itemID) {
   if ($("#cartCount_"+itemID).length) {
     if (quantity) {
       $("#cartCount_"+itemID).text(quantity);
-
-      if (item.quantity <= 0) {
-        $("#cartIncBtn_"+itemID).prop("disabled", true);
-      } else {
-        $("#cartIncBtn_"+itemID).prop("disabled", false);
-      }
     } else {
       $("#cartItem_"+itemID).remove();
     }
   } else {
     _addCartCard(itemID);
+  }
+
+  if (item.quantity <= 0) {
+    $("#cartIncBtn_"+itemID).prop("disabled", true);
+  } else {
+    $("#cartIncBtn_"+itemID).prop("disabled", false);
   }
 }
 
@@ -198,10 +210,6 @@ function _addCartCard(itemID) {
               + "</div>"
             + "</div>";
   $("#cartList").prepend(card);
-}
-
-function _updateSubtotalUI() {
-  $("#cartSubtotal").text(cartSubtotal.toFixed(2));
 }
 
 });
