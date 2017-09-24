@@ -11,18 +11,21 @@
       case '/': //home page
         require 'index.html';
         break;
+      case '/getProductsAndCart': //get json of product list and customer cart
+        require '../src/getProductsAndCart.php';
+        break;
       case '/products': // get json of product list
-        require '../src/products.php';
+        require '../src/getProducts.php';
         break;
-      case '/product': // get page of individual product
-        // TODO: make product page template
-        require '../src/product.php';
-        break;
-      case '/getCart': // get json of customer's cart
+      case '/getCart': // get json of customer cart
         require '../src/getCart.php';
         break;
       case '/updateCart': // post update customer's cart
         require '../src/updateCart.php';
+        break;
+      case '/product': // page of individual product
+        // TODO: make product page template
+        require '../src/product.php';
         break;
       default:
         // TODO: make pretty 404 page

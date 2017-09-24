@@ -1,5 +1,5 @@
 <?php
-/* Purpose: Return JSON of client's cart */
+/* Purpose: Return JSON of customer cart */
 
 header('Content-type: application/json');
 $items = array();

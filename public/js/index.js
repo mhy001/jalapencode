@@ -5,7 +5,7 @@ var cart = new Map();
 
 $(document).ready(function() {
 /*
- * Event-binding
+ * Set up events such as event-binding
  */
 // navbar.html
 if ($("#cartList").length) {
@@ -31,7 +31,7 @@ if ($("#cartList").length) {
 
 // index.html
 if ($(".product-grid").length) {
-  getProductList(populateProductGridWith);
+  getProductsAndCart([populateProductGridWith, updateCartUI]);
   toggleCartButton(true);
 
   $(".product-grid").on("click", ".btn-cart-add", function() {
@@ -47,8 +47,42 @@ if ($(".product-grid").length) {
  * non-UI logic
  */
 
-function getProductList(callback) {
-  $.getJSON("products", function(data) {
+function getProductsAndCart(callbackArray) {
+  $.getJSON("getProductsAndCart", function(data) {
+    if (data) {
+      if (data.products) {
+        for (var key in data.products) {
+          var item = data.products[key];
+
+          item.maxQuantity = item.quantity;
+          products.set(String(item.id), item);
+          callbackArray[0] && callbackArray[0](item);
+        }
+      }
+
+      if (data.cart) {
+        for (var key in data.cart) {
+          var item = data.cart[key];
+          var itemID = String(item.id);
+
+          cartIncrement(itemID, item.quantity, true);
+          callbackArray[1] && callbackArray[1](itemID);
+        }
+      }
+
+      $(".loader").remove();
+    }
+  })
+  .fail(function(jqXHR, textStatus, error) {
+    var message = "<p class='font-weight-bold'>Looks like something went wrong!</p>"
+                + "<p>Try refeshing.</p>";
+    $(".message").append(message);
+    $(".loader").remove();
+  });
+}
+
+function getProducts(callback) {
+  $.getJSON("getProducts", function(data) {
     if (data) {
       for (var key in data) {
         var item = data[key];
@@ -59,7 +93,6 @@ function getProductList(callback) {
       }
     }
     $(".loader").remove();
-    _restoreCartFromServer();
   })
   .fail(function(jqXHR, textStatus, error) {
     var message = "<p class='font-weight-bold'>Looks like something went wrong!</p>"
@@ -69,19 +102,22 @@ function getProductList(callback) {
   });
 }
 
-function _restoreCartFromServer() {
+function getCart(callback) {
   $.getJSON("getCart", function(data) {
     for (var key in data) {
       var item = data[key];
       var itemID = String(item.id);
 
       cartIncrement(itemID, item.quantity, true);
-      updateCartUI(itemID);
+      callback && callback(itemID);
     }
+  })
+  .fail(function(jqXHR, textStatus, error) {
+    console.log("Failed to retrieve customer cart");
   });
 }
 
-function _updateCartToServer() {
+function _updateCartToServer() { //eh...don't really have to update whole cart every time
   var currentCart = JSON.stringify([...cart]);
   $.post("updateCart", {"cart": currentCart});
 }
@@ -130,7 +166,6 @@ function cartIncrement(itemID, quantity=1, fromRestore=false) {
   if (!fromRestore) {
     _updateCartToServer();
   }
-
 
   return 1;
 }
