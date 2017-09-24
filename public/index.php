@@ -8,27 +8,25 @@
     $request_uri = explode('?', $_SERVER['REQUEST_URI'], 2);
 
     switch ($request_uri[0]) {
-      // home page
-      case '/':
+      case '/': //home page
         require 'index.html';
         break;
-      // get json of products list
-      case '/products':
+      case '/products': // get json of product list
         require '../src/products.php';
         break;
-      // get page of individual product
-      case '/product':
+      case '/product': // get page of individual product
         // TODO: make product page template
         require '../src/product.php';
         break;
-      case '/getCart':
+      case '/getCart': // get json of customer's cart
         require '../src/getCart.php';
         break;
-      case '/updateCart':
+      case '/updateCart': // post update customer's cart
         require '../src/updateCart.php';
         break;
       default:
-        // TODO: make 404 page
+        // TODO: make pretty 404 page
+        require 'views/404.html';
         break;
     }
 ?>

@@ -32,6 +32,12 @@ if ($("#cartList").length) {
 // index.html
 if ($(".product-grid").length) {
   getProductList(populateProductGridWith);
+  toggleCartButton(true);
+
+  setInterval(function() { // send updated cart to server every minute
+    var currentCart = JSON.stringify([...cart]);
+    $.post("updateCart", {"cart": currentCart});
+  }, 60 * 1000);
 
   $(".product-grid").on("click", ".btn-cart-add", function() {
     var itemID = this.parentElement.id;
@@ -45,10 +51,6 @@ if ($(".product-grid").length) {
 /*
  * non-UI logic
  */
-setInterval(function() { // send updated cart to server every minute
-  var currentCart = JSON.stringify([...cart]);
-  $.post("updateCart", {"cart": currentCart});
-}, 60 * 1000);
 
 function getProductList(callback) {
   $.getJSON("products", function(data) {
@@ -156,6 +158,10 @@ function populateProductGridWith(item) {
 /*
  * manipulates navbar.html
  */
+function toggleCartButton(showOrHide) {
+  $("#cartButton").toggleClass("d-none", !showOrHide);
+}
+
 function updateCartUI(itemID) {
   _updateCartDropdown();
   _updateCartCard(itemID);
