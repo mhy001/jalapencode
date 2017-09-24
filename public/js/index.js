@@ -34,11 +34,6 @@ if ($(".product-grid").length) {
   getProductList(populateProductGridWith);
   toggleCartButton(true);
 
-  setInterval(function() { // send updated cart to server every minute
-    var currentCart = JSON.stringify([...cart]);
-    $.post("updateCart", {"cart": currentCart});
-  }, 60 * 1000);
-
   $(".product-grid").on("click", ".btn-cart-add", function() {
     var itemID = this.parentElement.id;
     if (cartIncrement(itemID)) {
@@ -64,7 +59,7 @@ function getProductList(callback) {
       }
     }
     $(".loader").remove();
-    restoreCart();
+    _restoreCartFromServer();
   })
   .fail(function(jqXHR, textStatus, error) {
     var message = "<p class='font-weight-bold'>Looks like something went wrong!</p>"
@@ -74,7 +69,7 @@ function getProductList(callback) {
   });
 }
 
-function restoreCart() {
+function _restoreCartFromServer() {
   $.getJSON("getCart", function(data) {
     for (var key in data) {
       var item = data[key];
@@ -84,6 +79,11 @@ function restoreCart() {
       updateCartUI(itemID);
     }
   });
+}
+
+function _updateCartToServer() {
+  var currentCart = JSON.stringify([...cart]);
+  $.post("updateCart", {"cart": currentCart});
 }
 
 function cartDecrement(itemID, quantity=1) {
@@ -106,12 +106,14 @@ function cartDecrement(itemID, quantity=1) {
     cart.delete(itemID);
   }
 
+  _updateCartToServer();
+
   return 1;
 }
 
-function cartIncrement(itemID, quantity=1, ignoreLimit=false) {
+function cartIncrement(itemID, quantity=1, fromRestore=false) {
   var item = products.get(itemID);
-  if (!ignoreLimit && item.quantity-quantity < 0) {
+  if (!fromRestore && item.quantity-quantity < 0) {
     console.log("You're buying too many " + itemID + "!");
     alert("You're buying too many " + item.name + "!");
     return 0;
@@ -124,6 +126,11 @@ function cartIncrement(itemID, quantity=1, ignoreLimit=false) {
     newQuantity = cart.get(itemID) + quantity;
   }
   cart.set(itemID, newQuantity);
+
+  if (!fromRestore) {
+    _updateCartToServer();
+  }
+
 
   return 1;
 }
