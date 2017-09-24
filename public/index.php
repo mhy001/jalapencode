@@ -27,6 +27,9 @@
         // TODO: make product page template
         require '../src/product.php';
         break;
+      case '/credits': // page for credits
+        require 'view/credits.html';
+        break;
       default:
         // TODO: make pretty 404 page
         require 'view/404.html';
