@@ -14,14 +14,14 @@
       case '/getProductsAndCart': //get json of product list and customer cart
         require '../src/getProductsAndCart.php';
         break;
-      case '/products': // get json of product list
+      case '/getProducts': // get json of product list
         require '../src/getProducts.php';
         break;
       case '/getCart': // get json of customer cart
         require '../src/getCart.php';
         break;
-      case '/updateCart': // post update customer's cart
-        require '../src/updateCart.php';
+      case '/postCart': // post update customer's cart
+        require '../src/postCart.php';
         break;
       case '/product': // page of individual product
         // TODO: make product page template
@@ -29,7 +29,7 @@
         break;
       default:
         // TODO: make pretty 404 page
-        require 'views/404.html';
+        require 'view/404.html';
         break;
     }
 ?>
