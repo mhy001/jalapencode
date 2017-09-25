@@ -24,14 +24,13 @@
         require '../src/postCart.php';
         break;
       case '/product': // page of individual product
-        // TODO: make product page template
+        // TODO: make sure there is an itemID
         require '../src/product.php';
         break;
       case '/credits': // page for credits
         require 'view/credits.html';
         break;
       default:
-        // TODO: make pretty 404 page
         require 'view/404.html';
         break;
     }

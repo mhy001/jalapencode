@@ -16,13 +16,15 @@
 
 fill db
 db reset script
-add favicon
+search & filter on index.html
 make html prettier
-  chili pepper for heat rating
+  chili pepper or fire for heat rating
   stars for review rating
   show number of items in cart button
-  better color scheme
-404 page
-checkout
-individual product page template
+change credit to about & move to header
+cart checkout
 account login/signup
+account management
+remove cart dependency on product list?
+  cart item will need to hold all of item info
+  will need to remove +/- button in cart list
