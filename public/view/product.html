@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<?php include 'view/_head.html'; ?>
+<body>
+<?php include 'view/_navbar.html'; ?>
+
+  <div id="mainContainer" class="container">
+
+    <div class="message text-center">
+      <noscript>JavaScript must be enabled!</noscript>
+    </div>
+    <div>
+      <table class="table">
+        <thead>
+          <th>Attribute</th>
+          <th>Value</th>
+        </thead>
+        <tbody>
+          <tr>
+            <td>ID</td>
+            <td><?php echo $item->id ?></td>
+          </tr>
+          <tr>
+            <td>Name</td>
+            <td><?php echo $item->name ?></td>
+          </tr>
+          <tr>
+            <td>Description</td>
+            <td><?php echo $item->description ?></td>
+          </tr>
+          <tr>
+            <td>Price</td>
+            <td><?php echo $item->price ?></td>
+          </tr>
+          <tr>
+            <td>Heat</td>
+            <td><?php echo $item->heatRating ?></td>
+          </tr>
+          <tr>
+            <td>Review</td>
+            <td><?php echo $item->reviewRating ?></td>
+          </tr>
+          <tr>
+            <td>Quantity</td>
+            <td><?php echo $item->quantity ?></td>
+          </tr>
+          <tr>
+            <td>Image</td>
+            <td><img src="<?php echo $item->imageURL ?>"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+<?php include 'view/_footer.html'; ?>
+
+<?php include 'view/_common_js.html'; ?>
+  <script src="index.js"></script>
+</body>
+</html>

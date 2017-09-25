@@ -1,7 +1,6 @@
 <?php
 /* Purpose: Returns webpage of indiviual product */
 
-header('Content-type: application/json');
 $item = new StdClass;
 
 $item->name = "Pikachu";
@@ -13,6 +12,6 @@ $item->price = 99.99;
 $item->id = 0;
 $item->quantity = 10;
 
-echo json_encode($item);
+require '../public/view/product.html';
 
 ?>
