@@ -13,6 +13,10 @@ $(document).ready(function() {
       var itemID = this.id.split("_")[1];
       if (cartIncrement(itemID)) {
         updateCartUI(itemID);
+
+        if ($("#productGrid").length) {
+          toggleProductCard(itemID);
+        }
       }
       e.stopPropagation();
     });
@@ -21,6 +25,10 @@ $(document).ready(function() {
       var itemID = this.id.split("_")[1];
       if (cartDecrement(itemID)) {
         updateCartUI(itemID);
+
+        if ($("#productGrid").length) {
+          toggleProductCard(itemID);
+        }
       }
       e.stopPropagation();
     });
@@ -30,11 +38,11 @@ $(document).ready(function() {
   }
 
   // index.html
-  if ($(".product-grid").length) {
-    getProductsAndCart([populateProductGridWith, updateCartUI]);
+  if ($("#productGrid").length) {
+    getProductsAndCart([populateProductGrid, toggleProductCard, updateCartUI]);
     toggleCartButton(true);
 
-    $(".product-grid").on("click", ".btn-cart-add", function() {
+    $("#productGrid").on("click", ".btn-cart-add", function() {
       var itemID = this.parentElement.id;
       if (cartIncrement(itemID)) {
         updateCartUI(itemID);
@@ -65,8 +73,10 @@ function getProductsAndCart(callbackArray) {
           var item = data.cart[key];
           var itemID = String(item.id);
 
-          cartIncrement(itemID, item.quantity, true);
-          callbackArray[1] && callbackArray[1](itemID);
+          if (cartIncrement(itemID, item.quantity, true)) {
+            callbackArray[1] && callbackArray[1](itemID);
+          }
+          callbackArray[2] && callbackArray[2](itemID);
         }
       }
 
@@ -122,6 +132,7 @@ function postCart() { //eh...don't really have to update whole cart every time
   $.post("postCart", {"cart": currentCart});
 }
 
+
 /*
  * Non-UI
  */
@@ -146,7 +157,6 @@ function cartDecrement(itemID, quantity=1) {
   }
 
   postCart();
-
   return 1;
 }
 
@@ -169,7 +179,6 @@ function cartIncrement(itemID, quantity=1, fromRestore=false) {
   if (!fromRestore) {
     postCart();
   }
-
   return 1;
 }
 
@@ -241,7 +250,7 @@ function _addCartCard(itemID) {
 /*
  * INDEX.HTML
  */
-function populateProductGridWith(item) {
+function populateProductGrid(item) {
   var card = "<div id='" + item.id + "' class='card rounded expand'>"
               + "<a class='pointer-hand' href='product?id=" + item.id + "'>"
                 + "<img class='card-img-top' src='" + item.imageURL + "' alt='" + item.name + "'>"
@@ -256,9 +265,17 @@ function populateProductGridWith(item) {
               + "</div>"
               + "<button class='btn-cart-add btn btn-secondary text-dark'>Add to cart</button>"
             + "</div>";
-  $(".product-grid").append(card);
+  $("#productGrid").append(card);
+
+  toggleProductCard(item.id);
+}
+
+function toggleProductCard(itemID) {
+  var item = products.get(String(itemID));
 
   if (item.quantity <= 0) {
     $("#"+item.id).hide(); // TODO: maybe overlay an out-of-stock instead
+  } else {
+    $("#"+item.id).show();
   }
 }

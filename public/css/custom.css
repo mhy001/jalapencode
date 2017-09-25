@@ -21,7 +21,7 @@ body {
   text-align: center;
 }
 
-.product-grid {
+#productGrid {
   justify-content: center;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 230px));

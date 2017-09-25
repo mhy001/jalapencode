@@ -27,8 +27,8 @@
         // TODO: make sure there is an itemID
         require '../src/product.php';
         break;
-      case '/credits': // page for credits
-        require 'view/credits.html';
+      case '/about': // page for about
+        require 'view/about.html';
         break;
       default:
         require 'view/404.html';

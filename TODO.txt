@@ -21,7 +21,6 @@ make html prettier
   chili pepper or fire for heat rating
   stars for review rating
   show number of items in cart button
-change credit to about & move to header
 cart checkout
 account login/signup
 account management
