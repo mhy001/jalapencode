@@ -1,37 +1,92 @@
-// TODO: implement checkoutBtn functions
+/*
+ * Product class
+ */
+function Product(product) {
+  this.id = String(product.id);
+  this.name = String(product.name);
+  this.url = String(product.imageURL);
+  this.description = String(product.description);
+  this.heat = String(product.heatRating);
+  this.review = String(product.reviewRating);
+  this.price = parseFloat(product.price);
+  this.quantity = parseInt(product.quantity);
+  this.maxQuantity = parseInt(product.quantity);
+}
+Product.prototype.deplete = function(quantity) {
+  if (quantity > this.quantity) {
+    console.log("Buying too many: " + this.id);
+    return 0;
+  }
+  this.quantity -= quantity;
+  return 1;
+}
+Product.prototype.restock = function(quantity) {
+  if (quantity+this.quantity > maxQuantity) {
+    console.log("Restocking too many: " + this.id);
+    return 0;
+  }
+  this.quantity += quantity;
+  return 1;
+}
+
+/*
+ * Cart class
+ */
+function Cart() {
+  this.items = new Map(); // {productID: count in cart}
+  this.count = 0; // total count of items in cart
+}
+Cart.prototype.add = function(product, quantity=1) {
+  var cart = this.items;
+  var id = product.id;
+
+  if (cart.has(id) && product.deplete(quantity)) {
+    cart.set(id, cart.get(id)+quantity);
+    this.count += quantity;
+  } else if (product.deplete(quantity)) {
+    cart.set(id, quantity);
+    this.count += quantity;
+  } else {
+    console.log("Failed to add " + id + " to cart");
+    return 0;
+  }
+  return 1;
+}
+Cart.prototype.remove = function(product, quantity=1) {
+  var cart = this.items;
+  var id = product.id;
+
+  if(cart.has(id) && product.restock(quantity)) {
+    cart.set(id, cart.get(id)-quantity);
+    this.count -= quantity;
+    if (!cart.get(id)) {
+      cart.delete(id);
+    }
+    return 1;
+  } else {
+    console.log("Failed to remove " + id + " from cart");
+  }
+  return 0;
+}
+Cart.prototype.restore = function(product, quantity) {
+  var cart = this.items;
+
+  cart.set(product.id, quantity);
+  this.count += quantity;
+  return 1;
+}
+
 // Global variables....meh
-var products = new Map();
-var cart = new Map();
+var products = new Map(); // {productID: product}
+var cart = new Cart(); // Customer cart
 
 /*
  * PAGE SET-UP
  */
 $(document).ready(function() {
   // navbar.html
-  if ($("#cartList").length) {
-    $("#cartList").on("click", ".cart-increment", function(e) {
-      var itemID = this.id.split("_")[1];
-      if (cartIncrement(itemID)) {
-        updateCartUI(itemID);
-
-        if ($("#productGrid").length) {
-          toggleProductCard(itemID);
-        }
-      }
-      e.stopPropagation();
-    });
-
-    $("#cartList").on("click", ".cart-decrement", function(e) {
-      var itemID = this.id.split("_")[1];
-      if (cartDecrement(itemID)) {
-        updateCartUI(itemID);
-
-        if ($("#productGrid").length) {
-          toggleProductCard(itemID);
-        }
-      }
-      e.stopPropagation();
-    });
+  if ($("#navbar").length) {
+    getCart(populateCartList);
   } else {
     console.log("NAVBAR MISSING!!! WHAT HAPPENED?!");
     return;
@@ -39,49 +94,31 @@ $(document).ready(function() {
 
   // index.html
   if ($("#productGrid").length) {
-    getProductsAndCart([populateProductGrid, toggleProductCard, updateCartUI]);
-    toggleCartButton(true);
+    getProducts(populateProductGrid);
 
     $("#productGrid").on("click", ".btn-cart-add", function() {
       var itemID = this.parentElement.id;
-      if (cartIncrement(itemID)) {
-        updateCartUI(itemID);
+      var product = products.get(itemID);
+
+      if (cart.add(product)) {
+        toggleProductCard(product);
+        updateCartButton();
+        postCart(product.id, 1);
       }
     });
   }
-});
 
+  // cart.html
+  if ($("#cartList").length) {
+  }
+});
 
 /*
  * SERVER CALLS
  */
-function getProductsAndCart(callbackArray) {
-  $.getJSON("getProductsAndCart", function(data) {
-    if (data) {
-      if (data.products) {
-        for (var key in data.products) {
-          var item = data.products[key];
-
-          item.maxQuantity = item.quantity;
-          products.set(String(item.id), item);
-          callbackArray[0] && callbackArray[0](item);
-        }
-      }
-
-      if (data.cart) {
-        for (var key in data.cart) {
-          var item = data.cart[key];
-          var itemID = String(item.id);
-
-          if (cartIncrement(itemID, item.quantity, true)) {
-            callbackArray[1] && callbackArray[1](itemID);
-          }
-          callbackArray[2] && callbackArray[2](itemID);
-        }
-      }
-
-      $(".loader").remove();
-    }
+function getGeneric(route, callback) {
+  $.getJSON(route, function(data) {
+    callback(data);
   })
   .fail(function(jqXHR, textStatus, error) {
     var message = "<p class='font-weight-bold'>Looks like something went wrong!</p>"
@@ -92,96 +129,42 @@ function getProductsAndCart(callbackArray) {
 }
 
 function getProducts(callback) {
-  $.getJSON("getProducts", function(data) {
+  getGeneric("getProducts", function(data) {
     if (data) {
       for (var key in data) {
-        var item = data[key];
+        var product = new Product(data[key]);
 
-        item.maxQuantity = item.quantity;
-        products.set(String(item.id), item);
-        callback && callback(item);
+        products.set(product.id, product);
+        callback && callback(product); // UI update for products
       }
+      $(".loader").remove();
     }
-    $(".loader").remove();
-  })
-  .fail(function(jqXHR, textStatus, error) {
-    var message = "<p class='font-weight-bold'>Looks like something went wrong!</p>"
-                + "<p>Try refeshing.</p>";
-    $(".message").append(message);
-    $(".loader").remove();
   });
 }
 
 function getCart(callback) {
-  $.getJSON("getCart", function(data) {
-    for (var key in data) {
-      var item = data[key];
-      var itemID = String(item.id);
+  getGeneric("getCart", function(data) {
+    if (data) {
+      for (var key in data) {
+        var item = data[key];
 
-      cartIncrement(itemID, item.quantity, true);
-      callback && callback(itemID);
+        cart.restore(new Product(item.product), item.count);
+        callback && callback(item); // UI update for cart items
+      }
+      updateCartButton();
+      toggleCartButton(true);
+      $(".loader").remove();
     }
-  })
-  .fail(function(jqXHR, textStatus, error) {
-    console.log("Failed to retrieve customer cart");
   });
 }
 
-function postCart() { //eh...don't really have to update whole cart every time
-  var currentCart = JSON.stringify([...cart]);
-  $.post("postCart", {"cart": currentCart});
-}
-
-
+function postCart(productID, quantity) {
+  $.post("postCart", {"id": productID, "quantity": quantity});
 /*
- * Non-UI
- */
-function cartDecrement(itemID, quantity=1) {
-  var cartCount = cart.get(itemID);
-  if (!cartCount || quantity > cartCount) {
-    console.log("Removing too many " + itemID);
-    return 0;
-  }
-  var item = products.get(itemID);
-  if (item.quantity+quantity > item.maxQuantity) {
-    console.log(itemID + " inventory count maximum reached!");
-    return 0;
-  }
-
-  item.quantity += quantity;
-
-  if (cartCount - quantity) {
-    cart.set(itemID, cartCount - quantity);
-  } else {
-    cart.delete(itemID);
-  }
-
-  postCart();
-  return 1;
+  var currentCart = JSON.stringify([...(cart.items)]);
+  $.post("postCart", {"cart": currentCart});
+*/
 }
-
-function cartIncrement(itemID, quantity=1, fromRestore=false) {
-  var item = products.get(itemID);
-  if (!fromRestore && item.quantity-quantity < 0) {
-    console.log("You're buying too many " + itemID + "!");
-    alert("You're buying too many " + item.name + "!");
-    return 0;
-  }
-
-  item.quantity -= quantity;
-
-  var newQuantity = quantity;
-  if (cart.has(itemID)) {
-    newQuantity = cart.get(itemID) + quantity;
-  }
-  cart.set(itemID, newQuantity);
-
-  if (!fromRestore) {
-    postCart();
-  }
-  return 1;
-}
-
 
 /*
  * NAVBAR.HTML
@@ -190,92 +173,51 @@ function toggleCartButton(showOrHide) {
   $("#cartButton").toggleClass("d-none", !showOrHide);
 }
 
-function updateCartUI(itemID) {
-  _updateCartDropdown();
-  _updateCartCard(itemID);
+function updateCartButton() {
+  $("#cartButton > span:first").text(cart.count);
 }
-
-function _updateCartDropdown() {
-  if (cart.size) {
-    if ($("#cartDivider").hasClass("d-none")) {
-      _displayCartDefault(false);
-    }
-  } else {
-    _displayCartDefault(true);
-  }
-}
-
-function _displayCartDefault(showOrHide) {
-  $("#emptyCart").toggleClass("d-none", !showOrHide);
-  $("#cartDivider").toggleClass("d-none", showOrHide);
-  $("#cartBottom").toggleClass("d-none", showOrHide);
-}
-
-function _updateCartCard(itemID) {
-  var item = products.get(itemID);
-  var quantity = cart.get(itemID);
-
-  if ($("#cartCount_"+itemID).length) {
-    if (quantity) {
-      $("#cartCount_"+itemID).text(quantity);
-    } else {
-      $("#cartItem_"+itemID).remove();
-    }
-  } else {
-    _addCartCard(itemID);
-  }
-
-  if (item.quantity <= 0) {
-    $("#cartIncBtn_"+itemID).prop("disabled", true);
-  } else {
-    $("#cartIncBtn_"+itemID).prop("disabled", false);
-  }
-}
-
-function _addCartCard(itemID) {
-  var item = products.get(itemID);
-  var card = "<div id='cartItem_" + item.id + "' class='dropdown-item border pl-1 pr-2 d-flex flex-row align-items-center'>"
-              + "<img class='cart-thumbnail img-thumbnail' src='" + item.imageURL + "'>"
-              + "<span class='pl-2 mr-auto'>" + item.name + "</span>"
-              + "<span id='cartCount_" + item.id + "'>" + cart.get(itemID) + "</span>"
-              + "<div class='d-flex flex-column ml-2'>"
-                + "<button id='cartIncBtn_" + item.id + "' class='cart-increment btn btn-xs-custom btn-secondary text-dark rounded-circle'>+</button>"
-                + "<button id='cartDecBtn_" + item.id + "' class='cart-decrement btn btn-xs-custom btn-secondary text-dark rounded-circle'>-</button>"
-              + "</div>"
-            + "</div>";
-  $("#cartList").prepend(card);
-}
-
 
 /*
  * INDEX.HTML
  */
-function populateProductGrid(item) {
-  var card = "<div id='" + item.id + "' class='card rounded expand'>"
-              + "<a class='pointer-hand' href='product?id=" + item.id + "'>"
-                + "<img class='card-img-top' src='" + item.imageURL + "' alt='" + item.name + "'>"
-                + "<h4 class='card-title ml-3'>" + item.name + "</h4>"
+function populateProductGrid(product) {
+  var card = "<div id='" + product.id + "' class='card rounded expand'>"
+              + "<a class='pointer-hand' href='product?id=" + product.id + "'>"
+                + "<img class='card-img-top' src='" + product.url + "' alt='" + product.name + "'>"
+                + "<h4 class='card-title ml-3'>" + product.name + "</h4>"
               + "</a>"
               + "<div class='card-body'>"
-                + "<p class=''>" + item.id + " " + item.description + "</p>"
+                + "<p class=''>" + product.id + " " + product.description + "</p>"
                 + "<div>"
-                  + "<span class=''>" + item.heatRating + "</span>"
-                  + "<span class='text-danger float-right'>$" + item.price + "</span>"
+                  + "<span class=''>" + product.heat + "</span>"
+                  + "<span class='text-danger float-right'>$" + product.price + "</span>"
                 + "</div>"
               + "</div>"
               + "<button class='btn-cart-add btn btn-secondary text-dark'>Add to cart</button>"
             + "</div>";
   $("#productGrid").append(card);
 
-  toggleProductCard(item.id);
+  toggleProductCard(product);
 }
 
-function toggleProductCard(itemID) {
-  var item = products.get(String(itemID));
-
-  if (item.quantity <= 0) {
-    $("#"+item.id).hide(); // TODO: maybe overlay an out-of-stock instead
+function toggleProductCard(product) {
+  if (product.quantity <= 0) {
+    $("#"+product.id).hide(); // TODO: maybe overlay an out-of-stock instead
   } else {
-    $("#"+item.id).show();
+    $("#"+product.id).show();
   }
+}
+
+/*
+ * CART.HTML
+ */
+function populateCartList(item) {
+  var product = item.product;
+  var card = "<div id='" + product.id + "' class='d-flex flex-row'>"
+              + "<img class='' src='" + product.imageURL + "' alt='" + product.name + "'>"
+              + "<span class=''> Name: " + product.name + "</span>"
+              + "<span class=''> Count: " + item.count + "</span>"
+            + "</div>";
+
+  $("#cartList").append(card);
 }

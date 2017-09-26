@@ -11,9 +11,6 @@
       case '/': //home page
         require 'index.html';
         break;
-      case '/getProductsAndCart': //get json of product list and customer cart
-        require '../src/getProductsAndCart.php';
-        break;
       case '/getProducts': // get json of product list
         require '../src/getProducts.php';
         break;
@@ -26,6 +23,9 @@
       case '/product': // page of individual product
         // TODO: make sure there is an itemID
         require '../src/product.php';
+        break;
+      case '/cart': // page for cart
+        require '../src/cart.php';
         break;
       case '/about': // page for about
         require 'view/about.html';
