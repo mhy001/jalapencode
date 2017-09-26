@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 $dbhost = "localhost";
 $dbuser = "root";
@@ -11,7 +11,7 @@ $conn = new mysqli($dbhost, $dbuser, $dbpass);
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error . " " . $conn->connect_errno);
     }else{
-        echo "Connected successfully<br />";
+        //echo "Connected successfully<br />";
     }
 
     $conn->select_db($dbname);
@@ -19,7 +19,7 @@ $conn = new mysqli($dbhost, $dbuser, $dbpass);
     if($conn->error){
         die("Cannot select database " . $conn->error);
     }else{
-        echo "Database selected";
+        //echo "Database selected";
     }
 
 ?>

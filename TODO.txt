@@ -13,3 +13,17 @@
 - User system
 - Review/Rating system
 - Search/filter system
+
+fill db
+db reset script
+search & filter on index.html
+make html prettier
+  chili pepper or fire for heat rating
+  stars for review rating
+  show number of items in cart button
+cart checkout
+account login/signup
+account management
+remove cart dependency on product list?
+  cart item will need to hold all of item info
+  will need to remove +/- button in cart list
