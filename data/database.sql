@@ -6,22 +6,10 @@ CREATE TABLE INVENTORY (
   description TEXT NOT NULL,
   price DECIMAL(10,2) NOT NULL DEFAULT 0,
   quantity INT NOT NULL,
-  heat_rate INT NOT NULL,
+  heat_id INT NOT NULL,
   cat_id INT NOT NULL,
   image VARCHAR(255) NULL,
   review LONGTEXT NULL
-);
-
-CREATE TABLE CATEGORY (
-  cate_id INT NOT NULL,
-  category VARCHAR(20) NOT NULL,
-  FOREIGN KEY (cate_id) REFERENCES INVENTORY(cat_id)
-);
-
-CREATE TABLE HEAT_RATING (
-  heat_id INT NOT NULL,
-  heat VARCHAR(20) NOT NULL,
-  FOREIGN KEY (heat_id) REFERENCES INVENTORY(heat_rate)
 );
 
 CREATE TABLE ACCOUNT (
@@ -29,7 +17,10 @@ CREATE TABLE ACCOUNT (
   first_name VARCHAR(30) NOT NULL,
   last_name VARCHAR(30) NOT NULL,
   password VARCHAR(20) NOT NULL,
-  address VARCHAR(100) NOT NULL 
+  addr_street VARCHAR(50) NOT NULL,
+  addr_city VARCHAR(50) NOT NULL,
+  addr_state VARCHAR(20) NOT NULL,
+  addr_zip INT(10) NOT NULL
 );
 
 CREATE TABLE TRANSACTION_HISTORY (
@@ -43,8 +34,8 @@ CREATE TABLE TRANSACTION_HISTORY (
   FOREIGN KEY (prod_name_t) REFERENCES INVENTORY(product_name),
   FOREIGN KEY (price_t) REFERENCES INVENTORY(price),
   FOREIGN KEY (image_t) REFERENCES INVENTORY(image),
-  FOREIGN KEY (heat_rate_t) REFERENCES HEAT_RATING(heat_id),
-  FOREIGN KEY (category_t) REFERENCES CATEGORY(cate_id)
+  FOREIGN KEY (heat_rate_t) REFERENCES INVENTORY(heat_id),
+  FOREIGN KEY (category_t) REFERENCES INVENTORY(cat_id)
 );
 
 CREATE TABLE CART (
@@ -64,21 +55,11 @@ CREATE TABLE CART (
   FOREIGN KEY (prod_name_cart) REFERENCES INVENTORY(product_name),
   FOREIGN KEY (price_cart) REFERENCES INVENTORY(price),
   FOREIGN KEY (quantity_cart) REFERENCES INVENTORY(quantity),
-  FOREIGN KEY (heat_rate_cart) REFERENCES HEAT_RATING(heat_id),
-  FOREIGN KEY (category_cart) REFERENCES CATEGORY(cate_id),
+  FOREIGN KEY (heat_rate_cart) REFERENCES INVENTORY(heat_id),
+  FOREIGN KEY (category_cart) REFERENCES INVENTORY(cat_id),
   FOREIGN KEY (image_cart) REFERENCES INVENTORY(image),
   FOREIGN KEY (cart_id) REFERENCES ACCOUNT(acc_id)
 );
-
-
-INSERT INTO CATEGORY VALUES (1, 'Peppers');
-INSERT INTO CATEGORY VALUES (2, 'Sauces');
-
-INSERT INTO HEAT_RATING VALUES (1, 'Mild');
-INSERT INTO HEAT_RATING VALUES (2, 'Medium');
-INSERT INTO HEAT_RATING VALUES (3, 'Hot');
-INSERT INTO HEAT_RATING VALUES (4, 'Volcano');
-INSERT INTO HEAT_RATING VALUES (5, 'Diablo');
 
 INSERT INTO INVENTORY VALUES (1000, 'Jalepeno', 'The jalapeño or jalapeno is a medium to large size chili pepper which is prized for the warm, burning sensation when eaten. Ripe, the jalapeño can be 2–3½ inches long and is commonly sold when still green. It is a cultivar of the species Capsicum annuum. It is named after the town of Xalapa, Veracruz, where it was traditionally produced. 160 square kilometres are dedicated for the cultivation of jalapeño in Mexico alone; primarily in the Papaloapan river basin in the north of the state of Veracruz and in the Delicias, Chihuahua area. The jalapeño is known by different names throughout Mexico. Jalapeños are also known as cuaresmeños, huachinangos and chiles gordos. The jalapeño rates between 2,500 and 10,000 Scoville units in heat. ', 1.00, 25, 2, 1, 'Something.com', 'Blank review');
 INSERT INTO INVENTORY VALUES (1001, 'Chipotle', 'A chipotle is a smoke-dried jalapeño chili used primarily in Mexican, Mexican-American, Tex-Mex, and Mexican-inspired cuisine. There are many varieties of jalapeños which vary in size and heat. In Mexico, the jalapeño is also known as the cuaresmeño and gordo. Until recently, chipotles were almost exclusively found in the markets of central and southern Mexico. As Mexican food became more popular in the United States in the late 20th century, jalapeño production and processing began to move into Northern Mexico and the United States. Scoville Heat Units: 10,000-50,000.', 1.00, 25, 3, 1, 'Something.com', 'Blank Review');
@@ -91,4 +72,4 @@ INSERT INTO INVENTORY VALUES (1007, 'Fatilli', 'The Fatalii is a chili pepper of
 INSERT INTO INVENTORY VALUES (1008, 'Bell Pepper', 'The bell pepper is a cultivar group of the species Capsicum annuum. Cultivars of the plant produce fruits in different colors, including red, yellow, orange, green, chocolate/brown, vanilla/white, and purple. Bell peppers are sometimes grouped with less pungent pepper varieties as sweet peppers. The whitish ribs and seeds inside bell peppers may be consumed, but some people find the taste to be bitter.', 1.00, 25, 1, 1, 'Something.com', 'Blank Review');
 INSERT INTO INVENTORY VALUES (1009, 'Carolina Reaper', 'The Carolina Reaper is a hybrid chili pepper of the Capsicum chinense species, originally called the HP22B, bred by cultivator Ed Currie, who runs PuckerButt Pepper Company in Fort Mill, South Carolina. The Carolina Reaper was rated as the worlds hottest chili pepper by Guinness World Records according to 2012 tests, averaging 1,569,300 SHU on the Scoville scale with peak levels of over 2,200,000 SHU. The previous record-holder was the Trinidad Moruga Scorpion.', 1.00, 25, 5, 1, 'Something.com', 'Blank Review');
                               
-INSERT INTO ACCOUNT VALUES (101, 'Jeffrey', 'Liv', 'password123', '123 Address Street, Fullerton, CA');
+INSERT INTO ACCOUNT VALUES (101, 'Jeffrey', 'Liv', 'password123', '123 Address Street', 'Fullerton', 'CA', 92831);
