@@ -10,6 +10,7 @@ function Product(product) {
   this.review = String(product.reviewRating);
   this.price = parseFloat(product.price);
   this.quantity = parseInt(product.quantity);
+  this.category = parseInt(product.category);
   this.maxQuantity = parseInt(product.quantity);
 }
 Product.prototype.deplete = function(quantity) {
@@ -148,11 +149,10 @@ function getCart(callback) {
       for (var key in data) {
         var item = data[key];
 
-        cart.restore(new Product(item.product), item.count);
+        cart.restore(new Product(item.product), parseInt(item.count));
         callback && callback(item); // UI update for cart items
       }
       updateCartButton();
-      toggleCartButton(true);
       $(".loader").remove();
     }
   });
@@ -169,10 +169,6 @@ function postCart(productID, quantity) {
 /*
  * NAVBAR.HTML
  */
-function toggleCartButton(showOrHide) {
-  $("#cartButton").toggleClass("d-none", !showOrHide);
-}
-
 function updateCartButton() {
   $("#cartButton > span:first").text(cart.count);
 }

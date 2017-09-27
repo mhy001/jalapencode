@@ -14,6 +14,7 @@ for ($x = 0; $x < 5; $x++) {
   $item->reviewRating = 5.0; // send rating image url
   $item->price = 99.99;
   $item->quantity = 10;
+  $item->category = 0;
 
   $cartItem = new StdClass;
   $cartItem->count = 11 - $x;
