@@ -12,6 +12,6 @@ $item->price = 99.99;
 $item->id = 0;
 $item->quantity = 10;
 
-require '../public/view/product.html';
+require '../public/view/product.phtml';
 
 ?>
