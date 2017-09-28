@@ -183,7 +183,7 @@ function showCartButton() {
  */
 function populateProductGrid(product) {
   var card = "<div id='" + product.id + "' class='card rounded expand'>"
-              + "<a class='pointer-hand' href='product?id=" + product.id + "'>"
+              + "<a class='pointer-hand' href='product?" + product.id + "'>"
                 + "<img class='card-img-top' src='" + product.url + "' alt='" + product.name + "'>"
                 + "<h4 class='card-title ml-3'>" + product.name + "</h4>"
               + "</a>"
