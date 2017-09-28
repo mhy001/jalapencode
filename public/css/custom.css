@@ -53,6 +53,10 @@ body {
   margin: .1rem 0;
 }
 
+.fire {
+  fill: red;
+}
+
 .loader,
 .loader:before,
 .loader:after {
