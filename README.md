@@ -29,6 +29,8 @@ https://trello.com/b/w4mvuNog/cs-362
 * create DB purge/repopulate script
 * account login/signup page
 * account settings page
+    * manage account information
+    * check transaction history
 * account authentication
 * make pages prettier
     * fire/chili pepper for heat rating

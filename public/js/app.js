@@ -119,7 +119,7 @@ $(document).ready(function() {
  */
 function getGeneric(route, callback) {
   $.getJSON(route, function(data) {
-    callback(data);
+    callback && callback(data);
   })
   .fail(function(jqXHR, textStatus, error) {
     var message = "<p class='font-weight-bold'>Looks like something went wrong!</p>"
@@ -153,6 +153,7 @@ function getCart(callback) {
         callback && callback(item); // UI update for cart items
       }
       updateCartButton();
+      showCartButton();
       $(".loader").remove();
     }
   });
@@ -171,6 +172,10 @@ function postCart(productID, quantity) {
  */
 function updateCartButton() {
   $("#cartButton > span:first").text(cart.count);
+}
+
+function showCartButton() {
+  $("#cartButton").toggleClass("d-none");
 }
 
 /*
