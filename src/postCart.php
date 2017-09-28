@@ -1,6 +1,8 @@
 <?php
 /* Purpose: Update the client's cart */
 
-  var_dump($_POST);
+  $customer = session_id();
+  $productID = $_POST["id"];
+  $quantity = $_POST["quantity"];
 
  ?>
