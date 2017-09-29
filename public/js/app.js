@@ -171,10 +171,11 @@ function postCart(productID, quantity) {
  * NAVBAR.HTML
  */
 function updateCartButton() {
-  $("#cartButton > span:first").text(cart.count);
+  $("#cartButtonCount > span:first").text(cart.count);
 }
 
 function showCartButton() {
+  $("#cartButton").toggleClass("d-flex");
   $("#cartButton").toggleClass("d-none");
 }
 
@@ -201,7 +202,7 @@ function populateProductGrid(product) {
                   + "<span class='text-danger float-right'>$" + product.price + "</span>"
                 + "</div>"
               + "</div>"
-              + "<button class='btn-cart-add btn btn-secondary text-dark'>Add to cart</button>"
+              + "<button class='btn-cart-add btn btn-warning text-dark m-2'>Add to cart</button>"
             + "</div>";
   $("#productGrid").append(card);
 

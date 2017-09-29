@@ -1,6 +1,8 @@
 <nav id="navbar" class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
-  <img class="mr-1" src="icon/pepper.png">
-  <a class="navbar-brand" href="/">Jalapeñcode</a>
+    <a class="navbar-brand font-weight-bold" href="/">
+      <img class="mr-1" src="icon/pepper.png">
+      <span>Jalapeñcode</span>
+    </a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -11,10 +13,14 @@
     </ul>
     <ul class="navbar-nav ml-auto">
       <li>
-        <a href="cart">
-          <button id="cartButton" class="d-none btn btn-outline-secondary">
-            <span>0</span>
-            <span>cart</span>
+        <a class="nav-link pt-0 pb-0" href="cart">
+          <button id="cartButton" class="d-none navbar-btn-dark btn btn-dark font-weight-bold flex-row">
+            <div id="cartButtonCount" class="mr-1">
+              <span  class="cart-count text-warning">0</span>
+            </div>
+            <div id="cartButtonText">
+              <span class="text-light">Cart</span>
+            </div>
           </button>
         </a>
       </li>

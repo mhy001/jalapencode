@@ -57,6 +57,33 @@ body {
   fill: red;
 }
 
+.navbar-btn-dark {
+}
+.navbar-btn-dark:hover {
+  color: #fff;
+  background-color: #343a40;
+  border-color: rgba(255,255,255,.5);
+}
+
+#cartButton {
+  background: url("../icon/shopping_cart_white.png");
+  background-repeat: no-repeat;
+  background-position: left;
+  background-size: contain;
+}
+#cartButtonCount {
+  position: relative;
+  top: -15px;
+  left: -5px;
+}
+#cartButtonText {
+  position: relative;
+  bottom: -5px;
+}
+.cartCount {
+
+}
+
 .loader,
 .loader:before,
 .loader:after {
