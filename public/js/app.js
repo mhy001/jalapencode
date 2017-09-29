@@ -88,6 +88,19 @@ $(document).ready(function() {
   // navbar.html
   if ($("#navbar").length) {
     getCart(populateCartList);
+
+    $("#searchText").keyup(function() {
+      if ($(this).val() == "") {
+        $("#searchClear").addClass("invisible");
+      } else {
+        $("#searchClear").removeClass("invisible");
+      }
+      console.log(this.value);
+    });
+    $("#searchClear").click(function() {
+      $("#searchText").val("");
+      $(this).addClass("invisible");
+    });
   } else {
     console.log("NAVBAR MISSING!!! WHAT HAPPENED?!");
     return;
@@ -153,7 +166,7 @@ function getCart(callback) {
         callback && callback(item); // UI update for cart items
       }
       updateCartButton();
-      showCartButton();
+      showCartButtonCount();
       $(".loader").remove();
     }
   });
@@ -171,12 +184,19 @@ function postCart(productID, quantity) {
  * NAVBAR.HTML
  */
 function updateCartButton() {
-  $("#cartButtonCount > span:first").text(cart.count);
+  if (cart.count < 10) {
+    $("#cartButtonCount").css('left', 27);
+  } else if (cart.count > 9) {
+    $("#cartButtonCount").css('left', 22);
+  } else if (cart.count > 99) {
+    $("#cartButtonCount").css('left', 18);
+  }
+
+  $("#cartButtonCount").text(cart.count);
 }
 
-function showCartButton() {
-  $("#cartButton").toggleClass("d-flex");
-  $("#cartButton").toggleClass("d-none");
+function showCartButtonCount() {
+  $("#cartButtonCount").toggleClass("d-none");
 }
 
 /*
@@ -193,7 +213,7 @@ function populateProductGrid(product) {
   var card = "<div id='" + product.id + "' class='card rounded expand'>"
               + "<a class='pointer-hand' href='product?" + product.id + "'>"
                 + "<img class='card-img-top' src='" + product.url + "' alt='" + product.name + "'>"
-                + "<h4 class='card-title ml-3'>" + product.name + "</h4>"
+                + "<h4 class='card-title ml-3'>" + product.name +product.id+ "</h4>"
               + "</a>"
               + "<div class='card-body'>"
                 + "<p class=''>" + product.description + "</p>"
