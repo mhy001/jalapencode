@@ -9,7 +9,7 @@
 
     switch ($request_uri[0]) {
       case '/': //home page
-        require 'view/home.phtml';
+        require '../src/home.php';
         break;
       case '/getProducts': // get json of product list
         require '../src/getProducts.php';

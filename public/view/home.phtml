@@ -4,7 +4,7 @@
 <body>
 <?php include 'view/_navbar.phtml'; ?>
 
-  <div id="mainContainer" class="container">
+  <div class="container main-container">
     <div class="starter-template">
       <h1>Jalapeñcode</h1>
       <p class="lead">An awesome project!</p>
@@ -14,10 +14,12 @@
       <noscript>JavaScript must be enabled!</noscript>
     </div>
     <div class='loader'>Loading...</div>
-    
+
+    <div id="filter"></div>
     <div id="productGrid"></div>
   </div>
 
+  <input id="searchString" type=hidden value=<?php echo $searchString; ?>>
 <?php include 'view/_footer.phtml'; ?>
 
 <?php include 'view/_common_js.phtml'; ?>
