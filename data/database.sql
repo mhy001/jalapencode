@@ -24,13 +24,13 @@ CREATE TABLE ACCOUNT (
 );
 
 CREATE TABLE TRANSACTION_HISTORY (
-  id_num_t INT(100) NOT NULL AUTO_INCREMENT,
+  id_num_t INT NOT NULL AUTO_INCREMENT,
   prod_name_t VARCHAR(255) NOT NULL,
   price_t DECIMAL(10,2) NOT NULL DEFAULT 0,
   heat_rate_t INT NOT NULL, #reference to heat rating
   category_t INT NOT NULL, #reference to category 
   image_t VARCHAR(255) NULL,
-  FOREIGN KEY (id_num) REFERENCES INVENTORY(id),
+  FOREIGN KEY (id_num_t) REFERENCES INVENTORY(id),
   FOREIGN KEY (prod_name_t) REFERENCES INVENTORY(product_name),
   FOREIGN KEY (price_t) REFERENCES INVENTORY(price),
   FOREIGN KEY (image_t) REFERENCES INVENTORY(image),
@@ -39,7 +39,7 @@ CREATE TABLE TRANSACTION_HISTORY (
 );
 
 CREATE TABLE CART (
-  cart_id INT(100) NOT NULL
+  cart_id INT(100) NOT NULL,
   id_num_cart INT(100) NOT NULL, #reference product id 
   acc_id_cart INT(100) NOT NULL, #references account
   prod_name_cart VARCHAR(255) NOT NULL,
