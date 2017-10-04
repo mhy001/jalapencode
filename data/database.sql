@@ -14,7 +14,7 @@ CREATE TABLE INVENTORY (
 );
 
 CREATE TABLE ACCOUNT (
-  acc_id INT(100) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  acc_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   first_name VARCHAR(30) NOT NULL,
   last_name VARCHAR(30) NOT NULL,
   password VARCHAR(20) NOT NULL,
@@ -40,12 +40,12 @@ CREATE TABLE TRANSACTION_HISTORY (
 );
 
 CREATE TABLE CART (
-  cart_id INT(100) NOT NULL
-  id_num_cart INT(100) NOT NULL, #reference product id 
-  acc_id_cart INT(100) NOT NULL, #references account
+  cart_id INT NOT NULL,
+  id_num_cart INT NOT NULL,
+  acc_id_cart INT NOT NULL,
   prod_name_cart VARCHAR(255) NOT NULL,
   price_cart DECIMAL(10,2) NOT NULL DEFAULT 0,
-  quantity_cart INT(300) NULL,
+  quantity_cart INT NULL,
   heat_rate_cart INT NOT NULL,
   category_cart INT NOT NULL,
   image_cart VARCHAR(255) NULL,
@@ -58,8 +58,7 @@ CREATE TABLE CART (
   FOREIGN KEY (quantity_cart) REFERENCES INVENTORY(quantity),
   FOREIGN KEY (heat_rate_cart) REFERENCES INVENTORY(heat_id),
   FOREIGN KEY (category_cart) REFERENCES INVENTORY(cat_id),
-  FOREIGN KEY (image_cart) REFERENCES INVENTORY(image),
-  FOREIGN KEY (cart_id) REFERENCES ACCOUNT(acc_id)
+  FOREIGN KEY (image_cart) REFERENCES INVENTORY(image)
 );
 
 INSERT INTO INVENTORY VALUES (1000, 'Jalepeno', 'The jalapeño or jalapeno is a medium to large size chili pepper which is prized for the warm, burning sensation when eaten. Ripe, the jalapeño can be 2–3½ inches long and is commonly sold when still green. It is a cultivar of the species Capsicum annuum. It is named after the town of Xalapa, Veracruz, where it was traditionally produced. 160 square kilometres are dedicated for the cultivation of jalapeño in Mexico alone; primarily in the Papaloapan river basin in the north of the state of Veracruz and in the Delicias, Chihuahua area. The jalapeño is known by different names throughout Mexico. Jalapeños are also known as cuaresmeños, huachinangos and chiles gordos. The jalapeño rates between 2,500 and 10,000 Scoville units in heat. ', 1.00, 25, 2, 1, 'Something.com', 'Blank review');
