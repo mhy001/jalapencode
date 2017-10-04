@@ -1,3 +1,4 @@
+DROP DATABASE `jalapeno`;
 CREATE DATABASE `jalapeno`;
 
 CREATE TABLE INVENTORY (
@@ -24,41 +25,41 @@ CREATE TABLE ACCOUNT (
 );
 
 CREATE TABLE TRANSACTION_HISTORY (
-  id_num_t INT NOT NULL,
+  id_num_t INT(100) NOT NULL AUTO_INCREMENT,
   prod_name_t VARCHAR(255) NOT NULL,
   price_t DECIMAL(10,2) NOT NULL DEFAULT 0,
-  heat_rate_t INT NOT NULL,
-  category_t INT NOT NULL,
+  heat_rate_t INT NOT NULL, #reference to heat rating
+  category_t INT NOT NULL, #reference to category 
   image_t VARCHAR(255) NULL,
-  #FOREIGN KEY (id_num_t) REFERENCES INVENTORY(id),
-  #FOREIGN KEY (prod_name_t) REFERENCES INVENTORY(product_name),
-  #FOREIGN KEY (price_t) REFERENCES INVENTORY(price),
-  #FOREIGN KEY (image_t) REFERENCES INVENTORY(image),
-  #FOREIGN KEY (heat_rate_t) REFERENCES INVENTORY(heat_id),
-  #FOREIGN KEY (category_t) REFERENCES INVENTORY(cat_id)
+  FOREIGN KEY (id_num) REFERENCES INVENTORY(id),
+  FOREIGN KEY (prod_name_t) REFERENCES INVENTORY(product_name),
+  FOREIGN KEY (price_t) REFERENCES INVENTORY(price),
+  FOREIGN KEY (image_t) REFERENCES INVENTORY(image),
+  FOREIGN KEY (heat_rate_t) REFERENCES INVENTORY(heat_id),
+  FOREIGN KEY (category_t) REFERENCES INVENTORY(cat_id)
 );
 
 CREATE TABLE CART (
-  cart_id INT(100) NOT NULL,
-  id_num_cart INT(100) NOT NULL, 
-  acc_id_cart INT(100) NOT NULL, 
+  cart_id INT(100) NOT NULL
+  id_num_cart INT(100) NOT NULL, #reference product id 
+  acc_id_cart INT(100) NOT NULL, #references account
   prod_name_cart VARCHAR(255) NOT NULL,
   price_cart DECIMAL(10,2) NOT NULL DEFAULT 0,
-  quantity_cart INT NULL,
+  quantity_cart INT(300) NULL,
   heat_rate_cart INT NOT NULL,
   category_cart INT NOT NULL,
   image_cart VARCHAR(255) NULL,
   sub_total DECIMAL(10,2) DEFAULT 0,
   total DECIMAL(10,2) DEFAULT 0,
-  #FOREIGN KEY (id_num_cart) REFERENCES INVENTORY(id),
-  #FOREIGN KEY (acc_id_cart) REFERENCES ACCOUNT(acc_id),
-  #FOREIGN KEY (prod_name_cart) REFERENCES INVENTORY(product_name),
-  #FOREIGN KEY (price_cart) REFERENCES INVENTORY(price),
-  #FOREIGN KEY (quantity_cart) REFERENCES INVENTORY(quantity),
-  #FOREIGN KEY (heat_rate_cart) REFERENCES INVENTORY(heat_id),
-  #FOREIGN KEY (category_cart) REFERENCES INVENTORY(cat_id),
-  #FOREIGN KEY (image_cart) REFERENCES INVENTORY(image),
-  #FOREIGN KEY (cart_id) REFERENCES ACCOUNT(acc_id)
+  FOREIGN KEY (id_num_cart) REFERENCES INVENTORY(id),
+  FOREIGN KEY (acc_id_cart) REFERENCES ACCOUNT(acc_id),
+  FOREIGN KEY (prod_name_cart) REFERENCES INVENTORY(product_name),
+  FOREIGN KEY (price_cart) REFERENCES INVENTORY(price),
+  FOREIGN KEY (quantity_cart) REFERENCES INVENTORY(quantity),
+  FOREIGN KEY (heat_rate_cart) REFERENCES INVENTORY(heat_id),
+  FOREIGN KEY (category_cart) REFERENCES INVENTORY(cat_id),
+  FOREIGN KEY (image_cart) REFERENCES INVENTORY(image),
+  FOREIGN KEY (cart_id) REFERENCES ACCOUNT(acc_id)
 );
 
 INSERT INTO INVENTORY VALUES (1000, 'Jalepeno', 'The jalapeño or jalapeno is a medium to large size chili pepper which is prized for the warm, burning sensation when eaten. Ripe, the jalapeño can be 2–3½ inches long and is commonly sold when still green. It is a cultivar of the species Capsicum annuum. It is named after the town of Xalapa, Veracruz, where it was traditionally produced. 160 square kilometres are dedicated for the cultivation of jalapeño in Mexico alone; primarily in the Papaloapan river basin in the north of the state of Veracruz and in the Delicias, Chihuahua area. The jalapeño is known by different names throughout Mexico. Jalapeños are also known as cuaresmeños, huachinangos and chiles gordos. The jalapeño rates between 2,500 and 10,000 Scoville units in heat. ', 1.00, 25, 2, 1, 'Something.com', 'Blank review');
