@@ -31,7 +31,7 @@ CREATE TABLE TRANSACTION_HISTORY (
   heat_rate_t INT NOT NULL, #reference to heat rating
   category_t INT NOT NULL, #reference to category 
   image_t VARCHAR(255) NULL,
-  FOREIGN KEY (id_num) REFERENCES INVENTORY(id),
+  FOREIGN KEY (id_num_t) REFERENCES INVENTORY(id),
   FOREIGN KEY (prod_name_t) REFERENCES INVENTORY(product_name),
   FOREIGN KEY (price_t) REFERENCES INVENTORY(price),
   FOREIGN KEY (image_t) REFERENCES INVENTORY(image),
