@@ -25,7 +25,10 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 220px));
 }
-.expand{
+.PG-card {
+  height: 350px;
+}
+.expand {
   transition: all .2s ease-in-out;
   z-index: 10;
 }
@@ -35,6 +38,11 @@ body {
 }
 .pointer-hand {
   cursor: pointer;
+}
+.text-preview {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .btn-cart-checkout {

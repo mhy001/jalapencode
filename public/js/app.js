@@ -3,14 +3,14 @@
  */
 function Product(product) {
   this.id = String(product.id);
-  this.name = String(product.name);
-  this.url = String(product.imageURL);
+  this.name = String(product.product_name);
+  this.url = String(product.image);
   this.description = String(product.description);
-  this.heat = String(product.heatRating);
-  this.review = String(product.reviewRating);
+  this.heat = String(product.heat_id);
+  this.review = String(product.review);
   this.price = parseFloat(product.price);
   this.quantity = parseInt(product.quantity);
-  this.category = parseInt(product.category);
+  this.category = parseInt(product.cat_id);
   this.maxQuantity = parseInt(product.quantity);
 }
 Product.prototype.deplete = function(quantity) {
@@ -91,13 +91,23 @@ $(document).ready(function() {
 
     $("#searchText").keyup(function(e) {
       if (e.keyCode == 13) {
-        // TODO: if not on home page, get home?searchString
+        if ($("#productGrid").length) {
         // TODO: if on home page, filter cards
+
+        } else {
+        // TODO: if not on home page, get home?searchString
+
+        }
         console.log("enter key");
       } else {
         toggleSearchClearImage();
-        // TODO: if not on home page, do nothing
+        if ($("#productGrid").length) {
         // TODO: if on home page, toggleProductCard
+
+        } else {
+        // TODO: if not on home page, do nothing
+
+        }
       }
     });
     $("#searchClear").click(function() {
@@ -181,7 +191,8 @@ function getCart(callback) {
 }
 
 function postCart(productID, quantity) {
-  $.post("postCart", {"id": productID, "quantity": quantity});
+  getGeneric("postCart", {"user_id": 1, "product_id": productID, "quantity": quantity}, null);
+  //$.post("postCart", {"id": productID, "quantity": quantity});
 }
 
 /*
@@ -230,13 +241,13 @@ function populateProductGrid(product) {
             + "<path d='M0 0h24v24H0z' fill='none'/>"
           + "</svg>";
   }
-  var card = "<div id='" + product.id + "' class='card rounded expand d-none'>"
+  var card = "<div id='" + product.id + "' class='PG-card card rounded expand d-none'>"
               + "<a class='pointer-hand' href='product?" + product.id + "'>"
                 + "<img class='card-img-top' src='" + product.url + "' alt='" + product.name + "'>"
                 + "<h4 class='card-title ml-3'>" + product.name + "</h4>"
               + "</a>"
               + "<div class='card-body'>"
-                + "<p class=''>" + product.description + "</p>"
+                + "<p class='text-preview'>" + product.description + "</p>"
                 + "<div>"
                   + "<span class=''>" + heat + "</span>"
                   + "<span class='text-danger float-right'>$" + product.price + "</span>"
