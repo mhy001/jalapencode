@@ -1,8 +1,8 @@
-<?php 
+<?php
 
 echo "<br /> IN GENERATE DATA FILE <br />";
 
-$stmt = $conn->prepare("INSERT INTO INVENTORY (cat_id, product_name, description, price, quantity, heat_id, image, review) 
+$stmt = $conn->prepare("INSERT INTO INVENTORY (cat_id, product_name, description, price, quantity, heat_id, image, review)
                         VALUES (?, ?, ?, ?, ?, ?, ?, ? );");
 if(!$stmt){
     echo "Fail to prepare statement" .  $conn->error . " " . $conn->errno . "<br />";
@@ -19,7 +19,7 @@ $description = $conn->real_escape_string("The jalapeno or jalapeno is a medium t
 $price = 1.00;
 $quantity = 25;
 $heat_id = 2;
-$image = "url.com";
+$image = "images/jalapeno.png";
 $review = "Blank";
 
 if(!$stmt->execute()){
@@ -37,7 +37,7 @@ $description = $conn->real_escape_string("A chipotle is a smoke dried jalapeno c
 $price = 2.00;
 $quantity = 25;
 $heat_id = 3;
-$image = "url.com";
+$image = "images/chipotle.png";
 $review = "Blank";
 
 if(!$stmt->execute()){
@@ -55,7 +55,7 @@ $description = $conn->real_escape_string("A serrano pepper is a type of chili pe
 $price = 2.00;
 $quantity = 25;
 $heat_id = 3;
-$image = "url.com";
+$image = "images/serrano.png";
 $review = "Blank";
 
 if(!$stmt->execute()){
@@ -73,7 +73,7 @@ $description = $conn->real_escape_string("The Tabasco pepper is a variety of chi
 $price = 2.00;
 $quantity= 25;
 $heat_id = 3;
-$image = "url.com";
+$image = "images/tabasco.png";
 $review = "Blank";
 
 if(!$stmt->execute()){
@@ -86,12 +86,12 @@ if(!$stmt->execute()){
 # ITEM 5 #
 ##########
 $cat_id = 1;
-$product_name = "Cayaenne";
+$product_name = "Cayenne";
 $description = $conn->real_escape_string("The Cayenne is a red, hot chili pepper used to flavor dishes, and for medicinal purposes. Named for the city of Cayenne in French Guiana, it is a cultivar of Capsicum annuum related to bell peppers, jalapenos, and others. The capsicum genus is in the nightshade family. The fruits are generally dried and ground, or pulped and baked into cakes, which are then ground and sifted to make the powder, Cayenne pepper. Cayenne is used in cooking spicy hot dishes, as a powder or in its whole form or in a thin, vinegar based sauce. It is generally rated at 30,000 to 50,000 Scoville Units. It is also used as a herbal supplement, and was mentioned by Nicholas Culpeper in his Complete Herbal. ");
 $price = 2.00;
 $quantity = 25;
 $heat_id = 3;
-$image = "url.com";
+$image = "images/cayenne.png";
 $review = "Blank";
 
 if(!$stmt->execute()){
@@ -109,7 +109,7 @@ $description = $conn->real_escape_string("Thai pepper in Thai refers to any of t
 $price = 2.00;
 $quantity = 25;
 $heat_id = 4;
-$image = "url.com";
+$image = "images/thai.png";
 $review = "Blank";
 
 if(!$stmt->execute()){
@@ -127,7 +127,7 @@ $description = $conn->real_escape_string("The Datil is an exceptionally hot pepp
 $price = 2.00;
 $quantity = 25;
 $heat_id = 4;
-$image = "url.com";
+$image = "images/datil.png";
 $review = "Blank";
 
 if(!$stmt->execute()){
@@ -140,12 +140,12 @@ if(!$stmt->execute()){
 # ITEM 8 #
 ##########
 $cat_id = 1;
-$product_name = "Fatilli";
+$product_name = "Fatalii";
 $description = $conn->real_escape_string("The Fatalii is a chili pepper of Capsicum chinense that originates in central and southern Africa. It is described to have a fruity, citrus flavor with a searing heat that is comparable to the standard habanero. The Scoville Food Institute lists the Fatalii as the sixth hottest pepper with Scoville units ranging from 125,000 to 325,000 units. The plants grow 20 to 25 inches in height, and plant distance should be about the same. The pendant pods get 2.5 to 3.5 inches long and about 0.75 to 1.5 inches wide. From a pale green, they mature to a bright yellow. The Fatalii is known for its extreme heat and citrus flavor. Because of such flavor and heat it makes for a unique hot sauce that usually compromises of other citrus flavors like lime and lemon. The walls of the peppers are very thin which makes it very easy to dry. After drying they can be used as powders.");
 $price = 2.00;
 $quantity = 25;
 $heat_id = 4;
-$image = "url.com";
+$image = "images/fatalii.png";
 $review = "Blank";
 
 if(!$stmt->execute()){
@@ -163,7 +163,7 @@ $description = $conn->real_escape_string("The Carolina Reaper is a hybrid chili 
 $price = 10.00;
 $quantity = 25;
 $heat_id = 5;
-$image = "url.com";
+$image = "images/carolinareaper.png";
 $review = "Blank";
 
 if(!$stmt->execute()){

@@ -175,7 +175,7 @@ function getProducts(callback) {
 }
 
 function getCart(callback) {
-  getGeneric("getCart", null, function(data) {
+  getGeneric("getCart", {"user_id": 1}, function(data) { // TODO: remove user_id hack
     if (data) {
       for (var key in data) {
         var item = data[key];
@@ -191,7 +191,7 @@ function getCart(callback) {
 }
 
 function postCart(productID, quantity) {
-  getGeneric("postCart", {"user_id": 1, "product_id": productID, "quantity": quantity}, null);
+  getGeneric("postCart", {"product_id": productID, "quantity": quantity, "user_id": 1}, null); // TODO: remove user_id hack
   //$.post("postCart", {"id": productID, "quantity": quantity});
 }
 
@@ -243,7 +243,7 @@ function populateProductGrid(product) {
   }
   var card = "<div id='" + product.id + "' class='PG-card card rounded expand d-none'>"
               + "<a class='pointer-hand' href='product?" + product.id + "'>"
-                + "<img class='card-img-top' src='" + product.url + "' alt='" + product.name + "'>"
+                + "<img class='card-img-top PG-image' src='" + product.url + "' alt='" + product.name + "'>"
                 + "<h4 class='card-title ml-3'>" + product.name + "</h4>"
               + "</a>"
               + "<div class='card-body'>"
