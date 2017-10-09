@@ -1,6 +1,5 @@
 <?php
     require_once("../src/config.php");
-    include_once("../src/generate_dummy_data_for_db.php");
 
     session_start(); // TODO: use IP as id if cookies disabled
     setcookie("TestCookie", "testVaue", time()+3600);
