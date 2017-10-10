@@ -4,10 +4,47 @@ Jalapeñcode is a project for CSUF CPSC 362 - Foundations of Software Engineerin
 We are creating an online shopping cart for chili peppers and related products.
 
 ### Technology Profile
-* PHP
-* MySQL
-* Bootstrap
-* jQuery
+* PHP 7.1
+* MySQL 5.7
+* Bootstrap 4.0
+* jQuery 3.2
+* GitHub
+
+### Set up
+#### Windows
+The easiest set up is to install a pre-bundled package such as AppServ. All development will occur within _AppServ/www_.
+
+Optionally, each technology can be installed separately. Install PHP. Install MySQL following the development path. At the time of this writing, PHP 7.1.10 and MySQL 5.7.16 were used. Add the path to the PHP install to user or environment _$PATH_. Create a copy of _php.ini-development_ and rename it as _php.ini_. Uncomment the following lines:
+
+* extension_dir = "ext"
+* extension=php_mysqli.dll
+
+#### OSX
+Install Homebrew. Use homebrew to install PHP and MySQL.
+
+#### Post-install activities
+Launch the MySQL server and run queries in db_prep.php to create the database with initial data.
+
+#### Running with PHP built-in server
+In terminal/command prompt, navigate to the project's root. Type "_php -S localhost:8080 -t public/_". Open a web browser at localhost:8080 to view the project.
+
+#### Running with Apache HTTPD
+If this project is the only project, open _httpd.conf_ and point _DocumentRoot_ to the project's public folder. For the directory, change _AllowOverride None_ to _AllowOverride All_.
+
+If this project is not the only project, open _httpd.conf_ and add:
+```
+Alias "/jalapencode" "PATH_TO_PROJECT/public"
+<Directory "PATH_TO_PROJECT/public">
+    AllowOverride All
+    Require all granted
+</Directory>
+```
+In the case of separate installs, modify httpd.conf to enable PHP.
+
+Under the public folder, add a htaccess file with:
+```
+FallbackResource index.php
+```
 
 ### Project management & Issue tracking
 https://trello.com/b/w4mvuNog/cs-362
@@ -25,6 +62,7 @@ https://trello.com/b/w4mvuNog/cs-362
 * Add user accounts
 
 ### TODO list
+first iteration change search clear to a go button
 * populate DB
 * create DB purge/repopulate script
 * account login/signup page
