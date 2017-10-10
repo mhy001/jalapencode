@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 require_once('config.php');
 
@@ -26,7 +26,7 @@ echo "<br /> BREAK 2 <br />";
     }else{
         //echo "Database selected";
     }
-    
+
 
 $sql = "
 CREATE TABLE INVENTORY (
@@ -66,7 +66,8 @@ CREATE TABLE TRANSACTION_HISTORY(
 
 CREATE TABLE CART (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  inventory_id INT(100) NOT NULL
+  inventory_id INT(100) NOT NULL,
+  quantity INT NOT NULL
 );";
 
 

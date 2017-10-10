@@ -149,8 +149,9 @@ function getGeneric(route, requestData, callback) {
     callback && callback(data);
   })
   .fail(function(jqXHR, textStatus, error) {
-    var message = "<p class='font-weight-bold'>Looks like something went wrong!</p>"
-                + "<p>Try refeshing.</p>";
+    var message = "<div class='message-text'><p class='font-weight-bold'>Looks like something went wrong!</p>"
+                + "<p>Try refeshing.</p></div>";
+    $(".message-text").remove();
     $(".message").append(message);
     $(".loader").remove();
   });
@@ -175,7 +176,7 @@ function getProducts(callback) {
 }
 
 function getCart(callback) {
-  getGeneric("getCart", {"user_id": 1}, function(data) { // TODO: remove user_id hack
+  getGeneric("getCart", null, function(data) {
     if (data) {
       for (var key in data) {
         var item = data[key];
@@ -191,8 +192,7 @@ function getCart(callback) {
 }
 
 function postCart(productID, quantity) {
-  getGeneric("postCart", {"product_id": productID, "quantity": quantity, "user_id": 1}, null); // TODO: remove user_id hack
-  //$.post("postCart", {"id": productID, "quantity": quantity});
+  $.post("postCart", {"id": productID, "quantity": quantity});
 }
 
 /*
@@ -242,8 +242,9 @@ function populateProductGrid(product) {
           + "</svg>";
   }
   var card = "<div id='" + product.id + "' class='PG-card card rounded expand d-none'>"
+              //+ "<div id='overlay_" + product.id + "' class='PG-card-overlay'> </div>"
               + "<a class='pointer-hand' href='product?" + product.id + "'>"
-                + "<img class='card-img-top PG-image' src='" + product.url + "' alt='" + product.name + "'>"
+                + "<img class='card-img-top PG-card-image' src='" + product.url + "' alt='" + product.name + "'>"
                 + "<h4 class='card-title ml-3'>" + product.name + "</h4>"
               + "</a>"
               + "<div class='card-body'>"
@@ -263,9 +264,9 @@ function populateProductGrid(product) {
 function disableProductCard(product) {
   // TODO: create outofstock overlay
   if (product.quantity <= 0) {
-    $("#"+product.id).addClass("asdf");
+    $("#"+product.id+"> .btn-cart-add").prop("disabled", true);
   } else {
-    $("#"+product.id).removeClass("asdf");
+    $("#"+product.id+"> .btn-cart-add").prop("disabled", false);
   }
 }
 
@@ -291,11 +292,13 @@ function filterProductCard() {
  * CART PAGE
  */
 function populateCartList(item) {
-  var product = item.product;
+  var product = new Product(item.product);
   var card = "<div id='" + product.id + "' class='d-flex flex-row'>"
-              + "<img class='' src='" + product.imageURL + "' alt='" + product.name + "'>"
-              + "<span class=''> Name: " + product.name + "</span>"
-              + "<span class=''> Count: " + item.count + "</span>"
+              + "<img class='PG-card-image' src='" + product.url + "' alt='" + product.name + "'>"
+              + "<div>"
+                + "<p>Name: " + product.name + "</p>"
+                + "<p>Quantity: " + item.count + "</p>"
+              +"</div>"
             + "</div>";
 
   $("#cartList").append(card);

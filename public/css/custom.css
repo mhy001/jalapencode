@@ -28,7 +28,15 @@ body {
 .PG-card {
   height: 350px;
 }
-.PG-image {
+.PG-card-overlay {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background-color: grey;
+  opacity: .35;
+  z-index: 11;
+}
+.PG-card-image {
   height: 150px;
 }
 .expand {

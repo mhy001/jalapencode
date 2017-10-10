@@ -65,8 +65,7 @@ https://trello.com/b/w4mvuNog/cs-362
 
 ### TODO list
 first iteration change search clear to a go button
-* populate DB
-* create DB purge/repopulate script
+* multicustomer cart
 * account login/signup page
 * account settings page
     * manage account information

@@ -2,26 +2,34 @@
 /* Purpose: Return JSON of customer cart */
 
 header('Content-type: application/json');
+require_once("config.php");
+
+$sql = "SELECT CART.quantity as cart_count, INVENTORY.* FROM CART INNER JOIN INVENTORY ON CART.inventory_id=INVENTORY.id";
+$result = $conn->query($sql);
 $cart = array();
 
-for ($x = 0; $x < 5; $x++) {
-  $item = new StdClass;
-  $item->id = $x;
-  $item->name = "Pikachu";
-  $item->imageURL = "images/pikachu.jpg";
-  $item->description = "PIKA PIKA";
-  $item->heatRating = 5.0;
-  $item->reviewRating = 5.0;
-  $item->price = 99.99;
-  $item->quantity = 10;
-  $item->category = 0;
+if (!$result) {
+  echo $sql . "Query failed" . $conn->error;
+} else {
+  while ($row = $result->fetch_assoc()) {
+    $item = new stdClass;
+    $item->id = $row["id"];
+    $item->product_name = $row["product_name"];
+    $item->image = $row["image"];
+    $item->description = $row["description"];
+    $item->heat_id = $row["heat_id"];
+    $item->review = $row["review"];
+    $item->price = $row["price"];
+    $item->quantity = $row["quantity"];
+    $item->cat_id = $row["cat_id"];
 
-  $cartItem = new StdClass;
-  $cartItem->count = 11 - $x;
-  $cartItem->product = $item;
-  $cart[] = $cartItem;
+    $cartItem = new stdClass;
+    $cartItem->count = $row["cart_count"];
+    $cartItem->product = $item;
+    $cart[] =  $cartItem;
+  }
+
+  echo json_encode($cart);
 }
 
-echo json_encode($cart);
-
- ?>
+?>
