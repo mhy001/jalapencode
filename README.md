@@ -29,7 +29,7 @@ Launch the MySQL server and run queries in db_prep.php to create the database wi
 In terminal/command prompt, navigate to the project's root. Type "_php -S localhost:8080 -t public/_". Open a web browser at localhost:8080 to view the project.
 
 #### Running with Apache HTTPD
-If this project is the only project, open _httpd.conf_ and point _DocumentRoot_ to the project's public folder. For the directory, change _AllowOverride None_ to _AllowOverride All_.
+If this project is the only project, open _httpd.conf_ and point _DocumentRoot_ to the project's public folder. For the directory, change _AllowOverride None_ to _AllowOverride All_. Open a web browser at localhost to view the project.
 
 If this project is not the only project, open _httpd.conf_ and add:
 ```
@@ -39,6 +39,8 @@ Alias "/jalapencode" "PATH_TO_PROJECT/public"
     Require all granted
 </Directory>
 ```
+Open a web browser at localhost/jalapencode to view the project.
+
 In the case of separate installs, modify httpd.conf to enable PHP.
 
 Under the public folder, add a htaccess file with:
