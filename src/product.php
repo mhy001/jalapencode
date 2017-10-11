@@ -3,17 +3,28 @@
 
 $request_uri = explode('?', $_SERVER['REQUEST_URI'], 2);
 
-$item = new StdClass;
+require_once("config.php");
 
-$item->name = "Pikachu";
-$item->imageURL = "images/pikachu.jpg";
-$item->description = "PIKA PIKA";
-$item->heatRating = 5.0;
-$item->reviewRating = 5.0;
-$item->price = 99.99;
-$item->id = $request_uri[1];
-$item->quantity = 10;
+$sql = "SELECT * FROM INVENTORY WHERE id={$request_uri[1]}";
+$result = $conn->query($sql);
 
-require '../public/view/product.phtml';
+if (!$result) {
+  echo "Query fail" .  $conn->error . "<br />";
+} else {
+  $row = $result->fetch_assoc();
+
+  $item = new stdClass;
+  $item->id = $row["id"];
+  $item->product_name = $row["product_name"];
+  $item->image = $row["image"];
+  $item->description = $row["description"];
+  $item->heat_id = $row["heat_id"];
+  $item->review = $row["review"];
+  $item->price = $row["price"];
+  $item->quantity = $row["quantity"];
+  $item->cat_id = $row["cat_id"];
+
+  require '../public/view/product.phtml';
+}
 
 ?>

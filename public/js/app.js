@@ -87,8 +87,6 @@ var cart = new Cart(); // Customer cart
 $(document).ready(function() {
   // navbar
   if ($("#navbar").length) {
-    getCart(populateCartList);
-
     $("#searchText").keyup(function(e) {
       if (e.keyCode == 13) {
         if ($("#productGrid").length) {
@@ -134,10 +132,29 @@ $(document).ready(function() {
         postCart(product.id, 1);
       }
     });
+  } else { // get product list
+    getProducts();
   }
 
   // cart page
   if ($("#cartList").length) {
+    getCart(populateCartList);
+  } else { // get cart for count in navbar
+    getCart();
+  }
+
+  // product page
+  if ($("#productPage").length) {
+    $(".btn-cart-add").click(function() {
+      var itemID = $("#id").val();
+      var product = products.get(itemID);
+
+      if (cart.add(product)) {
+        updateCartButton();
+        updatePageQuantity(1);
+        postCart(product.id, 1);
+      }
+    });
   }
 });
 
@@ -169,6 +186,24 @@ function getProducts(callback) {
         }
       } else {
         $(".message").append("<span>0 items found</span>");
+      }
+      $(".loader").remove();
+    }
+  });
+}
+
+function getProduct(callback) {
+  getGeneric("getProduct", null, function(data) {
+    if (data) {
+      if (data.length) {
+        for (var key in data) {
+          var product = new Product(data[key]);
+
+          products.set(product.id, product);
+          callback && callback(product); // UI update for products
+        }
+      } else {
+        $(".message").append("<span>Item " + product.id +" found</span>");
       }
       $(".loader").remove();
     }
@@ -248,7 +283,7 @@ function populateProductGrid(product) {
                 + "<h4 class='card-title ml-3'>" + product.name + "</h4>"
               + "</a>"
               + "<div class='card-body'>"
-                + "<p class='text-preview'>" + product.description + "</p>"
+                + "<p class='text-preview' title='" + product.description + "'>" + product.description + "<span>...</span>" + "</p>"
                 + "<div>"
                   + "<span class=''>" + heat + "</span>"
                   + "<span class='text-danger float-right'>$" + product.price + "</span>"
@@ -302,4 +337,9 @@ function populateCartList(item) {
             + "</div>";
 
   $("#cartList").append(card);
+}
+
+function updatePageQuantity(quantityChange) {
+  var quantity = parseInt($("#productQuantity").text()) - quantityChange;
+  $("#productQuantity").text(quantity);
 }

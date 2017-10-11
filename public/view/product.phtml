@@ -9,7 +9,9 @@
     <div class="message text-center">
       <noscript>JavaScript must be enabled!</noscript>
     </div>
-    <div>
+    <div class='loader'>Loading...</div>
+
+    <div id="productPage">
       <table class="table">
         <thead>
           <th>Attribute</th>
@@ -17,36 +19,31 @@
         </thead>
         <tbody>
           <tr>
-            <td>ID</td>
-            <td><?php echo $item->id ?></td>
+            <td><span>Name</span></td>
+            <td><span><?php echo $item->product_name ?></td>
           </tr>
           <tr>
-            <td>Name</td>
-            <td><?php echo $item->name ?></td>
+            <td><span>Description</span></td>
+            <td><span><?php echo $item->description ?></span></td>
           </tr>
           <tr>
-            <td>Description</td>
-            <td><?php echo $item->description ?></td>
+            <td><span>Price</span></td>
+            <td><span><?php echo $item->price ?></span></td>
           </tr>
           <tr>
-            <td>Price</td>
-            <td><?php echo $item->price ?></td>
+            <td><span>Heat</span></td>
+            <td><span><?php echo $item->heat_id ?></span></td>
           </tr>
           <tr>
-            <td>Heat</td>
-            <td><?php echo $item->heatRating ?></td>
+            <td><span>Quantity</span></td>
+            <td><span id="productQuantity"><?php echo $item->quantity ?></span></td>
           </tr>
           <tr>
-            <td>Review</td>
-            <td><?php echo $item->reviewRating ?></td>
+            <td><span>Image</span></td>
+            <td><img class="PG-card-image" src="<?php echo $item->image ?>"></td>
           </tr>
           <tr>
-            <td>Quantity</td>
-            <td><?php echo $item->quantity ?></td>
-          </tr>
-          <tr>
-            <td>Image</td>
-            <td><img src="<?php echo $item->imageURL ?>"></td>
+            <td><button class='btn-cart-add btn btn-warning text-dark m-2'>Add to cart</button></td>
           </tr>
         </tbody>
       </table>
