@@ -64,11 +64,12 @@ https://trello.com/b/w4mvuNog/cs-362
 * Add user accounts
 
 ### TODO list
-* search & filter
 * account login/signup page
 * account settings page
     * manage account information
     * check transaction history
 * account authentication
 * make pages prettier
+    * product page
+    * cart page
 * multi-customer cart

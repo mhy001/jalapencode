@@ -2,15 +2,18 @@
  * Product class
  */
 function Product(product) {
+  // Attributes from database
   this.id = String(product.id);
   this.name = String(product.product_name);
   this.url = String(product.image);
   this.description = String(product.description);
-  this.heat = String(product.heat_id);
+  this.heat = parseInt(product.heat_id);
   this.review = String(product.review);
   this.price = parseFloat(product.price);
   this.quantity = parseInt(product.quantity);
   this.category = parseInt(product.cat_id);
+
+  // Calculated attributes
   this.maxQuantity = parseInt(product.quantity);
 }
 Product.prototype.deplete = function(quantity) {
@@ -77,41 +80,41 @@ Cart.prototype.restore = function(product, quantity) {
   return 1;
 }
 
-// Global variables....meh
+/*
+ * Global variables...meh
+ */
+// Really global
 var products = new Map(); // {productID: product}
 var cart = new Cart(); // Customer cart
 
+// Global in context of home page
+var filters = new function() {
+  this.count = 0;
+  this.search = "";
+  this.filters = new Map();
+  this.filters.set("heat", new Set());
+  this.filters.set("price", new Set());
+
+  this.add = function(type, value) {
+    this.count++;
+    this.filters.get(type).add(parseInt(value));
+  }
+  this.remove = function(type, value) {
+    this.count--;
+    this.filters.get(type).delete(parseInt(value));
+  }
+  this.forEach = function(callback, thisArg) {
+    this.filters.forEach(callback, thisArg);
+  }
+}
+
 /*
- * PAGE SET-UP
+ * PAGE SETUP
  */
 $(document).ready(function() {
   // navbar
   if ($("#navbar").length) {
-    $("#searchText").keyup(function(e) {
-      if (e.keyCode == 13) {
-        if ($("#productGrid").length) {
-        // TODO: if on home page, filter cards
-
-        } else {
-        // TODO: if not on home page, get home?searchString
-
-        }
-        console.log("enter key");
-      } else {
-        toggleSearchClearImage();
-        if ($("#productGrid").length) {
-        // TODO: if on home page, toggleProductCard
-
-        } else {
-        // TODO: if not on home page, do nothing
-
-        }
-      }
-    });
-    $("#searchClear").click(function() {
-      $("#searchText").val("");
-      $(this).addClass("invisible");
-    });
+    setup_search();
   } else {
     console.log("NAVBAR MISSING!!! WHAT HAPPENED?!");
     return;
@@ -119,20 +122,14 @@ $(document).ready(function() {
 
   // home page
   if ($("#productGrid").length) {
-    showSearchString();
+    resolveSearchString();
     getProducts(populateProductGrid);
+    setup_addCart();
 
-    $("#productGrid").on("click", ".btn-cart-add", function() {
-      var itemID = this.parentElement.id;
-      var product = products.get(itemID);
-
-      if (cart.add(product)) {
-        disableProductCard(product);
-        updateCartButton();
-        postCart(product.id, 1);
-      }
-    });
-  } else { // get product list
+    if ($("#filter").length) {
+      setup_filter();
+    }
+  } else {
     getProducts();
   }
 
@@ -145,16 +142,7 @@ $(document).ready(function() {
 
   // product page
   if ($("#productPage").length) {
-    $(".btn-cart-add").click(function() {
-      var itemID = $("#id").val();
-      var product = products.get(itemID);
-
-      if (cart.add(product)) {
-        updateCartButton();
-        updatePageQuantity(1);
-        postCart(product.id, 1);
-      }
-    });
+    setup_addCart2();
   }
 });
 
@@ -174,7 +162,7 @@ function getGeneric(route, requestData, callback) {
   });
 }
 
-function getProducts(callback) {
+function getProducts(callback) { // get all products
   getGeneric("getProducts", null, function(data) {
     if (data) {
       if (data.length) {
@@ -192,7 +180,7 @@ function getProducts(callback) {
   });
 }
 
-function getProduct(callback) {
+function getProduct(callback) { // get single product for product page
   getGeneric("getProduct", null, function(data) {
     if (data) {
       if (data.length) {
@@ -210,7 +198,7 @@ function getProduct(callback) {
   });
 }
 
-function getCart(callback) {
+function getCart(callback) { // get customer cart
   getGeneric("getCart", null, function(data) {
     if (data) {
       for (var key in data) {
@@ -226,14 +214,41 @@ function getCart(callback) {
   });
 }
 
-function postCart(productID, quantity) {
+function postCart(productID, quantity) { // update customer cart content
   $.post("postCart", {"id": productID, "quantity": quantity});
 }
 
 /*
  * NAVBAR
  */
-function updateCartButton() {
+function setup_search() {
+  $("#searchText").keyup(function(e) {
+    if (e.keyCode == 13) { // enter key
+      if (!$("#searchString").length || $("#searchString").val().localeCompare($("#searchText").val())) {
+        var newURL = location.origin + "/?" + $("#searchText").val();
+        location.replace(newURL);
+      }
+    } else {
+      toggleSearchClearImage();
+    }
+  });
+
+  $("#searchClear").click(function() {
+    $("#searchText").val("");
+    $(this).addClass("invisible");
+
+    if ($("#productGrid").length) {
+      history.replaceState({}, "", location.origin);
+      filters.search = "";
+      $("#searchString").val("");
+      products.forEach(function(product, key, map) {
+        applyFilters(product);
+      });
+    }
+  });
+}
+
+function updateCartButton() { // updates the cart button number
   if (cart.count < 10) {
     $("#cartButtonCount").css('left', 23);
   } else if (cart.count > 99) {
@@ -249,14 +264,6 @@ function showCartButtonCount() {
   $("#cartButtonCount").toggleClass("d-none");
 }
 
-function showSearchString() {
-  var str = $("#searchString").val();
-  if (str) {
-    $("#searchText").val(str);
-    toggleSearchClearImage();
-  }
-}
-
 function toggleSearchClearImage() {
   if ($("#searchText").val()) {
     $("#searchClear").removeClass("invisible");
@@ -266,9 +273,72 @@ function toggleSearchClearImage() {
 }
 
 /*
- * INDEX PAGE
+ * HOME PAGE
  */
-function populateProductGrid(product) {
+function setup_addCart() {
+  $("#productGrid").on("click", ".btn-cart-add", function() {
+    var itemID = this.parentElement.id;
+    var product = products.get(itemID);
+
+    if (cart.add(product)) {
+      disableProductCard(product);
+      updateCartButton();
+      postCart(product.id, 1);
+    }
+  });
+}
+
+function setup_filter() {
+  $("#filterButton").click(function() {
+    $("#filterMenu").toggleClass("d-none");
+    $("#filterMenu").toggleClass("d-flex");
+    $("#filterMenu").toggleClass("flex-column");
+  });
+
+  $(".filter-item > input").change(function() {
+    if (this.checked) {
+      filters.add(this.name, this.value);
+    } else {
+      filters.remove(this.name, this.value);
+    }
+    products.forEach(function(product, key, map) {
+      applyFilters(product);
+    });
+  });
+}
+
+function resolveSearchString() { // show search string in search box
+  var str = $("#searchString").val();
+  if (str) {
+    $("#searchText").val(str);
+    filters.search = str.toLowerCase();
+    toggleSearchClearImage();
+  }
+}
+
+function applyFilters(product) { // apply search & filter to product card
+  var show = true;
+
+  if (filters.search) {
+    show = product.name.toLowerCase().includes(filters.search);
+  }
+
+  if (filters.count) {
+    filters.forEach(function(filter, key, map) {
+      if (filter.size) {
+        show &= filter.has(this[key]);
+      }
+    }, product);
+  }
+
+  if (show) {
+    $("#"+product.id).removeClass("d-none");
+  } else {
+    $("#"+product.id).addClass("d-none");
+  }
+}
+
+function populateProductGrid(product) { // create product card
   var heat = "";
   for (i = 0; i < product.heat; i++) {
     heat += "<svg class='fire' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'>"
@@ -293,11 +363,10 @@ function populateProductGrid(product) {
             + "</div>";
   $("#productGrid").append(card);
   disableProductCard(product);
-  toggleProductCard(product);
+  applyFilters(product);
 }
 
-function disableProductCard(product) {
-  // TODO: create outofstock overlay
+function disableProductCard(product) { // product out of stock
   if (product.quantity <= 0) {
     $("#"+product.id+"> .btn-cart-add").prop("disabled", true);
   } else {
@@ -305,28 +374,10 @@ function disableProductCard(product) {
   }
 }
 
-function toggleProductCard(product) {
-  var str = $("#searchString").val();
-  if (str) {
-    if (product.name.includes(str)) {
-      $("#"+product.id).removeClass("d-none");
-    } else {
-      $("#"+product.id).addClass("d-none");
-    }
-  } else {
-    $("#"+product.id).removeClass("d-none");
-  }
-}
-
-function filterProductCard() {
-  // TODO: filter by name, heat, category, ...
-  products.forEach();
-}
-
 /*
  * CART PAGE
  */
-function populateCartList(item) {
+function populateCartList(item) { // create cart card
   var product = new Product(item.product);
   var card = "<div id='" + product.id + "' class='d-flex flex-row'>"
               + "<img class='PG-card-image' src='" + product.url + "' alt='" + product.name + "'>"
@@ -339,7 +390,29 @@ function populateCartList(item) {
   $("#cartList").append(card);
 }
 
+/*
+ * PRODUCT PAGE
+ */
+function setup_addCart2() {
+  $(".btn-cart-add").click(function() {
+    var itemID = $("#id").val();
+    var product = products.get(itemID);
+
+    if (cart.add(product)) {
+      updateCartButton();
+      updatePageQuantity(1);
+      postCart(product.id, 1);
+    }
+  });
+}
+
 function updatePageQuantity(quantityChange) {
   var quantity = parseInt($("#productQuantity").text()) - quantityChange;
+
+  if (quantity <= 0) {
+    $(".btn-cart-add").prop("disabled", true);
+  } else {
+    $(".btn-cart-add").prop("disabled", false);
+  }
   $("#productQuantity").text(quantity);
 }

@@ -20,6 +20,48 @@ body {
   text-align: center;
 }
 
+.filter-set {
+  font-size: small;
+  padding: .5em 1em;
+}
+.filter-set > ul {
+  margin-bottom: 0;
+}
+
+#filterButton {
+  background-image: url("../icon/filter.png");
+  background-repeat: no-repeat;
+  background-position-y: center;
+  background-position-x: 3px;
+  padding-left: 30px;
+}
+.arrow-up {
+  position: relative;
+}
+.arrow-up:after,
+.arrow-up:before {
+  position: absolute;
+  display: block;
+  left: 50%;
+  margin-left:  -10px;
+  content: '';
+  width: 0;
+  height: 0;
+  border-style: solid;
+}
+.arrow-up:after {
+  /*border-color: transparent transparent #f8f9fa transparent;*/
+  border-color: transparent transparent #f8f9fa transparent;
+  border-width: 10px;
+  top: -19px;
+}
+.arrow-up:before {
+    /*border-color: transparent transparent #868e96 transparent;*/
+  border-color: transparent transparent #868e96 transparent;
+  border-width: 10px;
+  top: -20px;
+}
+
 #productGrid {
   justify-content: center;
   display: grid;
@@ -111,7 +153,6 @@ body {
 .nav-line {
   display: block;
 }
-
 
 .icon-thumbnail {
   margin: 5px;

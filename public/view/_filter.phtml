@@ -1,0 +1,115 @@
+<div id="filter" class="mb-3">
+  <div class="d-flex justify-content-center mb-2">
+    <button id="filterButton" type="button" class="btn btn-warning">Filters</button>
+  </div>
+  <div id="filterMenu" class="d-none justify-content-center bg-light border border-secondary border-right-0 border-bottom-0 border-left-0">
+    <div class="arrow-up"></div>
+    <div class="d-flex justify-content-center form-check">
+      <div id="filterPrice" class="filter-set">
+        <h6>Price</h6>
+        <ul class="filter-group">
+          <li class="filter-item">
+            <input class="form-check-input" type="checkbox" name="price" value="1" >
+            <span>$</span>
+          </li>
+          <li class="filter-item">
+            <input class="form-check-input" type="checkbox" name="price" value="2" >
+            <span>$$</span>
+          </li>
+          <li class="filter-item">
+            <input class="form-check-input" type="checkbox" name="price" value="3" >
+            <span>$$$</span>
+          </li>
+          <li class="filter-item">
+            <input class="form-check-input" type="checkbox" name="price" value="4" >
+            <span>$$$$</span>
+          </li>
+          <li class="filter-item">
+            <input class="form-check-input" type="checkbox" name="price" value="5" >
+            <span>$$$$$</span>
+          </li>
+        </ul>
+      </div>
+      <div id="filterHeat" class="filter-set">
+        <h6>Heat</h6>
+        <ul class="filter-group">
+          <li class="filter-item">
+            <input class="form-check-input" type="checkbox" name="heat" value="1" >
+            <svg class='fire' height='15' viewBox='0 0 24 24' width='15' xmlns='http://www.w3.org/2000/svg'>
+              <path d='M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z'/>
+              <path d='M0 0h24v24H0z' fill='none'/>
+            </svg>
+          </li>
+          <li class="filter-item">
+            <input class="form-check-input" type="checkbox" name="heat" value="2" >
+            <svg class='fire' height='15' viewBox='0 0 24 24' width='15' xmlns='http://www.w3.org/2000/svg'>
+              <path d='M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z'/>
+              <path d='M0 0h24v24H0z' fill='none'/>
+            </svg><!--
+            --><svg class='fire' height='15' viewBox='0 0 24 24' width='15' xmlns='http://www.w3.org/2000/svg'>
+              <path d='M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z'/>
+              <path d='M0 0h24v24H0z' fill='none'/>
+            </svg>
+          </li>
+          <li class="filter-item">
+            <input class="form-check-input" type="checkbox" name="heat" value="3" >
+            <svg class='fire' height='15' viewBox='0 0 24 24' width='15' xmlns='http://www.w3.org/2000/svg'>
+              <path d='M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z'/>
+              <path d='M0 0h24v24H0z' fill='none'/>
+            </svg><!--
+            --><svg class='fire' height='15' viewBox='0 0 24 24' width='15' xmlns='http://www.w3.org/2000/svg'>
+              <path d='M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z'/>
+              <path d='M0 0h24v24H0z' fill='none'/>
+            </svg><!--
+            --><svg class='fire' height='15' viewBox='0 0 24 24' width='15' xmlns='http://www.w3.org/2000/svg'>
+              <path d='M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z'/>
+              <path d='M0 0h24v24H0z' fill='none'/>
+            </svg>
+          </li>
+          <li class="filter-item">
+            <input class="form-check-input" type="checkbox" name="heat" value="4" >
+            <svg class='fire' height='15' viewBox='0 0 24 24' width='15' xmlns='http://www.w3.org/2000/svg'>
+              <path d='M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z'/>
+              <path d='M0 0h24v24H0z' fill='none'/>
+            </svg><!--
+            --><svg class='fire' height='15' viewBox='0 0 24 24' width='15' xmlns='http://www.w3.org/2000/svg'>
+              <path d='M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z'/>
+              <path d='M0 0h24v24H0z' fill='none'/>
+            </svg><!--
+            --><svg class='fire' height='15' viewBox='0 0 24 24' width='15' xmlns='http://www.w3.org/2000/svg'>
+              <path d='M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z'/>
+              <path d='M0 0h24v24H0z' fill='none'/>
+            </svg><!--
+            --><svg class='fire' height='15' viewBox='0 0 24 24' width='15' xmlns='http://www.w3.org/2000/svg'>
+              <path d='M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z'/>
+              <path d='M0 0h24v24H0z' fill='none'/>
+            </svg>
+          </li>
+          <li class="filter-item">
+            <input class="form-check-input" type="checkbox" name="heat" value="5" >
+            <svg class='fire' height='15' viewBox='0 0 24 24' width='15' xmlns='http://www.w3.org/2000/svg'>
+              <path d='M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z'/>
+              <path d='M0 0h24v24H0z' fill='none'/>
+            </svg><!--
+            --><svg class='fire' height='15' viewBox='0 0 24 24' width='15' xmlns='http://www.w3.org/2000/svg'>
+              <path d='M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z'/>
+              <path d='M0 0h24v24H0z' fill='none'/>
+            </svg><!--
+            --><svg class='fire' height='15' viewBox='0 0 24 24' width='15' xmlns='http://www.w3.org/2000/svg'>
+              <path d='M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z'/>
+              <path d='M0 0h24v24H0z' fill='none'/>
+            </svg><!--
+            --><svg class='fire' height='15' viewBox='0 0 24 24' width='15' xmlns='http://www.w3.org/2000/svg'>
+              <path d='M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z'/>
+              <path d='M0 0h24v24H0z' fill='none'/>
+            </svg><!--
+            --><svg class='fire' height='15' viewBox='0 0 24 24' width='15' xmlns='http://www.w3.org/2000/svg'>
+              <path d='M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z'/>
+              <path d='M0 0h24v24H0z' fill='none'/>
+            </svg>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

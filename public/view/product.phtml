@@ -50,7 +50,7 @@
             <td><img class="PG-card-image" src="<?php echo $item->image ?>"></td>
           </tr>
           <tr>
-            <td><button class='btn-cart-add btn btn-warning text-dark m-2'>Add to cart</button></td>
+            <td><button class='btn-cart-add btn btn-warning text-dark m-2 <?php if ($item->quantity <= 0) echo "disabled" ?>'>Add to cart</button></td>
           </tr>
         </tbody>
       </table>

@@ -5,14 +5,12 @@
     setcookie("TestCookie", "testVaue", time()+3600);
 
     $request_uri = explode('?', $_SERVER['REQUEST_URI'], 2);
-    //$uri_path = explode('/', $request_uri[0]);
-    //$final_path = array_pop($uri_path);
 
     switch ($request_uri[0]) {
       case '/': //home page
         require '../src/home.php';
         break;
-      case '/getProducts': // get json of product list
+      case '/getProducts': // get json of products
         require '../src/getProducts.php';
         break;
       case '/getCart': // get json of customer cart
