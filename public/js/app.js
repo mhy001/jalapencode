@@ -385,18 +385,21 @@ function disableProductCard(product) { // product out of stock
  */
 function populateCartList(item) { // create cart card
   var product = new Product(item.product);
-  var card = "<tr id='" + product.id + "'>"
+  var card = "<tr id='" + product.id + "' class='border border-secondary border-left-0 border-right-0'>"
               + "<td>"
-                + "<img class='PG-card-image' src='" + product.url + "' alt='" + product.name + "'>"
+                + "<a class='pointer-hand' href='product?" + product.id + "'>"
+                  + "<img class='cart-image ml-3' src='" + product.url + "' alt='" + product.name + "'>"
+                  + "<span class='ml-5 h4'>" + product.name + "</span>"
+                + "</a>"
               + "</td>"
               + "<td>"
-                + "<span>" + product.name + "</span>"
+
               + "</td>"
               + "<td>"
-                + "<span>$" + product.price.toFixed(2) + "</span>"
+                + "<span class='text-danger h5'>$" + product.price.toFixed(2) + "</span>"
               + "</td>"
               + "<td>"
-                + "<span>" + item.count + "</span>"
+                + "<span class='h5'>" + item.count + "</span>"
               + "</td>"
             + "</tr>"
 

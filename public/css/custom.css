@@ -187,6 +187,11 @@ body {
   margin-right: 30px;
 }
 
+.cart-image {
+  height: 150px;
+  width: 150px;
+}
+
 
 
 .loader,
