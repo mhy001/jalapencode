@@ -141,7 +141,8 @@ $(document).ready(function() {
   // cart page
   if ($("#cartList").length) {
     getCart(populateCartList);
-    setup_changeCart();
+    setup_modifyCartContent();
+    setup_removeCartContent();
   } else { // get cart for count in navbar
     getCart();
   }
@@ -361,7 +362,7 @@ function populateProductGrid(product) { // create product card
   }
   var card = "<div id='" + product.id + "' class='PG-card card rounded expand d-none'>"
               //+ "<div id='overlay_" + product.id + "' class='PG-card-overlay'> </div>"
-              + "<a class='pointer-hand' href='product?" + product.id + "'>"
+              + "<a class='pointer-hand product-link' href='product?" + product.id + "'>"
                 + "<img class='card-img-top PG-card-image' src='" + product.url + "' alt='" + product.name + "'>"
                 + "<h4 class='card-title ml-3'>" + product.name + "</h4>"
               + "</a>"
@@ -390,7 +391,7 @@ function disableProductCard(product) { // product out of stock
 /*
  * CART PAGE
  */
-function setup_changeCart() {
+function setup_modifyCartContent() {
   $("#cartList").on("change", ".cart-select", function() {
     var itemID = this.closest("tr").id;
     var product = products.get(itemID);
@@ -399,29 +400,55 @@ function setup_changeCart() {
     if (cart.add(product, countChange)) {
       updateCartButton();
       showCartSubtotal();
-      postCart(product.id, countChange); 
+      postCart(product.id, countChange);
     }
   });
 }
+
+function setup_removeCartContent() {
+  $("#cartList").on("click", ".btn-cart-remove", function() {
+    var itemID = this.closest("tr").id;
+    var product = products.get(itemID);
+    var count = cart.items.get(itemID);
+
+    if (cart.add(product, -count)) {
+      updateCartButton();
+      showCartSubtotal();
+      $("#" + itemID).remove();
+      postCart(product.id, -count);
+    }
+  });
+}
+
 function populateCartList(item) { // create cart card
   var product = new Product(item.product);
+  var count = parseInt(item.count);
   var options = "";
-  for (i = 1; i <= product.maxQuantity+item.count; i++) {
+  for (i = 1; i <= product.maxQuantity+count; i++) {
     options += "<option value='" + i + "'";
-    if (i == item.count) {
+    if (i == count) {
       options += " selected";
     }
     options += ">"+ i +"</option>";
   }
 
   var card = "<tr id='" + product.id + "' class='border border-secondary border-left-0 border-right-0'>"
-              + "<td>"
-                + "<a class='pointer-hand' href='product?" + product.id + "'>"
-                  + "<img class='cart-image ml-3' src='" + product.url + "' alt='" + product.name + "'>"
-                + "</a>"
-                + "<a class='pointer-hand' href='product?" + product.id + "'>"
-                  + "<span class='ml-5 h4'>" + product.name + "</span>"
-                + "</a>"
+              + "<td class='d-flex'>"
+                + "<div>"
+                  + "<a class='pointer-hand' href='product?" + product.id + "'>"
+                    + "<img class='cart-image ml-3' src='" + product.url + "' alt='" + product.name + "'>"
+                  + "</a>"
+                + "</div>"
+                + "<div class='ml-5 d-flex flex-column'>"
+                  + "<div class='flex-5 d-flex align-items-center'>"
+                    + "<a class='pointer-hand product-link' href='product?" + product.id + "'>"
+                      + "<span class='h4'>" + product.name + "</span>"
+                    + "</a>"
+                  + "</div>"
+                  + "<div class='flex-1'>"
+                    + "<button type='button' class='btn-cart-remove pointer-hand btn btn-link btn-sm'>Remove</span>"
+                  + "</div>"
+                + "</div>"
               + "</td>"
               + "<td>"
                 + "<span class='text-danger h5'>$" + product.price.toFixed(2) + "</span>"
