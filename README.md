@@ -57,7 +57,8 @@ https://trello.com/b/w4mvuNog/cs-362
 * Create simple webpage to display products
 
 ###### Phase 2
-* Add shopping cart and checkout
+* Add shopping cart
+* Add checkout
 * Add product search/filter
 
 ###### Phase 3
