@@ -12,7 +12,15 @@
       <noscript>JavaScript must be enabled!</noscript>
     </div>
     <div class='loader'>Loading...</div>
-    <div id="cartList"></div>
+    <div class="">
+      <div id="cartList" class=""></div>
+      <div id="subtotal" class="d-none text-right font-weight-bold border border-dark border-left-0 border-right-0 border-bottom-0">
+        <span>Subtotal:
+          <span id="subtotalValue" class="text-danger">$0.00
+          </span>
+        </span>
+      </div>
+    </div>
   </div>
 
 <?php include '_footer.phtml'; ?>

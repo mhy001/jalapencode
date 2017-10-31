@@ -39,6 +39,7 @@ Product.prototype.restock = function(quantity) {
 function Cart() {
   this.items = new Map(); // {productID: count in cart}
   this.count = 0; // total count of items in cart
+  this.subtotal = 0.00;
 }
 Cart.prototype.add = function(product, quantity=1) {
   var cart = this.items;
@@ -47,9 +48,11 @@ Cart.prototype.add = function(product, quantity=1) {
   if (cart.has(id) && product.deplete(quantity)) {
     cart.set(id, cart.get(id)+quantity);
     this.count += quantity;
+    this.subtotal += quantity * product.price;
   } else if (product.deplete(quantity)) {
     cart.set(id, quantity);
     this.count += quantity;
+    this.subtotal += quantity * product.price;
   } else {
     console.log("Failed to add " + id + " to cart");
     return 0;
@@ -63,6 +66,7 @@ Cart.prototype.remove = function(product, quantity=1) {
   if(cart.has(id) && product.restock(quantity)) {
     cart.set(id, cart.get(id)-quantity);
     this.count -= quantity;
+    this.subtotal -= quantity * product.price;
     if (!cart.get(id)) {
       cart.delete(id);
     }
@@ -77,6 +81,7 @@ Cart.prototype.restore = function(product, quantity) {
 
   cart.set(product.id, quantity);
   this.count += quantity;
+  this.subtotal += quantity * product.price;
   return 1;
 }
 
@@ -209,6 +214,7 @@ function getCart(callback) { // get customer cart
       }
       updateCartButton();
       showCartButtonCount();
+      showCartSubtotal();
       $(".loader").remove();
     }
   });
@@ -388,6 +394,11 @@ function populateCartList(item) { // create cart card
             + "</div>";
 
   $("#cartList").append(card);
+}
+
+function showCartSubtotal() {
+  $("#subtotalValue").text("$"+cart.subtotal.toFixed(2));
+  $("#subtotal").removeClass("d-none");
 }
 
 /*
