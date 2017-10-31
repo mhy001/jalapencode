@@ -141,6 +141,7 @@ $(document).ready(function() {
   // cart page
   if ($("#cartList").length) {
     getCart(populateCartList);
+    setup_changeCart();
   } else { // get cart for count in navbar
     getCart();
   }
@@ -304,8 +305,14 @@ function setup_filter() {
   $(".filter-item > input").change(function() {
     if (this.checked) {
       filters.add(this.name, this.value);
+      $("#filterButton").text("Filters ("+filters.count+")")
     } else {
       filters.remove(this.name, this.value);
+      if(filters.count) {
+        $("#filterButton").text("Filters ("+filters.count+")")
+      } else {
+        $("#filterButton").text("Filters")
+      }
     }
     products.forEach(function(product, key, map) {
       applyFilters(product);
@@ -383,30 +390,54 @@ function disableProductCard(product) { // product out of stock
 /*
  * CART PAGE
  */
+function setup_changeCart() {
+  $("#cartList").on("change", ".cart-select", function() {
+    var itemID = this.closest("tr").id;
+    var product = products.get(itemID);
+    var countChange = parseInt(this.value) - cart.items.get(itemID);
+
+    if (cart.add(product, countChange)) {
+      updateCartButton();
+      showCartSubtotal();
+      postCart(product.id, countChange); 
+    }
+  });
+}
 function populateCartList(item) { // create cart card
   var product = new Product(item.product);
+  var options = "";
+  for (i = 1; i <= product.maxQuantity+item.count; i++) {
+    options += "<option value='" + i + "'";
+    if (i == item.count) {
+      options += " selected";
+    }
+    options += ">"+ i +"</option>";
+  }
+
   var card = "<tr id='" + product.id + "' class='border border-secondary border-left-0 border-right-0'>"
               + "<td>"
                 + "<a class='pointer-hand' href='product?" + product.id + "'>"
                   + "<img class='cart-image ml-3' src='" + product.url + "' alt='" + product.name + "'>"
+                + "</a>"
+                + "<a class='pointer-hand' href='product?" + product.id + "'>"
                   + "<span class='ml-5 h4'>" + product.name + "</span>"
                 + "</a>"
-              + "</td>"
-              + "<td>"
-
               + "</td>"
               + "<td>"
                 + "<span class='text-danger h5'>$" + product.price.toFixed(2) + "</span>"
               + "</td>"
               + "<td>"
-                + "<span class='h5'>" + item.count + "</span>"
+                + "<select class='cart-select custom-select w-75'>"
+                  + options
+                + "</select>"
               + "</td>"
-            + "</tr>"
+            + "</tr>";
 
   $("#cartList").append(card);
 }
 
 function showCartSubtotal() {
+  $("#cartPageCount").text(cart.count);
   $("#subtotalValue").text("$"+cart.subtotal.toFixed(2));
   $("#subtotal").removeClass("d-none");
 }
