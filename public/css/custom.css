@@ -163,7 +163,6 @@ body {
 }
 
 #cartButtonText {
-
 }
 
 #cartButtonImage {
@@ -181,6 +180,11 @@ body {
 
 .underline {
   text-decoration: underline;
+}
+
+#landingImage {
+  width: 350px;
+  margin-right: 30px;
 }
 
 
