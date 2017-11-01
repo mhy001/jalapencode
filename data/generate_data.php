@@ -14,13 +14,16 @@ $stmt->bind_param("issdiiss", $cat_id, $product_name, $description, $price, $qua
 # ITEM 1 #
 ##########
 $cat_id = 1;
-$product_name = "Jalepeno";
+$product_name = "Jalapeno";
 $description = $conn->real_escape_string("The jalapeno or jalapeno is a medium to large size chili pepper which is prized for the warm, burning sensation when eaten. Ripe, the jalapeno can be 2 to 3.5 inches long and is commonly sold when still green. It is a cultivar of the species Capsicum annuum. It is named after the town of Xalapa, Veracruz, where it was traditionally produced. 160 square kilometres are dedicated for the cultivation of jalapeno in Mexico alone; primarily in the Papaloapan river basin in the north of the state of Veracruz and in the Delicias, Chihuahua area. The jalapeno is known by different names throughout Mexico. Jalapenos are also known as cuaresmenos, huachinangos and chiles gordos. The jalapeno rates between 2,500 and 10,000 Scoville units in heat.");
 $price = 1.00;
 $quantity = 25;
 $heat_id = 2;
 $image = "images/jalapeno.png";
 $review = "Blank";
+$recipe_id = 1;
+$recipe_image = "images/pikachu.png";
+$recipe_name = "Quick Pickled Jalapeno Rings";
 
 if(!$stmt->execute()){
     echo "Fail to execute" .  $stmt->error . " " . $stmt->errno . "<br />";
@@ -39,6 +42,9 @@ $quantity = 25;
 $heat_id = 3;
 $image = "images/chipotle.png";
 $review = "Blank";
+$recipe_id = 2;
+$recipe_image = "images/pikachu.png";
+$recipe_name = "Pikachu";
 
 if(!$stmt->execute()){
     echo "Fail to execute" .  $stmt->error . " " . $stmt->errno . "<br />";
@@ -57,6 +63,9 @@ $quantity = 25;
 $heat_id = 3;
 $image = "images/serrano.png";
 $review = "Blank";
+$recipe_id = 3;
+$recipe_image = "images/pikachu.png";
+$recipe_name = "Pikachu";
 
 if(!$stmt->execute()){
     echo "Fail to execute" .  $stmt->error . " " . $stmt->errno . "<br />";
@@ -75,6 +84,9 @@ $quantity= 25;
 $heat_id = 3;
 $image = "images/tabasco.png";
 $review = "Blank";
+$recipe_id = 4;
+$recipe_image = "images/pikachu.png";
+$recipe_name = "Pikachu";
 
 if(!$stmt->execute()){
     echo "Fail to execute" .  $stmt->error . " " . $stmt->errno . "<br />";
@@ -93,6 +105,9 @@ $quantity = 25;
 $heat_id = 3;
 $image = "images/cayenne.png";
 $review = "Blank";
+$recipe_id = 5;
+$recipe_image = "images/pikachu.png";
+$recipe_name = "Pikachu";
 
 if(!$stmt->execute()){
     echo "Fail to execute" .  $stmt->error . " " . $stmt->errno . "<br />";
@@ -111,6 +126,9 @@ $quantity = 25;
 $heat_id = 4;
 $image = "images/thai.png";
 $review = "Blank";
+$recipe_id = 6;
+$recipe_image = "images/pikachu.png";
+$recipe_name = "Pikachu";
 
 if(!$stmt->execute()){
     echo "Fail to execute" .  $stmt->error . " " . $stmt->errno . "<br />";
@@ -129,6 +147,9 @@ $quantity = 25;
 $heat_id = 4;
 $image = "images/datil.png";
 $review = "Blank";
+$recipe_id = 7;
+$recipe_image = "images/pikachu.png";
+$recipe_name = "Pikachu";
 
 if(!$stmt->execute()){
     echo "Fail to execute" .  $stmt->error . " " . $stmt->errno . "<br />";
@@ -147,6 +168,9 @@ $quantity = 25;
 $heat_id = 4;
 $image = "images/fatalii.png";
 $review = "Blank";
+$recipe_id = 8;
+$recipe_image = "images/pikachu.png";
+$recipe_name = "Pikachu";
 
 if(!$stmt->execute()){
     echo "Fail to execute" .  $stmt->error . " " . $stmt->errno . "<br />";
@@ -165,6 +189,9 @@ $quantity = 25;
 $heat_id = 5;
 $image = "images/carolinareaper.png";
 $review = "Blank";
+$recipe_id = 9;
+$recipe_image = "images/pikachu.png";
+$recipe_name = "Pikachu";
 
 if(!$stmt->execute()){
     echo "Fail to execute" .  $stmt->error . " " . $stmt->errno . "<br />";
