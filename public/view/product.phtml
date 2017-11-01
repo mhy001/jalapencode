@@ -38,11 +38,23 @@
           <div>
             <span class="text-secondary">Quantity remaining: </span>
             <span id="productQuantity" class="h5"><?php echo $item->quantity ?></span>
-            <button class='btn-cart-add btn btn-warning text-dark m-2' <?php if ($item->quantity <= 0) echo "disabled" ?>>Add to cart</button>
           </div>
         </div>
         <div class="d-flex justify-content-end">
         </div>
+      </div>
+      <div class="flex-1 ml-3 px-2 py-3 d-flex flex-column justify-content-center fit-content-height border px-2 py-3 rounded">
+        <div class="mb-2 d-flex">
+          <label for="cartAddQuanitity" class="col-form-label mr-auto">Quantity:</label>
+          <select id="cartAddQuanitity" class='cart-select custom-select'>
+            <?php for ($i=1; $i<=$item->quantity; $i++) {
+              echo "<option value='" . $i . "'";
+              if ($i == 1) echo "selected";
+              echo  ">" . $i . "</option>";
+            }?>
+          </select>
+        </div>
+        <button class='btn-cart-add btn btn-warning text-dark' <?php if ($item->quantity <= 0) echo "disabled" ?>>Add to cart</button>
       </div>
     </div>
   </div>

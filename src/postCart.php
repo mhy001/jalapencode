@@ -3,7 +3,7 @@
 
   require_once("config.php");
 
-  $customer = session_id();
+  $customerID = session_id();
   $productID = $_POST["id"];
   $quantity = $_POST["quantity"];
 

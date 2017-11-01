@@ -483,11 +483,15 @@ function setup_addCart2() {
   $(".btn-cart-add").click(function() {
     var itemID = $("#id").val();
     var product = products.get(itemID);
+    var quantity = parseInt($("#cartAddQuanitity").val());
 
-    if (cart.add(product)) {
+    if (cart.add(product, quantity)) {
       updateCartButton();
-      updatePageQuantity(1);
-      postCart(product.id, 1);
+      updatePageQuantity(quantity);
+      postCart(product.id, quantity);
+      for (i = 0; i < quantity; i++) {
+        $("#cartAddQuanitity option:last").remove();
+      }
     }
   });
 }

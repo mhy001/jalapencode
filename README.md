@@ -65,9 +65,15 @@ https://trello.com/b/w4mvuNog/cs-362
 * Add user accounts
 
 ### TODO list
+* fix tables to match class diagram
+* process order
+    * update transaction table
+    * update cart table
+* add recipes per product
 * account login/signup page
 * account settings page
     * manage account information
     * check transaction history
 * account authentication
-* multi-customer cart
+    * use cookies to detect unique users
+    * use ID as id if cookies disabled
