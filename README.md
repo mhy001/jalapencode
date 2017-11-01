@@ -70,7 +70,4 @@ https://trello.com/b/w4mvuNog/cs-362
     * manage account information
     * check transaction history
 * account authentication
-* make pages prettier
-    * product page
-    * cart page
 * multi-customer cart

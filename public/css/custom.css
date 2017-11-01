@@ -200,6 +200,10 @@ body {
   width: 150px;
 }
 
+#orderSummary {
+  min-width: 250px;
+}
+
 .flex-1 {
   flex: 1;
 }
@@ -214,6 +218,10 @@ body {
 }
 .flex-5 {
   flex: 5;
+}
+
+.fit-content-height {
+  height: fit-content;
 }
 
 

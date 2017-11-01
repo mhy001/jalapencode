@@ -143,6 +143,7 @@ $(document).ready(function() {
     getCart(populateCartList);
     setup_modifyCartContent();
     setup_removeCartContent();
+    setup_proceedToCheckout();
   } else { // get cart for count in navbar
     getCart();
   }
@@ -417,6 +418,12 @@ function setup_removeCartContent() {
       $("#" + itemID).remove();
       postCart(product.id, -count);
     }
+  });
+}
+
+function setup_proceedToCheckout() {
+  $("#checkoutBtn").click(function() {
+    location.assign(location.origin + "/checkout");
   });
 }
 

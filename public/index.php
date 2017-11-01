@@ -29,6 +29,12 @@
       case '/about': // page for about
         require 'view/about.phtml';
         break;
+      case '/checkout': // page for checkout
+        require '../src/checkout.php';
+        break;
+      case '/submitOrder': // order placed
+        require '../src/home.php'; // TODO: process order
+        break;
       default:
         require 'view/404.phtml';
         break;
