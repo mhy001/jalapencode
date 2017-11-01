@@ -38,8 +38,19 @@ CREATE TABLE INVENTORY (
   quantity INT(10) NOT NULL,
   heat_id INT(10) NOT NULL,
   image VARCHAR(255) NULL,
-  review LONGTEXT NULL
+  review LONGTEXT NULL,
+  recipe_id1 INT(10) NOT NULL,
+  recipe_image1 VARCHAR(255) NOT NULL,
+  recipe_name1 VARCHAR(255) NOT NULL
+  recipe_id2 INT(10) NOT NULL,
+  recipe_image2 VARCHAR(255) NOT NULL,
+  recipe_name2 VARCHAR(255) NOT NULL,
+  recipe_id3 INT(10) NOT NULL,
+  recipe_image3 VARCHAR(255) NOT NULL,
+  recipe_name3 VARCHAR(255) NOT NULL
 );
+
+
 
 CREATE TABLE CATEGORY(
   id INT(10) NOT NULL PRIMARY KEY AUTO_INCREMENT,
