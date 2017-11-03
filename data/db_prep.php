@@ -62,9 +62,14 @@ CREATE TABLE ACCOUNT (
   cart_id INT NOT NULL,
   fname VARCHAR(30) NOT NULL,
   lname VARCHAR(30) NOT NULL,
-  username VARCHAR(30) NOT NULL,
+  username VARCHAR(30) NOT NULL UNIQUE,
   password VARCHAR(20) NOT NULL,
+  email VARCHAR(255) NULL,
   addr VARCHAR(255) NOT NULL,
+  addr_2 VARCHAR(255) NULL,
+  addr_city VARCHAR(255) NOT NULL,
+  addr_state VARCHAR(2) NOT NULL,
+  addr_zipcode VARCHAR(6) NOT NULL,
   trans_hist_id INT(10) NULL
 );
 
@@ -72,7 +77,8 @@ CREATE TABLE TRANSACTION_HISTORY(
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   acc_id INT NOT NULL,
   inventory_id INT NOT NULL,
-  date_purchased DATE NOT NULL
+  date_purchased DATE NOT NULL,
+  price DECIMAL(10,2) NOT NULL
 );
 
 CREATE TABLE CART (
