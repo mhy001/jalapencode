@@ -47,6 +47,19 @@ if(!$stmt_inventory->execute()) {
     echo "Failed to execute" .  $stmt_inventory->error . " " . $stmt_inventory->errno . PHP_EOL;
 }
 
+$product_id = 1;
+$recipe_names = ["Jalapeno Hummus", "Japalpeno Popper Chicken", "Stuffed Jalapeno"];
+$recipe_images = ["images/recipe/jalapenoHummus.jpg", "images/recipe/jalapenoPopperChicken.jpg", "images/recipe/jalapenoStuffed.jpg"];
+$recipe_urls = ["http://allrecipes.com/recipe/46462/jalapeno-hummus/", "http://allrecipes.com/recipe/65671/jalapeno-popper-chicken/", "http://allrecipes.com/recipe/26975/stuffed-jalapenos-iii/"];
+for ($i = 0; $i < 3; $i++) {
+  $recipe_name = $recipe_names[$i];
+  $recipe_image = $recipe_images[$i];
+  $recipe_url = $recipe_urls[$i];
+  if(!$stmt_recipe->execute()) {
+    echo "Failed to execute" .  $stmt_recipe->error . " " . $stmt_recipe->errno . PHP_EOL;
+  }
+}
+
 ##########
 # ITEM 2 #
 ##########
@@ -60,6 +73,19 @@ $image = "images/chipotle.png";
 $review = "Blank";
 if(!$stmt_inventory->execute()) {
     echo "Failed to execute" .  $stmt_inventory->error . " " . $stmt_inventory->errno . PHP_EOL;
+}
+
+$product_id = 2;
+$recipe_names = ["Chipotle Hummus", "Chipotle Mayo", "Chipotle Shrimp Taco"];
+$recipe_images = ["images/recipe/chipotleHummus.jpg", "images/recipe/chipotleMayo.jpg", "images/recipe/chipotleShrimpTaco.jpg"];
+$recipe_urls = ["http://allrecipes.com/recipe/254230/chipotle-hummus/", "http://allrecipes.com/recipe/87542/chipotle-mayo/", "http://allrecipes.com/recipe/109777/chipotle-shrimp-tacos/"];
+for ($i = 0; $i < 3; $i++) {
+  $recipe_name = $recipe_names[$i];
+  $recipe_image = $recipe_images[$i];
+  $recipe_url = $recipe_urls[$i];
+  if(!$stmt_recipe->execute()) {
+    echo "Failed to execute" .  $stmt_recipe->error . " " . $stmt_recipe->errno . PHP_EOL;
+  }
 }
 
 ##########
@@ -166,19 +192,6 @@ $review = "Blank";
 if(!$stmt_inventory->execute()) {
     echo "Failed to execute" .  $stmt_inventory->error . " " . $stmt_inventory->errno . PHP_EOL;
 }
-
-$recipe_name = "PIKACHU";
-$recipe_image = "images/pikachu.png";
-$recipe_url = "google.com";
-for ($i = 1; $i <= 9; $i++) {
-  $product_id = $i;
-  for ($j = 0; $j < 3; $j++) {
-    if(!$stmt_recipe->execute()) {
-      echo "Failed to execute" .  $stmt_recipe->error . " " . $stmt_recipe->errno . PHP_EOL;
-    }
-  }
-}
-
 
 $stmt_inventory->close();
 

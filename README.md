@@ -1,9 +1,9 @@
 # Jalapeñcode
 Jalapeñcode is a project for CSUF CPSC 362 - Foundations of Software Engineering Fall 2017.
 
-We are creating an online shopping cart for chili peppers and related products.
+We are creating an online shopping cart for chili peppers.
 
-### Technology Profile
+### Technology Profile / Dependencies
 * PHP 7.1
 * MySQL 5.7
 * Bootstrap 4.0
@@ -69,6 +69,7 @@ https://trello.com/b/w4mvuNog/cs-362
 * handle real account
     * index.php line 12
     * processOrder.php line 21
+* prevent order submit if 0 items in cart
 * clear un-purchased cart items after X time
 * account login/signup page
 * account settings page
@@ -77,3 +78,15 @@ https://trello.com/b/w4mvuNog/cs-362
 * account authentication
     * use cookies to detect unique users
     * use ID as id if cookies disabled
+
+### Nice to haves
+* move frontend stuff to backend
+    * search
+    * filter
+    * cart count
+* optimization
+    * don't send entire product list
+* handle adding stuff as guest then log in
+* server side data/form validation
+* better server error handling
+* break up app.js into smaller pieces

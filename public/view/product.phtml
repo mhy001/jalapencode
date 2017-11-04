@@ -58,10 +58,19 @@
           <button class='btn-cart-add btn btn-warning text-dark' <?php if ($item->quantity <= 0) echo "disabled" ?>>Add to cart</button>
         </div>
       </div>
-      <div class="d-flex justify-content-center mt-5">
-        <?php for ($i=0; $i < count($recipes); $i++) {
-          echo "<span>" . $recipes[$i]->name . "</span>";
-        } ?>
+      <div class="mt-5">
+        <div class="d-flex justify-content-center">
+          <?php
+            for ($i=0; $i < count($recipes); $i++) {
+              echo "<div class='mx-3 p-1 border rounded'>";
+                echo "<a class='pointer-hand product-link' href='{$recipes[$i]->url}'>";
+                  echo "<img class='' src='{$recipes[$i]->image}' alt='{$recipes[$i]->name}'>";
+                  echo "<div><span>{$recipes[$i]->name}</span></div>";
+                echo "</a>";
+              echo "</div>";
+            }
+          ?>
+        </div>
       </div>
     </div>
   </div>

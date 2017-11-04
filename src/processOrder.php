@@ -1,5 +1,5 @@
 <?php
-/* Purpose: Process customer cart*/
+/* Purpose: Process customer cart */
 
 if (empty($_POST["firstName"]) || empty($_POST["lastName"]) || empty($_POST["email"])
     || empty($_POST["address"]) || empty($_POST["city"]) || empty($_POST["state"])
@@ -22,15 +22,13 @@ if (empty($_POST["firstName"]) || empty($_POST["lastName"]) || empty($_POST["ema
   $sql = "INSERT INTO ACCOUNT (fname, lname, username, password, email, addr, addr_2, addr_city, addr_state, addr_zipcode)
           VALUES ('{$firstName}', '{$lastName}', 'guest_{$sessionID}', '', '{$email}', '{$address}', '{$address2}', '{$city}', '{$state}', '{$zip}')";
   $result = $conn->query($sql);
-
   if (!$result) {
     echo $sql . "Query failed" . $conn->error . PHP_EOL;
   }
 
+  // TODO: handle real account
   $sql = "SELECT MAX(id) as max FROM ACCOUNT";
-
   $result = $conn->query($sql);
-
   if (!$result) {
     echo $sql . "Query failed" . $conn->error . PHP_EOL;
   } else {
@@ -47,37 +45,15 @@ if (empty($_POST["firstName"]) || empty($_POST["lastName"]) || empty($_POST["ema
 
   $sql = "UPDATE CART SET purchased=1 WHERE purchased=0 AND session_id='{$sessionID}'";
   $result = $conn->query($sql);
-
   if (!$result) {
     echo $sql . "Query failed" . $conn->error . PHP_EOL;
   }
 
+  // each cart is associated with a unique session
+  // an account will be associated with multiple sessions
   session_regenerate_id();
 
   require '../public/view/receipt.phtml';
 }
-/*
-$sql = "";
-$result = $conn->query($sql);
-
-if (!$result) {
-  echo "Query fail" .  $conn->error . "<br />";
-} else {
-  $row = $result->fetch_assoc();
-
-  $item = new stdClass;
-  $item->id = $row["id"];
-  $item->product_name = $row["product_name"];
-  $item->image = $row["image"];
-  $item->description = $row["description"];
-  $item->heat_id = $row["heat_id"];
-  $item->review = $row["review"];
-  $item->price = $row["price"];
-  $item->quantity = $row["quantity"];
-  $item->cat_id = $row["cat_id"];
-
-  require '../public/view/receipt.phtml';
-}
-*/
 
 ?>
