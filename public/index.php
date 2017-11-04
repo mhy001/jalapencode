@@ -1,8 +1,22 @@
 <?php
     require_once("../src/config.php");
 
-    session_start();
-    //setcookie("TestCookie", "testVaue", time()+3600);
+    if (session_start()) {
+      $sessionID = session_id();
+
+      $sql = "SELECT * FROM SESSION WHERE id='{$sessionID}'";
+      $result = $conn->query($sql);
+      if (!$result) {
+        echo $sql . "Query failed" . $conn->error . PHP_EOL;
+      } else if ($result->num_rows == 0) {
+        // TODO: handle real account
+        $sql = "INSERT INTO SESSION (id, account_id) VALUES ('{$sessionID}', 1)";
+        $result = $conn->query($sql);
+        if (!$result) {
+          echo $sql . "Query failed" . $conn->error . PHP_EOL;
+        }
+      }
+    }
 
     $request_uri = explode('?', $_SERVER['REQUEST_URI'], 2);
 

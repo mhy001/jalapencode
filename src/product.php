@@ -12,7 +12,7 @@ if (count($request_uri) <= 1 || strlen($request_uri[1]) <= 0) {
   $result = $conn->query($sql);
 
   if (!$result) {
-    echo "Query fail" .  $conn->error . "<br />";
+    echo "Query fail" .  $conn->error . PHP_EOL;
   } else {
     $row = $result->fetch_assoc();
 
@@ -26,8 +26,22 @@ if (count($request_uri) <= 1 || strlen($request_uri[1]) <= 0) {
     $item->price = $row["price"];
     $item->quantity = $row["quantity"];
     $item->cat_id = $row["cat_id"];
+    $recipes = array();
 
-    require '../public/view/product.phtml';
+    $sql = "SELECT * FROM RECIPE WHERE product_id={$row["id"]}";
+    $result = $conn->query($sql);
+    if (!$result) {
+      echo "Query fail" .  $conn->error . PHP_EOL;
+    } else {
+
+      while ($row = $result->fetch_assoc()) {
+        $recipe = new stdClass();
+        $recipe = (object)$row;
+        $recipes[] = $recipe;
+      }
+
+      require '../public/view/product.phtml';
+    }
   }
 }
 

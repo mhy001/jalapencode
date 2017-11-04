@@ -1,14 +1,36 @@
 <?php
 
-echo "<br /> IN GENERATE DATA FILE <br />";
-
-$stmt = $conn->prepare("INSERT INTO INVENTORY (cat_id, product_name, description, price, quantity, heat_id, image, review)
+$stmt_account = $conn->prepare("INSERT INTO ACCOUNT (fname, lname, username, password, email, addr, addr_2, addr_city, addr_state, addr_zipcode)
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ? ,?);");
+$stmt_inventory = $conn->prepare("INSERT INTO INVENTORY (cat_id, product_name, description, price, quantity, heat_id, image, review)
                         VALUES (?, ?, ?, ?, ?, ?, ?, ? );");
-if(!$stmt){
-    echo "Fail to prepare statement" .  $conn->error . " " . $conn->errno . "<br />";
+$stmt_recipe = $conn->prepare("INSERT INTO RECIPE (product_id, name, image, url)
+                      VALUES (?, ?, ?, ?);");
+
+if(!$stmt_account || !$stmt_inventory || !$stmt_recipe){
+  exit("Fail to prepare statements" .  $conn->error . " " . $conn->errno . PHP_EOL);
 }
 
-$stmt->bind_param("issdiiss", $cat_id, $product_name, $description, $price, $quantity, $heat_id, $image, $review);
+$stmt_account->bind_param("ssssssssss", $fname, $lname, $username, $password, $email, $addr, $addr_2, $addr_city, $addr_state, $addr_zipcode);
+$stmt_inventory->bind_param("issdiiss", $cat_id, $product_name, $description, $price, $quantity, $heat_id, $image, $review);
+$stmt_recipe->bind_param("isss", $product_id, $recipe_name, $recipe_image, $recipe_url);
+
+#################
+# GUEST ACCOUNT #
+#################
+$fname = "";
+$lname = "";
+$username = "guest";
+$password = "";
+$email = "";
+$addr = "";
+$addr_2 = "";
+$addr_city = "";
+$addr_state = "";
+$addr_zipcode = "";
+if(!$stmt_account->execute()) {
+    echo "Failed to execute" .  $stmt_account->error . " " . $stmt_account->errno . PHP_EOL;
+}
 
 ##########
 # ITEM 1 #
@@ -21,14 +43,8 @@ $quantity = 25;
 $heat_id = 2;
 $image = "images/jalapeno.png";
 $review = "Blank";
-$recipe_id = 1;
-$recipe_image = "images/pikachu.png";
-$recipe_name = "Quick Pickled Jalapeno Rings";
-
-if(!$stmt->execute()){
-    echo "Fail to execute" .  $stmt->error . " " . $stmt->errno . "<br />";
-}else{
-    echo "Insert successfully<br />";
+if(!$stmt_inventory->execute()) {
+    echo "Failed to execute" .  $stmt_inventory->error . " " . $stmt_inventory->errno . PHP_EOL;
 }
 
 ##########
@@ -42,14 +58,8 @@ $quantity = 25;
 $heat_id = 3;
 $image = "images/chipotle.png";
 $review = "Blank";
-$recipe_id = 2;
-$recipe_image = "images/pikachu.png";
-$recipe_name = "Pikachu";
-
-if(!$stmt->execute()){
-    echo "Fail to execute" .  $stmt->error . " " . $stmt->errno . "<br />";
-}else{
-    echo "Insert successfully<br />";
+if(!$stmt_inventory->execute()) {
+    echo "Failed to execute" .  $stmt_inventory->error . " " . $stmt_inventory->errno . PHP_EOL;
 }
 
 ##########
@@ -63,14 +73,8 @@ $quantity = 25;
 $heat_id = 3;
 $image = "images/serrano.png";
 $review = "Blank";
-$recipe_id = 3;
-$recipe_image = "images/pikachu.png";
-$recipe_name = "Pikachu";
-
-if(!$stmt->execute()){
-    echo "Fail to execute" .  $stmt->error . " " . $stmt->errno . "<br />";
-}else{
-    echo "Insert successfully<br />";
+if(!$stmt_inventory->execute()) {
+    echo "Failed to execute" .  $stmt_inventory->error . " " . $stmt_inventory->errno . PHP_EOL;
 }
 
 ##########
@@ -84,14 +88,8 @@ $quantity= 25;
 $heat_id = 3;
 $image = "images/tabasco.png";
 $review = "Blank";
-$recipe_id = 4;
-$recipe_image = "images/pikachu.png";
-$recipe_name = "Pikachu";
-
-if(!$stmt->execute()){
-    echo "Fail to execute" .  $stmt->error . " " . $stmt->errno . "<br />";
-}else{
-    echo "Insert successfully<br />";
+if(!$stmt_inventory->execute()) {
+    echo "Failed to execute" .  $stmt_inventory->error . " " . $stmt_inventory->errno . PHP_EOL;
 }
 
 ##########
@@ -105,14 +103,8 @@ $quantity = 25;
 $heat_id = 3;
 $image = "images/cayenne.png";
 $review = "Blank";
-$recipe_id = 5;
-$recipe_image = "images/pikachu.png";
-$recipe_name = "Pikachu";
-
-if(!$stmt->execute()){
-    echo "Fail to execute" .  $stmt->error . " " . $stmt->errno . "<br />";
-}else{
-    echo "Insert successfully<br />";
+if(!$stmt_inventory->execute()) {
+    echo "Failed to execute" .  $stmt_inventory->error . " " . $stmt_inventory->errno . PHP_EOL;
 }
 
 ##########
@@ -126,14 +118,8 @@ $quantity = 25;
 $heat_id = 4;
 $image = "images/thai.png";
 $review = "Blank";
-$recipe_id = 6;
-$recipe_image = "images/pikachu.png";
-$recipe_name = "Pikachu";
-
-if(!$stmt->execute()){
-    echo "Fail to execute" .  $stmt->error . " " . $stmt->errno . "<br />";
-}else{
-    echo "Insert successfully<br />";
+if(!$stmt_inventory->execute()) {
+    echo "Failed to execute" .  $stmt_inventory->error . " " . $stmt_inventory->errno . PHP_EOL;
 }
 
 ##########
@@ -147,14 +133,8 @@ $quantity = 25;
 $heat_id = 4;
 $image = "images/datil.png";
 $review = "Blank";
-$recipe_id = 7;
-$recipe_image = "images/pikachu.png";
-$recipe_name = "Pikachu";
-
-if(!$stmt->execute()){
-    echo "Fail to execute" .  $stmt->error . " " . $stmt->errno . "<br />";
-}else{
-    echo "Insert successfully<br />";
+if(!$stmt_inventory->execute()) {
+    echo "Failed to execute" .  $stmt_inventory->error . " " . $stmt_inventory->errno . PHP_EOL;
 }
 
 ##########
@@ -168,14 +148,8 @@ $quantity = 25;
 $heat_id = 4;
 $image = "images/fatalii.png";
 $review = "Blank";
-$recipe_id = 8;
-$recipe_image = "images/pikachu.png";
-$recipe_name = "Pikachu";
-
-if(!$stmt->execute()){
-    echo "Fail to execute" .  $stmt->error . " " . $stmt->errno . "<br />";
-}else{
-    echo "Insert successfully<br />";
+if(!$stmt_inventory->execute()) {
+    echo "Failed to execute" .  $stmt_inventory->error . " " . $stmt_inventory->errno . PHP_EOL;
 }
 
 ##########
@@ -189,18 +163,23 @@ $quantity = 25;
 $heat_id = 5;
 $image = "images/carolinareaper.png";
 $review = "Blank";
-$recipe_id = 9;
-$recipe_image = "images/pikachu.png";
-$recipe_name = "Pikachu";
-
-if(!$stmt->execute()){
-    echo "Fail to execute" .  $stmt->error . " " . $stmt->errno . "<br />";
-}else{
-    echo "Insert successfully<br />";
+if(!$stmt_inventory->execute()) {
+    echo "Failed to execute" .  $stmt_inventory->error . " " . $stmt_inventory->errno . PHP_EOL;
 }
 
-$stmt->close();
+$recipe_name = "PIKACHU";
+$recipe_image = "images/pikachu.png";
+$recipe_url = "google.com";
+for ($i = 1; $i <= 9; $i++) {
+  $product_id = $i;
+  for ($j = 0; $j < 3; $j++) {
+    if(!$stmt_recipe->execute()) {
+      echo "Failed to execute" .  $stmt_recipe->error . " " . $stmt_recipe->errno . PHP_EOL;
+    }
+  }
+}
 
 
+$stmt_inventory->close();
 
 ?>

@@ -1,14 +1,14 @@
 <?php
 /* Purpose: Process customer cart*/
 
-if (empty($_POST["firstName"]) || empty($_POST["lastName"]) || empty($_POST["email"]) ||
-    empty($_POST["address"]) || empty($_POST["city"])
-    || empty($_POST["state"]) || empty($_POST["zip"])) {
+if (empty($_POST["firstName"]) || empty($_POST["lastName"]) || empty($_POST["email"])
+    || empty($_POST["address"]) || empty($_POST["city"]) || empty($_POST["state"])
+    || empty($_POST["zip"])) {
   header("Location: /");
 } else {
   require_once("config.php");
 
-  $customerID = rand(); // used as username
+  $sessionID = session_id();
   $firstName = $_POST["firstName"];
   $lastName = $_POST["lastName"];
   $email = $_POST["email"];
@@ -18,62 +18,42 @@ if (empty($_POST["firstName"]) || empty($_POST["lastName"]) || empty($_POST["ema
   $state = $_POST["state"];
   $zip = $_POST["zip"];
 
-  // TODO: process the transaction
-  // fix db table
-  // update transaction table, cart table
+  // TODO: handle real account
+  $sql = "INSERT INTO ACCOUNT (fname, lname, username, password, email, addr, addr_2, addr_city, addr_state, addr_zipcode)
+          VALUES ('{$firstName}', '{$lastName}', 'guest_{$sessionID}', '', '{$email}', '{$address}', '{$address2}', '{$city}', '{$state}', '{$zip}')";
+  $result = $conn->query($sql);
 
-  if($_SESSION['is_logged_in'] == false){
-    
-    // Create a guest account
-    $sql = "INSERT INTO account (cart_id, fname, lname, username, password, email, addr, addr_2, addr_city, addr_state, addr_zipcode, trans_hist_id)
-                    VALUES (2, '{$firstName}', '{$lastName}', '{$customerID}', 'random', '{$email}', '{$address}', '{$address2}', '{$city}', '{$state}', '{$zip}', null);";
-    if(!$conn->query($sql)){
-        echo "FAIL: " . $sql . $conn->error .  $conn->error . "<br />";
-    }
-    
-    // Get the id of the guest account
-    $sql = "SELECT id FROM account WHERE username = '{$customerID}';";
-    $result = $conn->query($sql);
-    if(!$result){
-        echo "FAIL: " . $sql . $conn->error . $conn->errno . "<br />";
-    }
-    $acc_id = $result->fetch_assoc();
-    
-    
-    // Get item(s) in cart
-    $sql = "SELECT * FROM cart;";
-    $cart_result = $conn->query($sql);
-    if(!$cart_result){
-        echo "FAIL: " . $sql . $conn->error .  $conn->error . "<br />";
-    }
-    while($rows = $cart_result->fetch_assoc()){
-            // Get item price
-            $sql = "SELECT price FROM inventory WHERE id = '{$rows['inventory_id']}'";
-            $result = $conn->query($sql);
-                if(!$result){
-                    echo "FAIL: " . $sql . $conn->error . $conn->errno . "<br />";
-                }
-                $price = $result->fetch_row();
-                var_dump($price);
-            // Insert into the transaction_history table 
-            for($i = 0; $i < $rows['quantity']; $i++){
-                
-                $item_id = $rows['inventory_id'];
-                $sql = "INSERT INTO transaction_history (acc_id, inventory_id, date_purchased, price)
-                    VALUES ({$acc_id['id']}, {$item_id}, NOW(), {$price[0]});";
-                $result = $conn->query($sql);
-                if(!$result){
-                    echo "FAIL: " . $sql . $conn->error . $conn->errno . "<br />";
-                }
-                
-                
-            }
-        
-    }
-    // Populate the transaction table
-    
-     
+  if (!$result) {
+    echo $sql . "Query failed" . $conn->error . PHP_EOL;
   }
+
+  $sql = "SELECT MAX(id) as max FROM ACCOUNT";
+
+  $result = $conn->query($sql);
+
+  if (!$result) {
+    echo $sql . "Query failed" . $conn->error . PHP_EOL;
+  } else {
+    $row = $result->fetch_assoc();
+    $customerID = $row["max"];
+
+    $sql = "UPDATE SESSION SET account_id={$customerID} WHERE id='{$sessionID}'";
+    $result = $conn->query($sql);
+
+    if (!$result) {
+      echo $sql . "Query failed" . $conn->error . PHP_EOL;
+    }
+  }
+
+  $sql = "UPDATE CART SET purchased=1 WHERE purchased=0 AND session_id='{$sessionID}'";
+  $result = $conn->query($sql);
+
+  if (!$result) {
+    echo $sql . "Query failed" . $conn->error . PHP_EOL;
+  }
+
+  session_regenerate_id();
+
   require '../public/view/receipt.phtml';
 }
 /*
