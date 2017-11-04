@@ -65,11 +65,9 @@ https://trello.com/b/w4mvuNog/cs-362
 
 ### TODO list
 * add recipes per product
-    * build recipe card on product page
 * handle real account
     * index.php line 12
     * processOrder.php line 21
-* prevent order submit if 0 items in cart
 * clear un-purchased cart items after X time
 * account login/signup page
 * account settings page

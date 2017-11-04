@@ -474,6 +474,12 @@ function showCartSubtotal() {
   $("#cartPageCount").text(cart.count);
   $("#subtotalValue").text("$"+cart.subtotal.toFixed(2));
   $("#subtotal").removeClass("d-none");
+
+  if (cart.subtotal > 0) {
+    $("#checkoutBtn").prop("disabled", false);
+  } else {
+    $("#checkoutBtn").prop("disabled", true);
+  }
 }
 
 /*
