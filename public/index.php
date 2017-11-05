@@ -48,6 +48,9 @@
       case '/submitOrder': // order placed
         require '../src/processOrder.php';
         break;
+      case '/account':
+        require 'view/loginSignup.phtml';
+        break;
       default:
         require 'view/404.phtml';
         break;
