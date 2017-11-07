@@ -105,7 +105,7 @@ if(!$stmt_inventory->execute()) {
 
 $product_id = 3;
 $recipe_names = ["Spicy Serrano Burgers", "Serrano Cream Sauce", "Serrano Guacamole"];
-$recipe_images = ["images/recipe/serranoBurger", "images/recipe/serranoCreamSauce", "images/recipe/serranoGuacamole"];
+$recipe_images = ["images/recipe/serranoBurger.jpg", "images/recipe/serranoCreamSauce.jpg", "images/recipe/serranoGuacamole.jpg"];
 $recipe_urls = ["http://allrecipes.com/recipe/236089/spicy-serrano-burgers/", "http://allrecipes.com/recipe/141017/cilantro-serrano-cream-sauce/", "http://allrecipes.com/recipe/213708/spicy-avocado-sauce/"];
 for ($i = 0; $i < 3; $i++) {
   $recipe_name = $recipe_names[$i];
@@ -114,6 +114,7 @@ for ($i = 0; $i < 3; $i++) {
   if(!$stmt_recipe->execute()) {
     echo "Failed to execute" .  $stmt_recipe->error . " " . $stmt_recipe->errno . PHP_EOL;
   }
+}
 
 ##########
 # ITEM 4 #
@@ -132,7 +133,7 @@ if(!$stmt_inventory->execute()) {
 
 $product_id = 4;
 $recipe_names = ["Tabasco Chili"];
-$recipe_images = ["images/recipe/tabascoChili"];
+$recipe_images = ["images/recipe/tabascoChili.jpg"];
 $recipe_urls = ["http://allrecipes.com/recipe/78299/boilermaker-tailgate-chili/"];
 for ($i = 0; $i < 1; $i++) {
   $recipe_name = $recipe_names[$i];
@@ -141,6 +142,7 @@ for ($i = 0; $i < 1; $i++) {
   if(!$stmt_recipe->execute()) {
     echo "Failed to execute" .  $stmt_recipe->error . " " . $stmt_recipe->errno . PHP_EOL;
   }
+}
 
 ##########
 # ITEM 5 #
@@ -159,7 +161,7 @@ if(!$stmt_inventory->execute()) {
 
 $product_id = 5;
 $recipe_names = ["Cantaloupe Cayenne Sorbet", "Cayenne Cashews"];
-$recipe_images = ["images/recipe/cayenneSorbet", "images/recipe/cayenneCashews.jpg"];
+$recipe_images = ["images/recipe/cayenneSorbet.jpg", "images/recipe/cayenneCashews.jpg"];
 $recipe_urls = ["http://allrecipes.com/recipe/254943/cantaloupe-cayenne-sorbet/", "http://allrecipes.com/recipe/259341/cayenne-cashews/"];
 for ($i = 0; $i < 2; $i++) {
   $recipe_name = $recipe_names[$i];
@@ -168,6 +170,7 @@ for ($i = 0; $i < 2; $i++) {
   if(!$stmt_recipe->execute()) {
     echo "Failed to execute" .  $stmt_recipe->error . " " . $stmt_recipe->errno . PHP_EOL;
   }
+}
 
 ##########
 # ITEM 6 #
@@ -195,6 +198,7 @@ for ($i = 0; $i < 1; $i++) {
   if(!$stmt_recipe->execute()) {
     echo "Failed to execute" .  $stmt_recipe->error . " " . $stmt_recipe->errno . PHP_EOL;
   }
+}
 
 ##########
 # ITEM 7 #
@@ -222,6 +226,7 @@ for ($i = 0; $i < 1; $i++) {
   if(!$stmt_recipe->execute()) {
     echo "Failed to execute" .  $stmt_recipe->error . " " . $stmt_recipe->errno . PHP_EOL;
   }
+}
 
 ##########
 # ITEM 8 #
@@ -249,6 +254,7 @@ for ($i = 0; $i < 1; $i++) {
   if(!$stmt_recipe->execute()) {
     echo "Failed to execute" .  $stmt_recipe->error . " " . $stmt_recipe->errno . PHP_EOL;
   }
+}
 
 ##########
 # ITEM 9 #
@@ -269,13 +275,14 @@ $product_id = 9;
 $recipe_names = ["Carolina Reaper Chicken Wings"];
 $recipe_images = ["images/recipe/carolinaReaperWings.jpg"];
 $recipe_urls = ["https://www.chilipeppermadness.com/chili-pepper-recipes/chicken-wings/5-alarm-superhot-chicken-wings"];
-for ($i = 0; $i < 3; $i++) {
+for ($i = 0; $i < 1; $i++) {
   $recipe_name = $recipe_names[$i];
   $recipe_image = $recipe_images[$i];
   $recipe_url = $recipe_urls[$i];
   if(!$stmt_recipe->execute()) {
     echo "Failed to execute" .  $stmt_recipe->error . " " . $stmt_recipe->errno . PHP_EOL;
   }
+}
 
 $stmt_inventory->close();
 

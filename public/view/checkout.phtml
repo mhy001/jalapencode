@@ -52,7 +52,41 @@
             </div>
             <div class="form-group col-md-6">
               <label for="zip">Zip *</label>
-              <input type="text" pattern="[0-9]{5}" class="form-control" id="zip" name="zip" placeholder="00000" required>
+              <input type="text" pattern="[0-9]{5}" class="form-control" id="zip" name="zip" placeholder="#####" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="ccNumber">Credit Card Number *</label>
+              <input type="text" class="form-control" id="ccNumber" name="ccNumber" placeholder="#### #### #### ####" required>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="ccCVV">CVV *</label>
+              <input type="text" class="form-control" id="ccCVV" name="ccCVV" placeholder="###" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="ccMonth">Exp. Month *</label>
+              <select id="ccMonth" name="ccMonth" class="form-control" required>
+                <option value="" selected>Choose...</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+              </select>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="ccYear">Exp. Year *</label>
+              <input type="number" class="form-control" id="ccYear" name="ccYear" placeholder="####" min="2017" max="9999" required>
             </div>
           </div>
         </div>
