@@ -474,6 +474,12 @@ function showCartSubtotal() {
   $("#cartPageCount").text(cart.count);
   $("#subtotalValue").text("$"+cart.subtotal.toFixed(2));
   $("#subtotal").removeClass("d-none");
+
+  if (cart.subtotal > 0) {
+    $("#checkoutBtn").prop("disabled", false);
+  } else {
+    $("#checkoutBtn").prop("disabled", true);
+  }
 }
 
 /*
@@ -506,3 +512,23 @@ function updatePageQuantity(quantityChange) {
   }
   $("#productQuantity").text(quantity);
 }
+/*
+ * login page
+*/$(function() {
+
+    $('#login-form-link').click(function(e) {
+		$("#login-form").delay(100).fadeIn(100);
+ 		$("#register-form").fadeOut(100);
+		$('#register-form-link').removeClass('active');
+		$(this).addClass('active');
+		e.preventDefault();
+	});
+	$('#register-form-link').click(function(e) {
+		$("#register-form").delay(100).fadeIn(100);
+ 		$("#login-form").fadeOut(100);
+		$('#login-form-link').removeClass('active');
+		$(this).addClass('active');
+		e.preventDefault();
+	});
+
+});

@@ -10,9 +10,9 @@ $result = $conn->query($sql);
 $items = array();
 
 if (!$result) {
-    echo "Query fail" .  $conn->error . "<br />";
+    echo "Query fail" .  $conn->error . PHP_EOL;
 } else {
-  while ($row = $result->fetch_assoc()){
+  while ($row = $result->fetch_assoc()) {
       $item = new stdClass();
       $item = (object)$row;
       $items[] = $item;

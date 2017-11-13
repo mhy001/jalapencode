@@ -4,12 +4,15 @@
 header('Content-type: application/json');
 require_once("config.php");
 
-$sql = "SELECT CART.quantity as cart_count, INVENTORY.* FROM CART INNER JOIN INVENTORY ON CART.inventory_id=INVENTORY.id";
+$sessionID = session_id();
+$sql = "SELECT CART.quantity as cart_count, INVENTORY.* FROM CART
+        INNER JOIN INVENTORY ON CART.inventory_id=INVENTORY.id
+        AND CART.purchased=0 AND CART.session_id='{$sessionID}'";
 $result = $conn->query($sql);
 $cart = array();
 
 if (!$result) {
-  echo $sql . "Query failed" . $conn->error;
+  echo $sql . "Query failed" . $conn->error . PHP_EOL;
 } else {
   while ($row = $result->fetch_assoc()) {
     $item = new stdClass;
