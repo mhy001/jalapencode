@@ -4,5 +4,6 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 session_unset();
+session_regenerate_id();
 header("Location: /");
 ?>
