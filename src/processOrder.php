@@ -51,7 +51,7 @@ if (empty($_POST["firstName"]) || empty($_POST["lastName"]) || empty($_POST["ema
 
   // each cart is associated with a unique session
   // an account will be associated with multiple sessions
-  session_regenerate_id();
+  // session_regenerate_id();
 
   require '../public/view/receipt.phtml';
 }

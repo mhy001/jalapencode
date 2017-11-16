@@ -6,7 +6,7 @@
    $sessionID = session_id();
    
    // If user is not logged in
-        if(!isset($_SESSION['username'])){
+   if(!isset($_SESSION['username'])){
       
         
       $sql = "SELECT * FROM SESSION WHERE id='{$sessionID}'";
@@ -23,7 +23,7 @@
       }
         //echo "Viewed as guest";
         
-      }else{
+   }else{
         //echo "Logged in";
         // Get the id of the currently logged in user
         $sql = "SELECT * FROM account WHERE username = '{$_SESSION['username']}'";
@@ -32,10 +32,11 @@
             echo "Fail to execute: " . $sql . $conn->error . "<br />";
         }else{
             $user_account = $result->fetch_assoc();  
+            $_SESSION['user_id'] = $user_account['id'];
         }
         
         // Set the current session_id to the id of the user just logged in
-        $sql = "UPDATE session SET account_id = {$user_account['id']} WHERE id = '{$sessionID}'";
+        $sql = "UPDATE session SET account_id = {$_SESSION['user_id']} WHERE id = '{$sessionID}'";
         $result = $conn->query($sql);
         if(!$result){
             echo "Fail to execute: " .  $sql . $conn->error . "<br />";
@@ -45,7 +46,7 @@
         // any items in their cart
         // If yes, combine all the items in their cart together
         // If no, do nothing 
-        $sql = "SELECT * FROM session WHERE account_id = '{$user_account['id']}'";
+        $sql = "SELECT * FROM session WHERE account_id = '{$_SESSION['user_id']}'";
         $session_result = $conn->query($sql);
         if(!$session_result){
             echo "Fail to execute: " . $sql . $conn->error . "<br />";
@@ -59,38 +60,36 @@
                 if($session_table['id'] != $sessionID){
                     
                 
-                // Check each id if it is the current $sessionID, if yes->do nothing, if no
-                // - Go into cart table, replace session_id with current $sessionID
-                // - Delete that row in session table
-                $sql = "SELECT * FROM cart WHERE session_id = '{$session_table['id']}'";
-                $cart_result = $conn->query($sql);
-                if(!$cart_result){
-                    echo "Fail to execute: " .  $sql . $conn->error . "<br />";
-                }else{
-                    while($cart_table = $cart_result->fetch_assoc()){
-                        /*
-                        echo "<pre>";
-                        var_dump($session_table);
-                        echo "</pre>";
-                        */
-                        $sql = "UPDATE cart SET session_id = '{$sessionID}' WHERE session_id = '{$session_table['id']}'";
-                        $result = $conn->query($sql);
-                        if(!$result){
-                            echo "Fail to execute: " .  $sql . $conn->error . "<br />";
-                        }
-                        $sql = "DELETE FROM session WHERE id = '{$session_table['id']}'";
-                        $result = $conn->query($sql);
-                        if(!$result){
-                            echo "Fail to execute: " .  $sql . $conn->error . "<br />";   
-                        }   
+                    // Check each id if it is the current $sessionID, if yes->do nothing, if no
+                    // - Go into cart table, replace session_id with current $sessionID
+                    // - Delete that row in session table
+                    $sql = "SELECT * FROM cart WHERE session_id = '{$session_table['id']}'";
+                    $cart_result = $conn->query($sql);
+                    if(!$cart_result){
+                        echo "Fail to execute: " .  $sql . $conn->error . "<br />";
+                    }else{
+                        while($cart_table = $cart_result->fetch_assoc()){
+                            /*
+                            echo "<pre>";
+                            var_dump($session_table);
+                            echo "</pre>";
+                            */
+                            $sql = "UPDATE cart SET session_id = '{$sessionID}' WHERE session_id = '{$session_table['id']}'";
+                            $result = $conn->query($sql);
+                            if(!$result){
+                                echo "Fail to execute: " .  $sql . $conn->error . "<br />";
+                            }
+                            $sql = "DELETE FROM session WHERE id = '{$session_table['id']}'";
+                            $result = $conn->query($sql);
+                            if(!$result){
+                                echo "Fail to execute: " .  $sql . $conn->error . "<br />";   
+                            }   
+                        }                  
                     }
-                    
-                                  
                 }
-            }
-            }
+            }// end session_table while loop
         }
-      }
+    }
     
 
     $request_uri = explode('?', $_SERVER['REQUEST_URI'], 2);
@@ -139,12 +138,16 @@
         require '../src/logout.php';
         break;
         
-      case '/account_setting';
+      case '/account_setting':
         require 'view/account_setting.phtml';
         break;
         
-      case '/update_account';
+      case '/update_account':
         require '../src/update_account.php';
+        break;
+        
+      case '/transaction_history':
+        require '../src/transaction_hist.php';
         break;
         
       default:

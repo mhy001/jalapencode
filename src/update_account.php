@@ -32,7 +32,7 @@ if(isset($_POST['update_submit'])){
         }
     }
     
-    if(!empty($lname) && $fname != $row['lname']){
+    if(!empty($lname) && $lname != $row['lname']){
         $sql = "UPDATE account SET lname = '{$lname}' WHERE username = '{$username}'";
         $result = $conn->query($sql);
         if(!$result){
@@ -40,7 +40,7 @@ if(isset($_POST['update_submit'])){
         }
     }
     
-    if(!empty($email) && $fname != $row['emal']){
+    if(!empty($email) && $email != $row['email']){
         $sql = "UPDATE account SET email = '{$email}' WHERE username = '{$username}'";
         $result = $conn->query($sql);
         if(!$result){
@@ -48,7 +48,7 @@ if(isset($_POST['update_submit'])){
         }
     }
     
-    if(!empty($address) && $fname != $row['addr']){
+    if(!empty($address) && $address != $row['addr']){
         $sql = "UPDATE account SET addr = '{$address}' WHERE username = '{$username}'";
         $result = $conn->query($sql);
         if(!$result){
@@ -56,7 +56,7 @@ if(isset($_POST['update_submit'])){
         }
     }
     
-    if(!empty($address2) && $fname != $row['addr_2']){
+    if(!empty($address2) && $address2 != $row['addr_2']){
         $sql = "UPDATE account SET addr_2 = '{$address2}' WHERE username = '{$username}'";
         $result = $conn->query($sql);
         if(!$result){
@@ -64,7 +64,7 @@ if(isset($_POST['update_submit'])){
         }
     }
     
-    if(!empty($city) && $fname != $row['addr_city']){
+    if(!empty($city) && $city != $row['addr_city']){
         $sql = "UPDATE account SET addr_city = '{$city}' WHERE username = '{$username}'";
         $result = $conn->query($sql);
         if(!$result){
@@ -72,23 +72,27 @@ if(isset($_POST['update_submit'])){
         }
     }
     
-    if(!empty($state) && $fname != $row['fname']){
-        $sql = "UPDATE account SET fname = '{$state}' WHERE username = '{$username}'";
+    if(!empty($state) && $state != $row['addr_state']){
+        $sql = "UPDATE account SET addr_state = '{$state}' WHERE username = '{$username}'";
         $result = $conn->query($sql);
         if(!$result){
             echo "Fail to execute: " . $sql . $conn->error . "<br />";
         }
     }
     
-    if(!empty($zip) && $fname != $row['addr_zipcode']){
+    if(!empty($zip) && $zip != $row['addr_zipcode']){
         $sql = "UPDATE account SET addr_zipcode = '{$zip}' WHERE username = '{$username}'";
         $result = $conn->query($sql);
         if(!$result){
             echo "Fail to execute: " . $sql . $conn->error . "<br />";
         }
     }
+    
+    header("Location: /account_setting");
+    
 }else{
     header("Location: /");
 }
+
 
 ?>

@@ -32,11 +32,11 @@ if(!$result){
           <div class="form-row">
             <div class="form-group col-md-6">
               <label for="firstName">First name</label>
-              <input type="text" class="form-control" id="firstName" name="firstName" value="<?php echo $row['fname'];?>"/>
+              <input type="text" class="form-control" id="firstName" name="firstname" value="<?php echo $row['fname'];?>"/>
             </div>
             <div class="form-group col-md-6">
               <label for="lastName">Last name</label>
-              <input type="lastName" class="form-control" id="lastName" name="lastName" value="<?php echo $row['lname'];?>" />
+              <input type="lastName" class="form-control" id="lastName" name="lastname" value="<?php echo $row['lname'];?>" />
             </div>
           </div>
           <div class="form-group">
@@ -78,6 +78,8 @@ if(!$result){
     </form>
   </div>
 
+
+<a href="transaction_history">View past transactions</a>
 <?php include 'view/_footer.phtml'; ?>
 
 <?php include 'view/_common_js.phtml'; ?>

@@ -32,6 +32,7 @@ if(isset($_POST['login-submit'])){
                     }else{
                         // Username and password are correct
                         
+                        
                         $_SESSION['username'] = $username;
                         header("Location: /");
                     }

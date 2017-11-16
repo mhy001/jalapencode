@@ -84,6 +84,7 @@ CREATE TABLE CART (
     REFERENCES INVENTORY(id)
 );";
 
+
 if (!$conn->multi_query($sql)) {
     echo "Fail to create database" . $conn->error . PHP_EOL;
 } else {
