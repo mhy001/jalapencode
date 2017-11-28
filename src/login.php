@@ -3,11 +3,18 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
+<<<<<<< HEAD
 /*
 echo "<pre>";
 var_dump($_SESSION['visited']);
 echo "</pre>";
 */
+=======
+echo "<pre>";
+var_dump($_SESSION['visited']);
+echo "</pre>";
+
+>>>>>>> 8e3ba6f848a1fc7d2b7c5ef0ce2ea657d51e3808
 if(isset($_POST['login-submit'])){
     
     $username = $conn->real_escape_string($_POST['username']);
@@ -43,7 +50,11 @@ if(isset($_POST['login-submit'])){
                         $test = end($_SESSION['visited']);
                         echo $test;
                         // TODO: instead of going to the index page, go to the page beofore log in
+<<<<<<< HEAD
                         header("Location: / ");
+=======
+                        header("Location: /");
+>>>>>>> 8e3ba6f848a1fc7d2b7c5ef0ce2ea657d51e3808
                     }
                 }
             }

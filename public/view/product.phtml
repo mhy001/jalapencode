@@ -81,6 +81,7 @@ if (session_status() == PHP_SESSION_NONE) {
     </div>
       <hr />
       <!-- Comment/Review -->
+<<<<<<< HEAD
       <?php 
       $sql = "SELECT * FROM review WHERE product_id = {$request_uri[1]}";
       $result = $conn->query($sql);
@@ -114,6 +115,8 @@ if (session_status() == PHP_SESSION_NONE) {
       <textarea name="review" class="form-control" rows="5" <?php if(!isset($_SESSION['username'])) echo 'disabled="true" placeholder="You need to log in to be able to make a comment/review"'; ?>></textarea>
       <button class="btn btn-warning text-dark" name="review_submit" type="submit" <?php if(!isset($_SESSION['username'])) echo 'disabled'?>>Submit</button>
       </form>
+=======
+>>>>>>> 8e3ba6f848a1fc7d2b7c5ef0ce2ea657d51e3808
   </div><!-- end div  -->
 
   <input type="hidden" id="id" value="<?php echo $item->id ?>">
