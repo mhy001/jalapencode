@@ -3,6 +3,10 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
+echo "<pre>";
+var_dump($_SESSION['visited']);
+echo "</pre>";
+
 if(isset($_POST['login-submit'])){
     
     $username = $conn->real_escape_string($_POST['username']);
@@ -34,6 +38,10 @@ if(isset($_POST['login-submit'])){
                         
                         
                         $_SESSION['username'] = $username;
+                        array_pop($_SESSION['visited']);
+                        $test = end($_SESSION['visited']);
+                        echo $test;
+                        // TODO: instead of going to the index page, go to the page beofore log in
                         header("Location: /");
                     }
                 }
