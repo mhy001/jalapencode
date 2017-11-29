@@ -3,11 +3,36 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 3d1b913aef98888efe9975e1f2510e33e38708e5
+>>>>>>> d4f774a5776059c2d1b2785d9d88f28968dc5164
+>>>>>>> 94dda0aee0f9c7bf63ab93b64ff222ce46f87836
 /*
 echo "<pre>";
 var_dump($_SESSION['visited']);
 echo "</pre>";
 */
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+=======
+echo "<pre>";
+var_dump($_SESSION['visited']);
+echo "</pre>";
+
+>>>>>>> 8e3ba6f848a1fc7d2b7c5ef0ce2ea657d51e3808
+>>>>>>> 3d1b913aef98888efe9975e1f2510e33e38708e5
+>>>>>>> d4f774a5776059c2d1b2785d9d88f28968dc5164
+>>>>>>> 94dda0aee0f9c7bf63ab93b64ff222ce46f87836
 if(isset($_POST['login-submit'])){
     
     $username = $conn->real_escape_string($_POST['username']);
@@ -43,7 +68,23 @@ if(isset($_POST['login-submit'])){
                         $test = end($_SESSION['visited']);
                         echo $test;
                         // TODO: instead of going to the index page, go to the page beofore log in
+<<<<<<< HEAD
                         header("Location: / ");
+=======
+<<<<<<< HEAD
+                        header("Location: / ");
+=======
+<<<<<<< HEAD
+                        header("Location: / ");
+=======
+<<<<<<< HEAD
+                        header("Location: / ");
+=======
+                        header("Location: /");
+>>>>>>> 8e3ba6f848a1fc7d2b7c5ef0ce2ea657d51e3808
+>>>>>>> 3d1b913aef98888efe9975e1f2510e33e38708e5
+>>>>>>> d4f774a5776059c2d1b2785d9d88f28968dc5164
+>>>>>>> 94dda0aee0f9c7bf63ab93b64ff222ce46f87836
                     }
                 }
             }
