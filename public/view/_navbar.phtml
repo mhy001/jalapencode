@@ -46,10 +46,10 @@ if (session_status() == PHP_SESSION_NONE) {
         // If user is logged in, show logout button as well as link to user's account information
         if(isset($_SESSION['username']) && $_SESSION['username'] != ""){
             echo '<a href="account_setting">';
-            echo '<button class="btn btn-warning">' .  $_SESSION['username'] . '</button>';
+            echo '<button class="btn btn-warning mx-2">' .  $_SESSION['username'] . '</button>';
             echo '</a>';
             echo '<a href="logout">';
-            echo '<button class="btn btn-warning" >Logout</button>';
+            echo '<button class="btn btn-warning mx-2" >Logout</button>';
             echo '</a>';
         }else{
          // User not log in
