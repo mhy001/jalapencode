@@ -1,10 +1,19 @@
 <?php
     require_once("../src/config.php");
     
-   //echo "HELLO";
+
    session_start();
    $sessionID = session_id();
-   
+   $request_uri = explode('?', $_SERVER['REQUEST_URI'], 2);
+   // Keep track of visitted site
+   /*
+   if(!isset($_SESSION['visited'])){
+        $_SESSION['visited'] = array();
+   }else{
+        array_push($_SESSION['visited'], $request_uri[0]);
+   }
+    */   
+
    // If user is not logged in
    if(!isset($_SESSION['username'])){
       
@@ -26,6 +35,7 @@
    }else{
         //echo "Logged in";
         // Get the id of the currently logged in user
+        
         $sql = "SELECT * FROM account WHERE username = '{$_SESSION['username']}'";
         $result = $conn->query($sql);
         if(!$result){
@@ -36,7 +46,8 @@
         }
         
         // Set the current session_id to the id of the user just logged in
-        $sql = "UPDATE session SET account_id = {$_SESSION['user_id']} WHERE id = '{$sessionID}'";
+        $sql = "INSERT INTO SESSION (id, account_id) VALUES ('{$sessionID}', {$_SESSION['user_id']})";
+        //$sql = "INSERT INTO session () VALUES ()SET account_id = {$_SESSION['user_id']} WHERE id = '{$sessionID}'";
         $result = $conn->query($sql);
         if(!$result){
             echo "Fail to execute: " .  $sql . $conn->error . "<br />";
@@ -92,7 +103,7 @@
     }
     
 
-    $request_uri = explode('?', $_SERVER['REQUEST_URI'], 2);
+    
 
     switch ($request_uri[0]) {
       case '/': //home page
@@ -150,8 +161,14 @@
         require '../src/transaction_hist.php';
         break;
         
+      case '/processReview':
+        require '../src/processReview.php';
+        break;
+                
       default:
         require 'view/404.phtml';
         break;
+        
+        
     }
 ?>
