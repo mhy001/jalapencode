@@ -82,7 +82,15 @@ CREATE TABLE CART (
     ON DELETE CASCADE,
   FOREIGN KEY (inventory_id)
     REFERENCES INVENTORY(id)
-);";
+);
+
+CREATE TABLE REVIEW (
+  id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  user_id INT(10) UNSIGNED NOT NULL,
+  product_id INT(10) UNSIGNED NOT NULL,
+  comment TEXT NOT NULL
+);
+";
 
 
 if (!$conn->multi_query($sql)) {
