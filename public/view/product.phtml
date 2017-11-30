@@ -1,3 +1,9 @@
+<?php 
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <?php include 'view/_head.phtml'; ?>
@@ -73,9 +79,48 @@
         </div>
       </div>
     </div>
-  </div>
+      <hr />
+      <!-- Comment/Review -->
+      <?php 
+      $sql = "SELECT * FROM review WHERE product_id = {$request_uri[1]}";
+      $result = $conn->query($sql);
+      if(!$result){
+        echo "FAIL " . $sql . $conn->error . "<br />";
+      }else{
+        while($row = $result->fetch_assoc()){
+            // Retrieve user info
+            $sql = "SELECT * FROM account WHERE id = {$row['user_id']}";
+            $user_result = $conn->query($sql);
+            if(!$user_result){
+                echo "FAIL: " . $sql . $conn->error . "<br />";
+            }else{
+                $user_info = $user_result->fetch_assoc();
+                if(empty($user_info['fname'])){
+                    $user_info['fname'] = "Anonymous";
+                }
+                echo '
+                <div class="row">
+                    <div class="col-md-2 alert alert-success">' . $user_info['fname'] . ' ' . $user_info['lname'] . '</div>
+                    <div class="col-md-1 "></div>
+                    <div class="col-md-9 alert alert-info">' . $row['comment'] . '</div>
+                </div>
+            ';
+            }
+
+        }
+      }
+      
+      ?>
+      
+      <form method="POST" action="/processReview">
+      <input name="item_id" type="hidden" value="<?php echo $request_uri[1]; ?>" />
+      <textarea name="review" class="form-control" rows="5" <?php if(!isset($_SESSION['username'])) echo 'disabled="true" placeholder="You need to log in to be able to make a comment/review"'; ?>></textarea>
+      <button class="btn btn-warning text-dark" name="review_submit" type="submit" <?php if(!isset($_SESSION['username'])) echo 'disabled'?>>Submit</button>
+      </form>
+  </div><!-- end div  -->
 
   <input type="hidden" id="id" value="<?php echo $item->id ?>">
+
 
 <?php include 'view/_footer.phtml'; ?>
 

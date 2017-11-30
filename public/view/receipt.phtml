@@ -6,7 +6,7 @@
 
   <div class="container main-container">
     <div class="starter-template">
-      <h1>Order processed!</h1>
+        <div class="alert alert-success"><h1>Thank you for your order!</h1></div>
     </div>
 
     <div class="message text-center">
@@ -15,7 +15,7 @@
     <div class='loader'>Loading...</div>
 
     <div class="d-flex justify-content-center">
-      <a class="pointer-hand" href="/">Return to main page</a>
+      <!--<a class="pointer-hand" href="/">Return to main page</a>-->
     </div>
 
     <?php /*/echo $customerID . "<br/>" ?>
@@ -26,6 +26,19 @@
     <?php echo $city . "<br/>" ?>
     <?php echo $state . "<br/>" ?>
     <?php echo $zip . "<br/>" */?>
+    
+    <h3>Related Products</h3>
+    <?php 
+        $sql = "SELECT * FROM inventory";
+        $result = $conn->query($sql);
+        
+        if(!$result){
+            echo "FAIL: " . $sql . $conn->error . "<br />";
+        }else{
+            echo $result->num_rows;
+        }
+    
+    ?>
 
   </div>
 
