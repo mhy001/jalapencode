@@ -81,19 +81,6 @@ if (session_status() == PHP_SESSION_NONE) {
     </div>
       <hr />
       <!-- Comment/Review -->
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 3d1b913aef98888efe9975e1f2510e33e38708e5
->>>>>>> d4f774a5776059c2d1b2785d9d88f28968dc5164
->>>>>>> 94dda0aee0f9c7bf63ab93b64ff222ce46f87836
->>>>>>> f8dbb859081765ab75991b9e2cd9136072402e30
       <?php 
       $sql = "SELECT * FROM review WHERE product_id = {$request_uri[1]}";
       $result = $conn->query($sql);
@@ -108,30 +95,9 @@ if (session_status() == PHP_SESSION_NONE) {
                 echo "FAIL: " . $sql . $conn->error . "<br />";
             }else{
                 $user_info = $user_result->fetch_assoc();
-<<<<<<< HEAD
                 if(empty($user_info['fname'])){
                     $user_info['fname'] = "Anonymous";
                 }
-=======
-<<<<<<< HEAD
-                if(empty($user_info['fname'])){
-                    $user_info['fname'] = "Anonymous";
-                }
-=======
-<<<<<<< HEAD
-                if(empty($user_info['fname'])){
-                    $user_info['fname'] = "Anonymous";
-                }
-=======
-<<<<<<< HEAD
-                if(empty($user_info['fname'])){
-                    $user_info['fname'] = "Anonymous";
-                }
-=======
->>>>>>> 3d1b913aef98888efe9975e1f2510e33e38708e5
->>>>>>> d4f774a5776059c2d1b2785d9d88f28968dc5164
->>>>>>> 94dda0aee0f9c7bf63ab93b64ff222ce46f87836
->>>>>>> f8dbb859081765ab75991b9e2cd9136072402e30
                 echo '
                 <div class="row">
                     <div class="col-md-2 alert alert-success">' . $user_info['fname'] . ' ' . $user_info['lname'] . '</div>
@@ -151,20 +117,6 @@ if (session_status() == PHP_SESSION_NONE) {
       <textarea name="review" class="form-control" rows="5" <?php if(!isset($_SESSION['username'])) echo 'disabled="true" placeholder="You need to log in to be able to make a comment/review"'; ?>></textarea>
       <button class="btn btn-warning text-dark" name="review_submit" type="submit" <?php if(!isset($_SESSION['username'])) echo 'disabled'?>>Submit</button>
       </form>
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 8e3ba6f848a1fc7d2b7c5ef0ce2ea657d51e3808
->>>>>>> 3d1b913aef98888efe9975e1f2510e33e38708e5
->>>>>>> d4f774a5776059c2d1b2785d9d88f28968dc5164
->>>>>>> 94dda0aee0f9c7bf63ab93b64ff222ce46f87836
->>>>>>> f8dbb859081765ab75991b9e2cd9136072402e30
   </div><!-- end div  -->
 
   <input type="hidden" id="id" value="<?php echo $item->id ?>">
