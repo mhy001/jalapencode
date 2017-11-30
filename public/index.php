@@ -6,13 +6,52 @@
    $sessionID = session_id();
    $request_uri = explode('?', $_SERVER['REQUEST_URI'], 2);
    // Keep track of visitted site
+<<<<<<< HEAD
    /*
+=======
+<<<<<<< HEAD
+   /*
+=======
+<<<<<<< HEAD
+   /*
+=======
+<<<<<<< HEAD
+   /*
+=======
+<<<<<<< HEAD
+   /*
+=======
+>>>>>>> 8e3ba6f848a1fc7d2b7c5ef0ce2ea657d51e3808
+>>>>>>> 3d1b913aef98888efe9975e1f2510e33e38708e5
+>>>>>>> d4f774a5776059c2d1b2785d9d88f28968dc5164
+>>>>>>> 94dda0aee0f9c7bf63ab93b64ff222ce46f87836
+>>>>>>> f8dbb859081765ab75991b9e2cd9136072402e30
    if(!isset($_SESSION['visited'])){
         $_SESSION['visited'] = array();
    }else{
         array_push($_SESSION['visited'], $request_uri[0]);
    }
+<<<<<<< HEAD
     */   
+=======
+<<<<<<< HEAD
+    */   
+=======
+<<<<<<< HEAD
+    */   
+=======
+<<<<<<< HEAD
+    */   
+=======
+<<<<<<< HEAD
+    */   
+=======
+   
+>>>>>>> 8e3ba6f848a1fc7d2b7c5ef0ce2ea657d51e3808
+>>>>>>> 3d1b913aef98888efe9975e1f2510e33e38708e5
+>>>>>>> d4f774a5776059c2d1b2785d9d88f28968dc5164
+>>>>>>> 94dda0aee0f9c7bf63ab93b64ff222ce46f87836
+>>>>>>> f8dbb859081765ab75991b9e2cd9136072402e30
 
    // If user is not logged in
    if(!isset($_SESSION['username'])){
