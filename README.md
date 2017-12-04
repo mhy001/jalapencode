@@ -3,6 +3,9 @@ Jalapeñcode is a project for CSUF CPSC 362 - Foundations of Software Engineerin
 
 We are creating an online shopping cart for chili peppers.
 
+### Members
+awathas, FieridNeil, jeffroliv, mhy001
+
 ### Technology Profile / Dependencies
 * PHP 7.1
 * MySQL 5.7
