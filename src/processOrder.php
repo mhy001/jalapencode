@@ -24,6 +24,9 @@ if (empty($_POST["firstName"]) || empty($_POST["lastName"]) || empty($_POST["ema
   if (!$result) {
     echo "Query fail" . $conn->error . PHP_EOL;
   }
+  if ($subtotal <= 0) {
+    header("Location: /");
+  }
   $row = $result->fetch_assoc();
   $subtotal = $row["subtotal"];
   $tax = $subtotal * 0.085;

@@ -757,6 +757,9 @@ function populateOrderList(item) { // create order card
       + "</div>"
    + "</div>";
 
+   if(item.items.length) {
+     $("#noOrderHistory").remove();
+   }
    item.items.forEach(function(obj) {
      var product = new Product(obj.product);
      var count = parseInt(obj.quantity);

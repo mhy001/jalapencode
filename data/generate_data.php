@@ -42,7 +42,6 @@ $price = 1.00;
 $quantity = 25;
 $heat_id = 2;
 $image = "images/jalapeno.png";
-$review = "Blank";
 if(!$stmt_inventory->execute()) {
     echo "Failed to execute" .  $stmt_inventory->error . " " . $stmt_inventory->errno . PHP_EOL;
 }
@@ -70,7 +69,6 @@ $price = 2.00;
 $quantity = 25;
 $heat_id = 3;
 $image = "images/chipotle.png";
-$review = "Blank";
 if(!$stmt_inventory->execute()) {
     echo "Failed to execute" .  $stmt_inventory->error . " " . $stmt_inventory->errno . PHP_EOL;
 }
@@ -98,7 +96,6 @@ $price = 2.00;
 $quantity = 25;
 $heat_id = 3;
 $image = "images/serrano.png";
-$review = "Blank";
 if(!$stmt_inventory->execute()) {
     echo "Failed to execute" .  $stmt_inventory->error . " " . $stmt_inventory->errno . PHP_EOL;
 }
@@ -126,7 +123,6 @@ $price = 2.00;
 $quantity= 25;
 $heat_id = 3;
 $image = "images/tabasco.png";
-$review = "Blank";
 if(!$stmt_inventory->execute()) {
     echo "Failed to execute" .  $stmt_inventory->error . " " . $stmt_inventory->errno . PHP_EOL;
 }
@@ -154,7 +150,6 @@ $price = 2.00;
 $quantity = 25;
 $heat_id = 3;
 $image = "images/cayenne.png";
-$review = "Blank";
 if(!$stmt_inventory->execute()) {
     echo "Failed to execute" .  $stmt_inventory->error . " " . $stmt_inventory->errno . PHP_EOL;
 }
@@ -182,7 +177,6 @@ $price = 1.00;
 $quantity = 25;
 $heat_id = 4;
 $image = "images/thai.png";
-$review = "Blank";
 if(!$stmt_inventory->execute()) {
     echo "Failed to execute" .  $stmt_inventory->error . " " . $stmt_inventory->errno . PHP_EOL;
 }
@@ -210,7 +204,6 @@ $price = 3.00;
 $quantity = 25;
 $heat_id = 4;
 $image = "images/datil.png";
-$review = "Blank";
 if(!$stmt_inventory->execute()) {
     echo "Failed to execute" .  $stmt_inventory->error . " " . $stmt_inventory->errno . PHP_EOL;
 }
@@ -238,7 +231,6 @@ $price = 3.00;
 $quantity = 25;
 $heat_id = 4;
 $image = "images/fatalii.png";
-$review = "Blank";
 if(!$stmt_inventory->execute()) {
     echo "Failed to execute" .  $stmt_inventory->error . " " . $stmt_inventory->errno . PHP_EOL;
 }
@@ -266,7 +258,6 @@ $price = 5.00;
 $quantity = 25;
 $heat_id = 5;
 $image = "images/carolinareaper.png";
-$review = "Blank";
 if(!$stmt_inventory->execute()) {
     echo "Failed to execute" .  $stmt_inventory->error . " " . $stmt_inventory->errno . PHP_EOL;
 }
