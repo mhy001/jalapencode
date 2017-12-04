@@ -12,13 +12,15 @@
   if (!$result) {
     echo $sql . "Query failed" . $conn->error. PHP_EOL;
   } else if ($result->num_rows == 0) {
-    echo $productID . " is not a valid item" . PHP_EOL;
+    header("HTTP/1.1 400 Bad Request");
+    return;
   } else { // Item in INVENTORY
     $row = $result->fetch_assoc();
     $newQuantity = $row["quantity"] - $quantity;
 
     if ($newQuantity < 0) {
-      echo "Not enough " . $productID . " in stock". PHP_EOL;
+      header("HTTP/1.1 400 Bad Request");
+      return;
     } else { // Enough items to add to cart
       $sql = "UPDATE INVENTORY SET quantity={$newQuantity} WHERE id={$productID}";
       $result = $conn->query($sql);

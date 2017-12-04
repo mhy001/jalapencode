@@ -6,26 +6,69 @@
 
   <div class="container main-container">
     <div class="starter-template">
-      <h1>Order processed!</h1>
+      <h1>Thank you for your order!</h1>
     </div>
 
     <div class="message text-center">
       <noscript>JavaScript must be enabled!</noscript>
     </div>
-    <div class='loader'>Loading...</div>
 
-    <div class="d-flex justify-content-center">
-      <a class="pointer-hand" href="/">Return to main page</a>
+    <div class='d-flex align-items-center flex-column'>
+      <div class='orderHistoryCard'>
+        <table class="w-100 mt-3 border border-dark">
+          <tr class="border border-dark"><td><center><h3 class='py-1'>Receipt</h3></center></td></tr>
+          <tr><td>
+            <div class='d-flex'>
+              <div>
+                <div class="pl-2 pt-2">
+                  <span class="font-weight-bold">Order placed: </span>
+                  <span><?php date_default_timezone_set('UTC'); echo date("F j, Y"); ?></span>
+                </div>
+                <div class="pl-2">
+                  <span class="font-weight-bold">Order number: </span>
+                  <span><?php echo $oldsessionID; ?></span>
+                </div>
+                <div class="p-2">
+                  <div><b>Address:</b></div>
+                  <div><?php echo $firstName; ?> <?php echo $lastName;?></div>
+                  <div><?php echo $address; ?> <?php echo $address2; ?></div>
+                  <div><?php echo $city; ?>, <?php echo $state ?> <?php echo $zip; ?></div>
+                </div>
+              </div>
+              <div class="mt-auto ml-auto text-right">
+                <div class="pr-2">
+                  <span class="font-weight-bold">Order subtotal: </span>
+                  <span>$<?php echo number_format((float)$subtotal, 2, '.', ''); ?></span>
+                </div>
+                <div class="pb-2 pr-2">
+                  <span class="font-weight-bold">Shipping &amp; handling: </span>
+                  <span>$<?php echo number_format((float)$tax, 2, '.', ''); ?></span>
+                </div>
+                <div class="pr-2">-----</div>
+                <div class="p-2">
+                  <span class="font-weight-bold">Order total: </span>
+                  <span>$<?php echo number_format((float)$total, 2, '.', ''); ?></span>
+                </div>
+              </div>
+            </div>
+          </td></td>
+        </table>
+      </div>
     </div>
 
-    <?php /*/echo $customerID . "<br/>" ?>
-    <?php echo $firstName . "<br/>" ?>
-    <?php echo $lastName . "<br/>" ?>
-    <?php echo $address . "<br/>" ?>
-    <?php echo $address2 . "<br/>" ?>
-    <?php echo $city . "<br/>" ?>
-    <?php echo $state . "<br/>" ?>
-    <?php echo $zip . "<br/>" */?>
+    <?php /*
+    echo $oldsessionID
+    echo $firstName
+    echo $lastName
+    echo $address
+    echo $address2
+    echo $city
+    echo $state
+    echo $zip*/?>
+
+    <div class="d-flex justify-content-center">
+      <a class="mt-3 pointer-hand" href="/">Return to main page</a>
+    </div>
 
   </div>
 

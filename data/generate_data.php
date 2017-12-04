@@ -21,7 +21,7 @@ $stmt_recipe->bind_param("isss", $product_id, $recipe_name, $recipe_image, $reci
 $fname = "";
 $lname = "";
 $username = "guest";
-$password = "";
+$password = "password";
 $email = "";
 $addr = "";
 $addr_2 = "";
@@ -284,6 +284,24 @@ for ($i = 0; $i < 1; $i++) {
   }
 }
 
-$stmt_inventory->close();
+#################
+# TEST ACCOUNT #
+#################
+$fname = "John";
+$lname = "Doe";
+$username = "jdoe";
+$password = "1234";
+$email = "jdoe@test.com";
+$addr = "123 Main St";
+$addr_2 = "Unit 1";
+$addr_city = "Anytown";
+$addr_state = "CA";
+$addr_zipcode = "12345";
+if(!$stmt_account->execute()) {
+    echo "Failed to execute" .  $stmt_account->error . " " . $stmt_account->errno . PHP_EOL;
+}
 
+$stmt_account->close();
+$stmt_inventory->close();
+$stmt_recipe->close();
 ?>

@@ -7,7 +7,7 @@ require_once("config.php");
 $sessionID = session_id();
 $sql = "SELECT CART.quantity as cart_count, INVENTORY.* FROM CART
         INNER JOIN INVENTORY ON CART.inventory_id=INVENTORY.id
-        AND CART.purchased=0 AND CART.session_id='{$sessionID}'";
+        AND CART.session_id='{$sessionID}'";
 $result = $conn->query($sql);
 $cart = array();
 

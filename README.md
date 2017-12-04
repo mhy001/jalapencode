@@ -10,6 +10,9 @@ We are creating an online shopping cart for chili peppers.
 * jQuery 3.2
 
 ### Set up
+#### OSX
+Install Homebrew. Use homebrew to install PHP and MySQL. Run bash scripts db_prep and start.
+
 #### Windows
 The easiest set up is to install a pre-bundled package such as AppServ.
 
@@ -18,11 +21,8 @@ Optionally, each technology can be installed separately. Install PHP. Install My
 * extension_dir = "ext"
 * extension=php_mysqli.dll
 
-#### OSX
-Install Homebrew. Use homebrew to install PHP and MySQL.
-
 #### Post-install activities
-Launch the MySQL server and run queries in db_prep.php to create the database with initial data.
+Launch the MySQL server and run queries in db_prep.php to create the database with initial data. Remember to set your credentials in _data/config.php_.
 
 #### Running with PHP built-in server
 In terminal/command prompt, navigate to the project's root. Type ```php -S localhost:8080 -t public/```. Open a web browser at localhost:8080 to view the project.
@@ -62,29 +62,3 @@ https://trello.com/b/w4mvuNog/cs-362
 
 ###### Phase 3
 * Add user accounts
-
-### TODO list
-* add recipes per product
-* handle real account
-    * index.php line 12
-    * processOrder.php line 21
-* clear un-purchased cart items after X time
-* account login/signup page
-* account settings page
-    * manage account information
-    * check transaction history
-* account authentication
-    * use cookies to detect unique users
-    * use ID as id if cookies disabled
-
-### Nice to haves
-* move frontend stuff to backend
-    * search
-    * filter
-    * cart count
-* optimization
-    * don't send entire product list
-* handle adding stuff as guest then log in
-* server side data/form validation
-* better server error handling
-* break up app.js into smaller pieces

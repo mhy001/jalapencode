@@ -7,7 +7,7 @@ $dbname = "jalapeno";
 $result = $conn->select_db($dbname);
 
 if($result == true) {
-    $conn->query("DROP DATABASE {$dbname}") or die("Cannot drop db" . PHP_EOL);
+    $conn->query("DROP DATABASE {$dbname}");
 }
 
 $result = $conn->query("CREATE DATABASE {$dbname}");
@@ -65,6 +65,9 @@ CREATE TABLE SESSION (
   id VARCHAR(255),
   account_id INT(10) UNSIGNED NOT NULL,
   PRIMARY KEY(id),
+  purchased BIT DEFAULT 0,
+  purchase_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  cost FLOAT(10,2) DEFAULT 0,
   FOREIGN KEY(account_id)
     REFERENCES ACCOUNT(id)
 );
@@ -74,8 +77,6 @@ CREATE TABLE CART (
   session_id VARCHAR(255) NOT NULL,
   inventory_id INT(10) UNSIGNED NOT NULL,
   quantity INT(10) UNSIGNED NOT NULL,
-  purchased BIT DEFAULT 0,
-  purchase_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY(id),
   FOREIGN KEY (session_id)
     REFERENCES SESSION(id)

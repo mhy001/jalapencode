@@ -26,8 +26,18 @@
               <span id="subtotalValue" class="text-danger">$0.00</span>
           </span>
         </div>
+        <?php if (isset($_SESSION['userid'])) {
+          echo
+          "<div class='mt-5'>
+            <h4>Saved items</h4>
+            <h6 id='noSavedItems'>No saved items</h6>
+            <table id='savedCartList' class='w-100'>
+            </table>
+          </div>";
+        }
+        ?>
       </div>
-      <div class="rounded mt-5 ml-5 flex-1 ml-3 px-2 py-3 d-flex flex-column justify-content-center fit-content-height border px-2 py-3">
+      <div class="rounded mt-5 ml-5 flex-1 ml-3 px-2 py-3 d-flex flex-column justify-content-center fit-content-height px-2 py-3">
         <button id="checkoutBtn" type='button' class='btn btn-warning px-2' disabled>Proceed to checkout</button>
       </div>
     </div>

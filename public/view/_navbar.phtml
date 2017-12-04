@@ -22,9 +22,6 @@
               <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
               <path d="M0 0h24v24H0z" fill="none"/>
           </svg>
-            <!--<span class="input-group-btn">
-              <button id="searchApplyButton" class="btn btn-warning" type="button">Go!</button>
-            </span>-->
         </div>
       </li>
       <li class="nav-item">
@@ -36,17 +33,55 @@
           </button>
         </a>
       </li>
-      <!--<li class="nav-item">
+      <li class="nav-item">
         <div class="dropdown">
           <button id="accountButton" class="navbar-btn-dark btn btn-dark dropdown-toggle" data-toggle="dropdown">
             <img id="accountButtonImage" src="icon/account.png"/>
           </button>
-          <div class="dropdown-menu dropdown-menu-right">
-            <a class=dropdown-item href="#">Test1</a>
-            <a class=dropdown-item href="#">Test2</a>
-          </div>
+
+          <?php if (isset($_SESSION['userid'])) {
+            $userid = $_SESSION['userid'];
+            $sql = "SELECT fname, lname FROM ACCOUNT WHERE id='{$userid}'";
+            $result = $conn->query($sql);
+            if (!$result) {
+              echo $sql . "Query failed" . $conn->error . PHP_EOL;
+            }
+            $row = $result->fetch_assoc();
+            $fname = $row['fname'];
+            $lname = $row['lname'];
+            echo
+            '<div class="dropdown-menu dropdown-menu-right">
+              <h6 class="px-3 pt-2">Hello, '.$fname.'</h6>
+              <a class="dropdown-item" href="account">Account</a>
+              <a class="dropdown-item" href="orders">Orders</a>
+              <div class="dropdown-divider"></div>
+              <div class="px-2 py-1">
+                <button id="logoutBtn" class="btn btn-warning w-100">Sign out</button>
+              </div>
+            </div>';
+          } else {
+            echo
+            '<div class="dropdown-menu dropdown-menu-right">
+              <form id="login" class="px-2 py-1" action="login" method="post">
+                  <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" class="form-control" id="loginUsername" name="username" placeholder="Username" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="loginPassword" name="password" placeholder="Password" required>
+                  </div>
+                  <div id="loginMessage" class="small"></div>
+                  <button type="submit" class="btn btn-warning w-100">Sign in</button>
+              </form>
+              <div class="dropdown-divider"></div>
+              <span class="px-2 small">New here?</span>
+              <a class="small" href="/register">Register</a>
+            </div>';
+          }
+          ?>
         </div>
-      </li>-->
+      </li>
     </ul>
   </div>
 </nav>

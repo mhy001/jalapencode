@@ -120,6 +120,8 @@ $(document).ready(function() {
   // navbar
   if ($("#navbar").length) {
     setup_search();
+    setup_login();
+    setup_logout();
   } else {
     console.log("NAVBAR MISSING!!! WHAT HAPPENED?!");
     return;
@@ -141,9 +143,12 @@ $(document).ready(function() {
   // cart page
   if ($("#cartList").length) {
     getCart(populateCartList);
+    getSavedCart(populateSavedCartList);
     setup_modifyCartContent();
     setup_removeCartContent();
     setup_proceedToCheckout();
+    setup_addSavedItem();
+    setup_deleteSavedItem();
   } else { // get cart for count in navbar
     getCart();
   }
@@ -151,6 +156,21 @@ $(document).ready(function() {
   // product page
   if ($("#productPage").length) {
     setup_addCart2();
+  }
+
+  // register page
+  if ($("#registerForm").length) {
+    setup_passwordConfirmation();
+  }
+
+  // account page
+  if ($("#accountForm").length) {
+    setup_accountUpdate();
+  }
+
+  // order page
+  if ($("#orderHistory").length) {
+    getOrderHistory(populateOrderList);
   }
 });
 
@@ -160,8 +180,7 @@ $(document).ready(function() {
 function getGeneric(route, requestData, callback) {
   $.getJSON(route, requestData, function(data) {
     callback && callback(data);
-  })
-  .fail(function(jqXHR, textStatus, error) {
+  }).fail(function(jqXHR, textStatus, error) {
     var message = "<div class='message-text'><p class='font-weight-bold'>Looks like something went wrong!</p>"
                 + "<p>Try refeshing.</p></div>";
     $(".message-text").remove();
@@ -181,7 +200,7 @@ function getProducts(callback) { // get all products
           callback && callback(product); // UI update for products
         }
       } else {
-        $(".message").append("<span>0 items found</span>");
+        $(".message").append("<div class='message-text'><span>0 items found</span></div>");
       }
       $(".loader").remove();
     }
@@ -223,8 +242,72 @@ function getCart(callback) { // get customer cart
   });
 }
 
+function getSavedCart(callback) { // get customer order history
+  getGeneric("getSavedCart", null, function(data) {
+    if (data) {
+      for (var key in data) {
+        var item = data[key];
+        callback && callback(item); // UI update for order item
+      }
+      $(".loader").remove();
+    }
+  })
+}
+
+function getOrderHistory(callback) { // get customer order history
+  getGeneric("getOrderHistory", null, function(data) {
+    if (data) {
+      for (var key in data) {
+        var item = data[key];
+        callback && callback(item); // UI update for order item
+      }
+      $(".loader").remove();
+    }
+  })
+}
+
 function postCart(productID, quantity) { // update customer cart content
-  $.post("postCart", {"id": productID, "quantity": quantity});
+  $.ajax({
+    type: 'POST',
+    url: 'postCart',
+    data: {'id': productID, 'quantity': quantity}
+  }).done(function(data){
+    var product = products.get(productID);
+    if (cart.add(product, quantity)) {
+      updateCartButton();
+      disableProductCard(product); // home page
+      showCartSubtotal(); // cart page
+      if ($("#productQuantity").length) { // product page
+        updatePageQuantity(quantity);
+
+        for (i = 0; i < quantity; i++) {
+          $("#cartAddQuanitity option:last").remove();
+        }
+      }
+    }
+  }).fail(function(data){
+    var message = "<div class='message-text'><p class='font-weight-bold'>Looks like something went wrong!</p>"
+                + "<p>Try refeshing.</p></div>";
+    $(".message-text").remove();
+    $(".message").append(message);
+    $(".loader").remove();
+  });
+}
+
+function postSavedItem(productID, callback) {
+  $.ajax({
+    type: 'POST',
+    url: 'postSavedItem',
+    data: {'id': productID}
+  }).done(function(data){
+    callback && callback();
+  }).fail(function(data){
+    var message = "<div class='message-text'><p class='font-weight-bold'>Looks like something went wrong!</p>"
+                + "<p>Try refeshing.</p></div>";
+    $(".message-text").remove();
+    $(".message").append(message);
+    $(".loader").remove();
+  });
 }
 
 /*
@@ -254,6 +337,38 @@ function setup_search() {
         applyFilters(product);
       });
     }
+  });
+}
+
+function setup_login() {
+  $("#login").submit(function(event) {
+    var username = $("#loginUsername").val();
+    var password = $("#loginPassword").val();
+
+    $.ajax({
+      type: 'POST',
+      url: 'login',
+      data: {"username": username, "password": password}
+    }).done(function(data){
+      location.reload();
+    }).fail(function(data) {
+      var message = "<div class='message-text'><p class='font-weight-bold text-danger'>Incorrect username or password!</p></div>";
+      $(".message-text").remove();
+      $("#loginMessage").append(message);
+    });
+    event.preventDefault();
+    return false;
+  });
+}
+
+function setup_logout() {
+  $("#logoutBtn").click(function() {
+    $.ajax({
+      type: 'GET',
+      url: 'logout'
+    }).done(function(data) {
+      location.replace(location.origin);
+    });
   });
 }
 
@@ -289,11 +404,7 @@ function setup_addCart() {
     var itemID = this.parentElement.id;
     var product = products.get(itemID);
 
-    if (cart.add(product)) {
-      disableProductCard(product);
-      updateCartButton();
-      postCart(product.id, 1);
-    }
+    postCart(product.id, 1);
   });
 }
 
@@ -398,11 +509,7 @@ function setup_modifyCartContent() {
     var product = products.get(itemID);
     var countChange = parseInt(this.value) - cart.items.get(itemID);
 
-    if (cart.add(product, countChange)) {
-      updateCartButton();
-      showCartSubtotal();
-      postCart(product.id, countChange);
-    }
+    postCart(product.id, countChange);
   });
 }
 
@@ -412,18 +519,40 @@ function setup_removeCartContent() {
     var product = products.get(itemID);
     var count = cart.items.get(itemID);
 
-    if (cart.add(product, -count)) {
-      updateCartButton();
-      showCartSubtotal();
-      $("#" + itemID).remove();
-      postCart(product.id, -count);
-    }
+    postCart(product.id, -count);
+    $("#" + itemID).remove();
   });
 }
 
 function setup_proceedToCheckout() {
   $("#checkoutBtn").click(function() {
     location.assign(location.origin + "/checkout");
+  });
+}
+
+function setup_addSavedItem() {
+  $("#savedCartList").on("click", ".btn-save-add", function() {
+    var rowID = this.closest("tr").id;
+    var temp = rowID.split('_');
+    var itemID = temp[1];
+    var product = products.get(itemID);
+    var count = parseInt($("#count_"+rowID).val());
+
+    postSavedItem(itemID, function() {
+      location.reload()
+      postCart(product.id, count);
+    });
+  });
+}
+
+function setup_deleteSavedItem() {
+  $("#savedCartList").on("click", ".btn-save-delete", function() {
+    var rowID = this.closest("tr").id;
+    var temp = rowID.split('_');
+    var itemID = temp[1];
+
+    postSavedItem(itemID);
+    $('#' + rowID).remove();
   });
 }
 
@@ -470,6 +599,42 @@ function populateCartList(item) { // create cart card
   $("#cartList").append(card);
 }
 
+function populateSavedCartList(item) {
+  if ($("#savedCartList").length) {
+    if(item.items.length) {
+      $("#noSavedItems").remove();
+    }
+    item.items.forEach(function(obj) {
+      var product = new Product(obj.product);
+      var count = parseInt(obj.quantity);
+      var card = "<tr id='saved_" + product.id + "'><td class='d-flex border'>"
+                 + "<div class='mr-3'>"
+                   + "<a class='pointer-hand' href='product?" + product.id + "'>"
+                     + "<img class='order-image' src='" + product.url + "' alt='" + product.name + "'>"
+                   + "</a>"
+                 + "</div>"
+                 + "<div class='d-flex align-items-center'>"
+                   + "<a class='pointer-hand product-link' href='product?" + product.id + "'>"
+                     + "<span class='h6'>" + product.name + "</span>"
+                   + "</a>"
+                 + "</div>"
+                 + "<div class='d-flex align-items-center ml-auto mr-5'>"
+                  + "<input id='count_saved_" + product.id + "' type='hidden' value=" + count + ">"
+                  + "<span>Quantity: " + count + "</span>"
+                 + "</div>"
+                 + "<div class='d-flex align-items-center'>"
+                   + "<button type='button' class='btn-save-add pointer-hand btn btn-link btn-sm'>Move to cart</span>"
+                 + "</div>"
+                 + "<div class='d-flex align-items-center'>"
+                   + "<button type='button' class='btn-save-delete pointer-hand btn btn-link btn-sm'>Delete</span>"
+                 + "</div>"
+               + "</td></tr>";
+
+      $("#savedCartList").append(card);
+    });
+  }
+}
+
 function showCartSubtotal() {
   $("#cartPageCount").text(cart.count);
   $("#subtotalValue").text("$"+cart.subtotal.toFixed(2));
@@ -491,14 +656,7 @@ function setup_addCart2() {
     var product = products.get(itemID);
     var quantity = parseInt($("#cartAddQuanitity").val());
 
-    if (cart.add(product, quantity)) {
-      updateCartButton();
-      updatePageQuantity(quantity);
-      postCart(product.id, quantity);
-      for (i = 0; i < quantity; i++) {
-        $("#cartAddQuanitity option:last").remove();
-      }
-    }
+    postCart(product.id, quantity);
   });
 }
 
@@ -512,23 +670,115 @@ function updatePageQuantity(quantityChange) {
   }
   $("#productQuantity").text(quantity);
 }
+
 /*
- * login page
-*/$(function() {
+ * REGISTER PAGE
+ */
+function setup_passwordConfirmation() {
+  $("#registerForm").submit(function(event) {
+    var username = $("#username").val();
+    var password = $("#password").val();
+    var confirm = $("#passwordConfirm").val();
 
-    $('#login-form-link').click(function(e) {
-		$("#login-form").delay(100).fadeIn(100);
- 		$("#register-form").fadeOut(100);
-		$('#register-form-link').removeClass('active');
-		$(this).addClass('active');
-		e.preventDefault();
-	});
-	$('#register-form-link').click(function(e) {
-		$("#register-form").delay(100).fadeIn(100);
- 		$("#login-form").fadeOut(100);
-		$('#login-form-link').removeClass('active');
-		$(this).addClass('active');
-		e.preventDefault();
-	});
+    if (password != confirm) {
+      var message = "<div class='message-text'><p class='font-weight-bold text-danger'>Passwords do not match!</p></div>";
+      $(".message-text").remove();
+      $(".message").append(message);
+      event.preventDefault();
+      return false;
+    }
 
-});
+    $.ajax({
+      type: 'POST',
+      url: 'checkUsername',
+      data: {"username": username},
+      async: false
+    }).fail(function() {
+      var message = "<div class='message-text'><p class='font-weight-bold text-danger'>Username already exists!</p></div>";
+      $(".message-text").remove();
+      $(".message").append(message);
+      event.preventDefault();
+      return false;
+    });
+  });
+}
+
+
+/*
+ * ACCOUNT PAGE
+ */
+function setup_accountUpdate() {
+  $("#accountForm").submit(function(event) {
+    var fname = $("#firstName").val();
+    var lname = $("#lastName").val();
+    var email = $("#email").val();
+    var addr = $("#address").val();
+    var addr2 = $("#address2").val();
+    var city = $("#city").val();
+    var state = $("#state").val();
+    var zip = $("#zip").val();
+
+    $.ajax({
+      type: 'POST',
+      url: 'updateAccount',
+      data: {'firstName': fname, 'lastName': lname, 'email': email, 'address': addr, 'address2': addr2, 'city': city, 'state': state, 'zip': zip}
+    }).done(function(data){
+      var message = "<div class='message-text'><p class='font-weight-bold text-success'>Update succeeded!</p></div>";
+      $(".message-text").remove();
+      $(".message").append(message);
+    }).fail(function(data) {
+      var message = "<div class='message-text'><p class='font-weight-bold text-danger'>Failed to update!</p></div>";
+      $(".message-text").remove();
+      $(".message").append(message);
+    });
+    event.preventDefault();
+    return false;
+  });
+}
+
+/*
+ * ORDER PAGE
+ */
+function populateOrderList(item) { // create order card
+  var time = new Date(item.time);
+  var card = "<div class='orderHistoryCard border rounded mt-3'>"
+   + "<div class='small p-3 d-flex flex-row border bg-light'>"
+      + "<div class='mr-5'>"
+        + "<div><span> ORDER PLACED </div></span>"
+        + "<div><span>" + time.toDateString() + "</div></span>"
+      + "</div>"
+      + "<div>"
+      + "<div><span> TOTAL </div></span>"
+      + "<div><span>$" + item.cost + "</div></span>"
+      + "</div>"
+      + "<div class='ml-auto'>"
+      + "<div><span> ORDER # </div></span>"
+      + "<div><span>" + item.id + "</div></span>"
+      + "</div>"
+   + "</div>";
+
+   item.items.forEach(function(obj) {
+     var product = new Product(obj.product);
+     var count = parseInt(obj.quantity);
+
+     card += "<div class='p-3 d-flex border'>"
+        + "<div class='mr-3'>"
+          + "<a class='pointer-hand' href='product?" + product.id + "'>"
+            + "<img class='order-image' src='" + product.url + "' alt='" + product.name + "'>"
+          + "</a>"
+        + "</div>"
+        + "<div class='d-flex align-items-center'>"
+          + "<a class='pointer-hand product-link' href='product?" + product.id + "'>"
+            + "<span class='h6'>" + product.name + "</span>"
+          + "</a>"
+        + "</div>"
+        + "<div class='d-flex align-items-center ml-auto mr-5'>"
+         + "<span>Quantity: " + count + "</span>"
+        + "</div>"
+      + "</div>";
+   });
+
+  card += "</div>";
+
+  $("#orderHistory").append(card);
+}
